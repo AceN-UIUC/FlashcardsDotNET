@@ -1,0 +1,64 @@
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.exe
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.pdb
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.xml
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FlashcardForm.resources
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.Form1.resources
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormQuestionPoser.resources
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.Resources.resources
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.exe
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.xml
+C:\Users\Aessa\Documents\Visual Studio 2010\School Help\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.pdb
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.exe
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.xml
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.pdb
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.exe
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.pdb
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.xml
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\ResolveAssemblyReference.cache
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.Form1.resources
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormQuestionEditor.resources
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormQuestionPoser.resources
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.Resources.resources
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\GenerateResource.read.1.tlog
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\GenerateResource.write.1.tlog
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.QuestionResponseDialog.resources
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormQuestionManager.resources
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.SubjectChoiceDlg.resources
+G:\Nebr Trip May 2012\Ace's Code\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormFCCoordinator.resources
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.exe
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.xml
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.pdb
+C:\School Automation\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.exe
+C:\School Automation\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.pdb
+C:\School Automation\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.xml
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.Form1.resources
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormFCCoordinator.resources
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormQuestionEditor.resources
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormQuestionManager.resources
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormQuestionPoser.resources
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.Resources.resources
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.QuestionResponseDialog.resources
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.SubjectChoiceDlg.resources
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.exe
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.xml
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.pdb
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.Form1.resources
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormFCCoordinator.resources
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormQuestionEditor.resources
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormQuestionManager.resources
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.FormQuestionPoser.resources
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.Resources.resources
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.QuestionResponseDialog.resources
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\FlashcarderVB.SubjectChoiceDlg.resources
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.exe
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.pdb
+C:\Users\Ace\My Code\VB.NET\School Automation\FlashcarderVB\FlashcarderVB\bin\Debug\FlashcarderVB.xml
