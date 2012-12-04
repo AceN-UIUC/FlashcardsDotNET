@@ -753,14 +753,14 @@ Public Class Quizzing
                 Dim MNum As Integer = 0
                 If Str.Substring(0, Math.Min(Str.Length, 5)).Contains("=") Then
                     MNum = CInt(Str.Substring(0, Str.IndexOf("=")))
-                    Try
+                    If MNum > 0 AndAlso MNum <= QAMList.Count Then
                         QAMList.Item(MNum - 1).Marking = CInt(Str.Substring(Str.IndexOf("=") + 1))
-                    Catch e As ArgumentOutOfRangeException
+                    Else
                         If Not NumMismatchUsed Then
                             NumMismatchUsed = True
                             MsgBox(NumMismatchMsg)
                         End If
-                    End Try
+                    End If
 
                     MarkCnt += 1
                 End If
