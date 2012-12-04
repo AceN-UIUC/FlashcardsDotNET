@@ -133,9 +133,9 @@ Public Class Editing
                     End If
 
                     ' Skip answers in the old file that have already been loaded into the new file (TODO)
-                    If Str.StartsWith(LastCnt.ToString) Then
-                        Continue While
-                    End If
+                    'If Str.StartsWith(LastCnt.ToString) Then
+                    '    Continue While
+                    'End If
 
                     ' Depending on edit status, write proper line to line list
                     If EditEngaged And Cnt <= QAMList.Count Then
@@ -616,10 +616,11 @@ Public Class Quizzing
                     ' Add question to list
                     QAMList.Item(QNum - 1).Question = Str.Substring(Str.IndexOf("=") + 1)
 
-                Else
+                ElseIf QAMList.Count <> 1 Then
 
                     ' Add question to list (in order of appearance in file)
                     QAMList.Add(New Question(Str, New List(Of String), 0))
+
 
                 End If
             Catch e As ArgumentOutOfRangeException
