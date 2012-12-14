@@ -23,6 +23,7 @@ Partial Class FormQuestionManager
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormQuestionManager))
         Me.Label1 = New System.Windows.Forms.Label()
         Me.btnOpenManually = New System.Windows.Forms.Button()
         Me.cbx_VrifyQs = New System.Windows.Forms.CheckBox()
@@ -242,6 +243,7 @@ Partial Class FormQuestionManager
         Me.Controls.Add(Me.gbxActsOpts)
         Me.Controls.Add(Me.gbxChkList)
         Me.Controls.Add(Me.Label1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.MinimumSize = New System.Drawing.Size(535, 359)
         Me.Name = "FormQuestionManager"

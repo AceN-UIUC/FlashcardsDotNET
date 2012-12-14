@@ -22,6 +22,7 @@ Partial Class FormQuestionPoser
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormQuestionPoser))
         Me.Label1 = New System.Windows.Forms.Label()
         Me.lblQ = New System.Windows.Forms.Label()
         Me.txtUserAnswer = New System.Windows.Forms.TextBox()
@@ -77,6 +78,7 @@ Partial Class FormQuestionPoser
         Me.Controls.Add(Me.txtUserAnswer)
         Me.Controls.Add(Me.lblQ)
         Me.Controls.Add(Me.Label1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "FormQuestionPoser"
         Me.Text = "Ace's Flashcarder - Question"
