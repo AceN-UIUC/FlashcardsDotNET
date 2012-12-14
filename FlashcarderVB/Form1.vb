@@ -122,6 +122,8 @@ Public Class Editing
             Cnt = 1
 
             Dim LastCnt As Integer = -1
+            Dim LastLine As String = ""
+
             While Not AR.EndOfStream
 
                 Dim Str As String = AR.ReadLine
@@ -129,6 +131,7 @@ Public Class Editing
                 Try
                     ' Turn off edit mode if appropriate
                     If EditEngaged And (Str.StartsWith("[") And Str.EndsWith("]")) Then
+                        StrLst.Add(LastLine) ' If EditEngaged was true for the last line and it wasn't part of a QAM object, this prevents it from being overwritten
                         EditEngaged = False
                     End If
 
@@ -144,17 +147,22 @@ Public Class Editing
                             ' Add answer to list
                             StrLst.Add(CStr(Cnt) & Form1.LetterStr.Substring(i, 1) & "=" & QAMList.Item(Cnt - 1).AnswerList.Item(i))
 
+                            '
+
                         Next
 
                         LastCnt = Cnt
                         Cnt += 1
 
-                    Else
+                    ElseIf Not EditEngaged Then ' Don't copy things if Edit mode is on AND all the Q/A/M lines have been added
                         StrLst.Add(Str)
                     End If
 
                 Catch
                 End Try
+
+                ' Update last line
+                LastLine = Str
 
                 ' Turn on edit mode if appropriate
                 If Not EditEngaged And Str = "[" & Subject & "]" Then

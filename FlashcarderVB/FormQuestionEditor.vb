@@ -13,6 +13,14 @@
         txtMs.Text = CStr(QAMObj.Marking)
     End Sub
 
+    Private Sub Loader() Handles MyBase.Load
+
+        ' Automatically use the icon/title of the first form
+        Me.Icon = Form1.Icon
+        Me.Text = Form1.Text + " - Question Editor"
+
+    End Sub
+
     Public Sub Cancel() Handles btnCancel.Click
         QTxtHasChgd = False
         ATxtHasChgd = False

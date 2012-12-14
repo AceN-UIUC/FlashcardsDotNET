@@ -19,6 +19,14 @@ Public Class FormFCCoordinator
 
     Public FileArr As String()
 
+    Private Sub Loader() Handles MyBase.Load
+
+        ' Automatically use the icon/title of the first form
+        Me.Icon = Form1.Icon
+        Me.Text = Form1.Text + " - FC Coordinator WIP"
+
+    End Sub
+
     Private Sub tbxNum_TextChanged() Handles tbxNum.TextChanged
         If Integer.TryParse(tbxNum.Text, New Integer) Then
             tbxNum.BackColor = Color.White

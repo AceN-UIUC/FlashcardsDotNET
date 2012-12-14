@@ -11,6 +11,14 @@ Public Class FormQuestionManager
 
     Private QAMList As New List(Of Question)
 
+    Private Sub Loader() Handles MyBase.Load
+
+        ' Automatically use the icon/title of the first form
+        Me.Icon = Form1.Icon
+        Me.Text = Form1.Text + " - Question Manager"
+
+    End Sub
+
     Private Sub DragDrop1(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles Me.DragDrop
         Dim Files As String() = e.Data.GetData(DataFormats.FileDrop)
         DragDropHandler(Files)

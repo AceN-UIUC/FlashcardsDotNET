@@ -41,6 +41,7 @@ Partial Class FormFCCoordinator
         Me.rbnCOptAll = New System.Windows.Forms.RadioButton()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.cbxAppendSubject = New System.Windows.Forms.CheckBox()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.tbOut = New System.Windows.Forms.TextBox()
@@ -50,7 +51,6 @@ Partial Class FormFCCoordinator
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.OFDlg = New System.Windows.Forms.OpenFileDialog()
-        Me.cbxAppendSubject = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -264,6 +264,16 @@ Partial Class FormFCCoordinator
         Me.TabPage3.Text = "Text <--> Flashcard"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'cbxAppendSubject
+        '
+        Me.cbxAppendSubject.AutoSize = True
+        Me.cbxAppendSubject.Location = New System.Drawing.Point(6, 153)
+        Me.cbxAppendSubject.Name = "cbxAppendSubject"
+        Me.cbxAppendSubject.Size = New System.Drawing.Size(249, 21)
+        Me.cbxAppendSubject.TabIndex = 6
+        Me.cbxAppendSubject.Text = "Append subject to output file name"
+        Me.cbxAppendSubject.UseVisualStyleBackColor = True
+        '
         'Button1
         '
         Me.Button1.Location = New System.Drawing.Point(164, 204)
@@ -335,16 +345,6 @@ Partial Class FormFCCoordinator
         'OFDlg
         '
         Me.OFDlg.Filter = "AHK Shortcuts|*.ahk|Flashcards|*.ini|All Files|*.*"
-        '
-        'cbxAppendSubject
-        '
-        Me.cbxAppendSubject.AutoSize = True
-        Me.cbxAppendSubject.Location = New System.Drawing.Point(6, 153)
-        Me.cbxAppendSubject.Name = "cbxAppendSubject"
-        Me.cbxAppendSubject.Size = New System.Drawing.Size(249, 21)
-        Me.cbxAppendSubject.TabIndex = 6
-        Me.cbxAppendSubject.Text = "Append subject to output file name"
-        Me.cbxAppendSubject.UseVisualStyleBackColor = True
         '
         'FormFCCoordinator
         '

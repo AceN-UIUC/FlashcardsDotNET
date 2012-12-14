@@ -41,7 +41,14 @@
 
     End Sub
 
-    Private Sub FormQuestionPoser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub Loader() Handles MyBase.Load
+
         QuestionIsOKd = False
+
+        ' Automatically use the icon/title of the first form
+        Me.Icon = Form1.Icon
+        Me.Text = Form1.Text + " - Question Poser"
+
     End Sub
+
 End Class
