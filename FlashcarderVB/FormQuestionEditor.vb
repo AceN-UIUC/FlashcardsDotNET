@@ -1,10 +1,10 @@
 ﻿Public Class FormQuestionEditor
 
-    Public QAMObj As Question
+    Public Shared QAMObj As Question
 
     ' Private variables indicating text changes
-    Private QTxtHasChgd As Boolean = False
-    Private ATxtHasChgd As Boolean = False
+    Private Shared QTxtHasChgd As Boolean = False
+    Private Shared ATxtHasChgd As Boolean = False
 
     ' Update on visibility change
     Private Sub VisChgd() Handles MyBase.VisibleChanged
@@ -13,13 +13,13 @@
         txtMs.Text = CStr(QAMObj.Marking)
     End Sub
 
-    Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCancel.Click
+    Public Sub Cancel() Handles btnCancel.Click
         QTxtHasChgd = False
         ATxtHasChgd = False
         Me.Close()
     End Sub
 
-    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
+    Public Sub Save() Handles btnSave.Click
         Try
             If Not String.IsNullOrWhiteSpace(txtMs.Text) Then
                 QAMObj.Marking = CInt(txtMs.Text)
@@ -42,11 +42,11 @@
         Me.Close()
     End Sub
 
-    Private Sub txtQs_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtQs.TextChanged
+    Private Sub txtQs_TextChanged() Handles txtQs.TextChanged
         QTxtHasChgd = True
     End Sub
 
-    Private Sub txtAns_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtAns.TextChanged
+    Private Sub txtAns_TextChanged() Handles txtAns.TextChanged
         ATxtHasChgd = True
     End Sub
 

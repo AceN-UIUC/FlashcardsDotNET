@@ -31,7 +31,8 @@ Public Class QuestionResponseDialog
         HideMe()
     End Sub
 
-    Private Sub HideMe()
+    Public Sub HideMe()
+        FormQuestionEditor.Cancel()
         Me.Hide()
         FormQuestionPoser.txtUserAnswer.Text = ""
     End Sub
