@@ -44,8 +44,12 @@
             QAMObj.AnswerList = L
         End If
 
-        Form1.QHasChgd = QTxtHasChgd And Not Form1.QHasChgd
-        Form1.AHasChgd = ATxtHasChgd And Not Form1.AHasChgd
+        ' Update HasChanged variables
+        Form1.QHasChgd = QTxtHasChgd OrElse Form1.QHasChgd
+        Form1.AHasChgd = ATxtHasChgd OrElse Form1.AHasChgd
+
+        ' Refresh question list
+        FormQuestionManager.UpdateMainListView()
 
         Me.Close()
     End Sub

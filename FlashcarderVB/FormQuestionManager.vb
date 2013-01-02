@@ -372,10 +372,7 @@ Public Class FormQuestionManager
                 If ErrorOnQAMListLine = -1 Then ' If ErrorOnQAMListLine is -1, the QAM list that was loaded is either VALID or NULL
 
                     ' Update question list box
-                    FormQuestionManager.lvwQAMList.Items.Clear()
-                    For i = 0 To FormQuestionManager.QAMList.Count - 1
-                        FormQuestionManager.lvwQAMList.Items.Add(CStr(i + 1) & "=" & FormQuestionManager.QAMList.Item(i).Question)
-                    Next
+                    UpdateMainListView()
 
                 Else
 
@@ -419,7 +416,17 @@ Public Class FormQuestionManager
 
     End Sub
 
-    Private Sub QAMLstDblClk(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lvwQAMList.DoubleClick
+    Public Shared Sub UpdateMainListView()
+
+        ' Update question list box
+        FormQuestionManager.lvwQAMList.Items.Clear()
+        For i = 0 To FormQuestionManager.QAMList.Count - 1
+            FormQuestionManager.lvwQAMList.Items.Add(CStr(i + 1) & "=" & FormQuestionManager.QAMList.Item(i).Question)
+        Next
+
+    End Sub
+
+    Private Sub QAMLstDblClk() Handles lvwQAMList.DoubleClick
         If lvwQAMList.SelectedIndices.Count = 1 Then
 
             ' Setup edit window
@@ -438,7 +445,7 @@ Public Class FormQuestionManager
     End Sub
 
     ' Automatically resize controls
-    Private Sub ResizeCtrls(sender As System.Object, e As System.EventArgs) Handles MyBase.SizeChanged
+    Private Sub ResizeCtrls(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.SizeChanged
 
         Dim W As Integer = Me.Size.Width - 44
         Dim CentX As Integer = CInt(gbxActsOpts.Size.Width / 2)

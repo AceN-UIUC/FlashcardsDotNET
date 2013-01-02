@@ -38,8 +38,7 @@ End Class
 Public Class Editing
 
     Shared Sub UpdateQAM(ByVal QAMList As List(Of Question), ByVal QPath As String, ByVal APath As String, ByVal MPath As String, _
-                        Optional ByVal Subject As String = "", Optional ByVal QHasChgd As Boolean = True, _
-                        Optional ByVal AHasChgd As Boolean = True, Optional ByVal MHasChgd As Boolean = True)
+                        Optional ByVal Subject As String = "")
 
         ' (Obligatory) file validity check
         If Dir(QPath).Length < 1 Then
@@ -60,7 +59,7 @@ Public Class Editing
         ' --------------- Questions ---------------
 
         ' Start reading (not the most efficient, use FileStream if this is too slow)
-        If QHasChgd AndAlso QPath.Length > 0 AndAlso File.Exists(QPath) Then
+        If Form1.QHasChgd AndAlso QPath.Length > 0 AndAlso File.Exists(QPath) Then
 
             Dim QR As New StreamReader(QPath)
             EditEngaged = String.IsNullOrWhiteSpace(Subject)
@@ -114,7 +113,7 @@ Public Class Editing
         ' Note: this recycles some variables from the questions part
 
         ' Loop
-        If AHasChgd AndAlso APath.Length > 0 AndAlso File.Exists(APath) Then
+        If Form1.AHasChgd AndAlso APath.Length > 0 AndAlso File.Exists(APath) Then
 
             ' Declare/reset variables
             Dim AR As New StreamReader(APath)
@@ -180,7 +179,7 @@ Public Class Editing
 
         ' --------------- Markings ---------------
         ' NOTE: This breaks if the subject header for a particular subject isn't present in the markings file
-        If MHasChgd AndAlso MPath.Length > 0 AndAlso File.Exists(MPath) Then
+        If MPath.Length > 0 AndAlso File.Exists(MPath) Then
 
             ' Declare variables
             Dim MR As New StreamReader(MPath)
@@ -252,7 +251,7 @@ Public Class Editing
 
             End If
 
-            End If
+        End If
 
 
         ' --------------- Return ----------------
