@@ -42,7 +42,7 @@ Partial Class FormFCCoordinator
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.cbxAppendSubject = New System.Windows.Forms.CheckBox()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnCompileFCs = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.tbOut = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -251,7 +251,7 @@ Partial Class FormFCCoordinator
         'TabPage3
         '
         Me.TabPage3.Controls.Add(Me.cbxAppendSubject)
-        Me.TabPage3.Controls.Add(Me.Button1)
+        Me.TabPage3.Controls.Add(Me.btnCompileFCs)
         Me.TabPage3.Controls.Add(Me.Label7)
         Me.TabPage3.Controls.Add(Me.tbOut)
         Me.TabPage3.Controls.Add(Me.Label6)
@@ -274,14 +274,14 @@ Partial Class FormFCCoordinator
         Me.cbxAppendSubject.Text = "Append subject to output file name"
         Me.cbxAppendSubject.UseVisualStyleBackColor = True
         '
-        'Button1
+        'btnCompileFCs
         '
-        Me.Button1.Location = New System.Drawing.Point(164, 204)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 5
-        Me.Button1.Text = "Go"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btnCompileFCs.Location = New System.Drawing.Point(164, 204)
+        Me.btnCompileFCs.Name = "btnCompileFCs"
+        Me.btnCompileFCs.Size = New System.Drawing.Size(75, 23)
+        Me.btnCompileFCs.TabIndex = 5
+        Me.btnCompileFCs.Text = "Go"
+        Me.btnCompileFCs.UseVisualStyleBackColor = True
         '
         'Label7
         '
@@ -393,7 +393,7 @@ Partial Class FormFCCoordinator
     Friend WithEvents txtMarkTgt As System.Windows.Forms.TextBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents btnCompileFCs As System.Windows.Forms.Button
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents tbOut As System.Windows.Forms.TextBox
     Friend WithEvents Label6 As System.Windows.Forms.Label

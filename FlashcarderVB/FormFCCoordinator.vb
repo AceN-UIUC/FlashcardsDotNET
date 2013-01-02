@@ -197,7 +197,7 @@ Public Class FormFCCoordinator
 
     End Sub
 
-    Private Sub btnGo() Handles Button1.Click
+    Private Sub btnGo() Handles btnCompileFCs.Click
 
         ' Check that pre-checked file status is OK
         '   NOTE: This checks both the previously checked status (textbox color) and the current status of the files
@@ -278,13 +278,24 @@ Public Class FormFCCoordinator
                     MsgBox("Question " & QuestionCnt & " has more than the maximum number (26) of answers.")
                 End If
 
+                ' Look for improperly formatted files (answers that look like questions) if the question has more than one answer
+                If AnswerCnt = 0 Then
+                    Dim Errors As Integer = -CInt(Char.IsUpper(Line.Chars(0))) - CInt(Line.Contains("?"))
+
+                    If Errors = 2 Then
+                        MsgBox("This file seems to be improperly formatted. (See question " & QuestionCnt & ".)", MsgBoxStyle.Exclamation)
+                    ElseIf Errors = 1 Then
+                        MsgBox("This file might be improperly formatted. (See question " & QuestionCnt & ".)", MsgBoxStyle.Information)
+                    End If
+                End If
+
                 ' Add answer to line queue
                 LineQueue_Answers.Add(QuestionCnt.ToString & LtrStr.Chars(AnswerCnt) & "=" & Line)
 
                 ' Variable updates (these happen AFTER the current line is added to the queue)
                 AnswerCnt += 1
 
-            End If
+                End If
 
         End While
 
