@@ -220,6 +220,7 @@ Partial Class FormQuestionManager
         '
         'lvwQAMList
         '
+        Me.lvwQAMList.AllowDrop = True
         Me.lvwQAMList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
         Me.lvwQAMList.Location = New System.Drawing.Point(14, 109)
         Me.lvwQAMList.Name = "lvwQAMList"

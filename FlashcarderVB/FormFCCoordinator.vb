@@ -317,4 +317,55 @@ Public Class FormFCCoordinator
 
     End Sub
 
+    ' --- Drag-drop handlers ---
+    ' - tbIn -
+    Private Sub tbIn_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbIn.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.All
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+    Private Sub tbIn_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbIn.DragDrop
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+
+            ' Load drag-dropped filepath
+            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            If FileList.Count <> 0 Then
+                tbIn.Text = FileList.GetValue(0).ToString
+            End If
+
+            ' Reminder
+            If FileList.Count > 1 Then
+                MsgBox("The flashcard converter can only process one file at a time. The first file in the drag-drop list will be used.")
+            End If
+
+        End If
+    End Sub
+
+    ' - tbOut -
+    Private Sub tbOut_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbOut.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.All
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+    Private Sub tbOut_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbOut.DragDrop
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+
+            ' Load drag-dropped filepath
+            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            If FileList.Count <> 0 Then
+                tbOut.Text = FileList.GetValue(0).ToString
+            End If
+
+            ' Reminder
+            If FileList.Count > 1 Then
+                MsgBox("Only one output directory can be used at a time.")
+            End If
+
+        End If
+    End Sub
+
 End Class

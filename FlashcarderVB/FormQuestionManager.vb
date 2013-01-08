@@ -530,4 +530,26 @@ Public Class FormQuestionManager
         End If
     End Sub
 
+    ' Drag-drop handlers
+    Private Sub lvwQAMList_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles lvwQAMList.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.All
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+    Private Sub lvwQAMList_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles lvwQAMList.DragDrop
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+
+            ' Load selected file(s)
+            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            For Each S As String In FileList
+                If S.Length > 1 Then
+                    LoadFile(S, True)
+                End If
+            Next
+
+        End If
+    End Sub
+
 End Class

@@ -294,6 +294,7 @@ Partial Class FormFCCoordinator
         '
         'tbOut
         '
+        Me.tbOut.AllowDrop = True
         Me.tbOut.Location = New System.Drawing.Point(6, 110)
         Me.tbOut.Name = "tbOut"
         Me.tbOut.Size = New System.Drawing.Size(378, 22)
@@ -310,6 +311,7 @@ Partial Class FormFCCoordinator
         '
         'tbIn
         '
+        Me.tbIn.AllowDrop = True
         Me.tbIn.Location = New System.Drawing.Point(6, 53)
         Me.tbIn.Name = "tbIn"
         Me.tbIn.Size = New System.Drawing.Size(378, 22)
