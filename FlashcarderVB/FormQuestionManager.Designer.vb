@@ -30,7 +30,7 @@ Partial Class FormQuestionManager
         Me.cbx_VrifyAs = New System.Windows.Forms.CheckBox()
         Me.cbx_VrifyMs = New System.Windows.Forms.CheckBox()
         Me.gbxChkList = New System.Windows.Forms.GroupBox()
-        Me.OFDlg = New System.Windows.Forms.OpenFileDialog()
+        Me.OFileDlg = New System.Windows.Forms.OpenFileDialog()
         Me.btnQuiz = New System.Windows.Forms.Button()
         Me.cbxAutoLoad = New System.Windows.Forms.CheckBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -120,9 +120,10 @@ Partial Class FormQuestionManager
         Me.gbxChkList.TabStop = False
         Me.gbxChkList.Text = "List of loaded items"
         '
-        'OFDlg
+        'OFileDlg
         '
-        Me.OFDlg.Filter = "Flashcards|*.txt;*.ini|AHK Shortcuts|*.ahk|All Files|*.*"
+        Me.OFileDlg.Filter = "Flashcards|*.txt;*.ini|AHK Shortcuts|*.ahk|All Files|*.*"
+        Me.OFileDlg.RestoreDirectory = True
         '
         'btnQuiz
         '
@@ -263,7 +264,7 @@ Partial Class FormQuestionManager
     Friend WithEvents cbx_VrifyAs As System.Windows.Forms.CheckBox
     Friend WithEvents cbx_VrifyMs As System.Windows.Forms.CheckBox
     Friend WithEvents gbxChkList As System.Windows.Forms.GroupBox
-    Friend WithEvents OFDlg As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents OFileDlg As System.Windows.Forms.OpenFileDialog
     Friend WithEvents btnQuiz As System.Windows.Forms.Button
     Friend WithEvents cbxAutoLoad As System.Windows.Forms.CheckBox
     Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip

@@ -13,6 +13,8 @@ Public Class Form1
 
     Declare Function Sleep Lib "kernel32" (ByVal dwMilliseconds As Integer) As Integer
 
+    Public MasterFileDialogLocation As String = ""
+
     Public MainTitle As String = "Ace's Flashcarder"
 
     Public LetterStr As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

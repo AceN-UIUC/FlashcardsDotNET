@@ -42,13 +42,22 @@ Public Class FormFCCoordinator
         End If
     End Sub
 
-    Private Sub btnOpenManually_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOpenManually.Click
-        OFDlg.ShowDialog()
+    Private Sub btnOpenManually_Click() Handles btnOpenManually.Click
+
+        ' File dialog directory persistence
+        If Form1.MasterFileDialogLocation.Length <> 0 AndAlso Directory.Exists(Form1.MasterFileDialogLocation) Then
+            OFileDlg.InitialDirectory = Form1.MasterFileDialogLocation
+        End If
+        OFileDlg.ShowDialog()
+        If OFileDlg.FileName.Length > 1 Then
+            Form1.MasterFileDialogLocation = Path.GetDirectoryName(OFileDlg.FileName)
+        End If
+
     End Sub
 
-    Private Sub OFDHandler(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OFDlg.FileOk
-        If Not String.IsNullOrWhiteSpace(OFDlg.FileName) Then
-            FileArr = {OFDlg.FileName}
+    Private Sub OFDHandler(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OFileDlg.FileOk
+        If Not String.IsNullOrWhiteSpace(OFileDlg.FileName) Then
+            FileArr = {OFileDlg.FileName}
 
             ' Clear validation checkboxes (so two sets of files don't get mixed together)
             '   NOTE: Stored file paths are cleared by cbx_Vrify*s event handlers (which are triggered by the property operations below)
@@ -186,13 +195,13 @@ Public Class FormFCCoordinator
         End If
     End Sub
 
-    Private Sub tbInChgd() Handles tbIn.TextChanged
+    Private Sub tbInChgd() Handles tbx_In.TextChanged
 
         ' NOTE: This does NOT check the file's format - it merely checks that it exists
-        If tbIn.Text.Length = 0 OrElse IO.File.Exists(tbIn.Text) Then ' Hooray for short-circuiting! (Dir(blah) isn't evaluated if tbIn.Text is null)
-            tbIn.BackColor = Color.White
+        If tbx_In.Text.Length = 0 OrElse IO.File.Exists(tbx_In.Text) Then ' Hooray for short-circuiting! (Dir(blah) isn't evaluated if tbIn.Text is null)
+            tbx_In.BackColor = Color.White
         Else
-            tbIn.BackColor = Color.Red
+            tbx_In.BackColor = Color.Red
         End If
 
     End Sub
@@ -202,16 +211,16 @@ Public Class FormFCCoordinator
         ' Check that pre-checked file status is OK
         '   NOTE: This checks both the previously checked status (textbox color) and the current status of the files
         '   This is necessary in case the files are moved/deleted between entering their location in (first validation) and activating this method
-        If tbIn.BackColor <> Color.White OrElse Not IO.File.Exists(tbIn.Text) Then
+        If tbx_In.BackColor <> Color.White OrElse Not IO.File.Exists(tbx_In.Text) Then
             MsgBox("The input file is invalid.")
             Exit Sub
-        ElseIf tbOut.BackColor <> Color.White OrElse Not IO.Directory.Exists(tbOut.Text) Then
+        ElseIf txt_Out.BackColor <> Color.White OrElse Not IO.Directory.Exists(txt_Out.Text) Then
             MsgBox("The output folder is invalid.")
             Exit Sub
         End If
 
         ' Generate output file paths
-        Dim InputFileName As String = tbIn.Text.Substring(tbIn.Text.LastIndexOf("\"))
+        Dim InputFileName As String = tbx_In.Text.Substring(tbx_In.Text.LastIndexOf("\"))
         If InputFileName.Contains(".") Then
             InputFileName = InputFileName.Substring(0, InputFileName.IndexOf(".")) & "_"
         Else
@@ -220,14 +229,14 @@ Public Class FormFCCoordinator
         If Not cbxAppendSubject.Checked Then
             InputFileName = "\"
         End If
-        Dim QOutPath As String = tbOut.Text & InputFileName & "questions.txt"
-        Dim AOutPath As String = tbOut.Text & InputFileName & "answers.txt"
+        Dim QOutPath As String = txt_Out.Text & InputFileName & "questions.txt"
+        Dim AOutPath As String = txt_Out.Text & InputFileName & "answers.txt"
 
         ' Create output folder if necessary (note: this doesn't prompt the user as to whether to create the directory)
         '   The try/catch is to notify the user of any failures
-        If Not IO.Directory.Exists(tbOut.Text) Then
+        If Not IO.Directory.Exists(txt_Out.Text) Then
             Try
-                IO.Directory.CreateDirectory(tbOut.Text)
+                IO.Directory.CreateDirectory(txt_Out.Text)
             Catch
                 MsgBox("The directory specified for the output files doesn't exist and couldn't be created. No files have been modified.")
                 Exit Sub
@@ -248,7 +257,7 @@ Public Class FormFCCoordinator
         Dim AnswerCnt As Integer = 0 ' Used for questions that have multiple valid answers
         Dim CurLineIsQuestion As Boolean = True
         Dim LineQueue_Questions, LineQueue_Answers As New List(Of String) ' A queue, not a stack, according to Dylan @ ACM
-        Dim SR As New StreamReader(tbIn.Text)
+        Dim SR As New StreamReader(tbx_In.Text)
         While Not SR.EndOfStream
 
             ' Get line
@@ -295,7 +304,7 @@ Public Class FormFCCoordinator
                 ' Variable updates (these happen AFTER the current line is added to the queue)
                 AnswerCnt += 1
 
-                End If
+            End If
 
         End While
 
@@ -305,34 +314,34 @@ Public Class FormFCCoordinator
 
     End Sub
 
-    Private Sub tbOut_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tbOut.TextChanged
+    Private Sub tbOut_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_Out.TextChanged
 
         ' Make sure the output folder directory isn't ending with a \, isn't to a file (i.e. it SHOULD NOT contain a "."), is non-null
-        Dim outTxt As String = tbOut.Text
+        Dim outTxt As String = txt_Out.Text
         If outTxt.Length = 0 OrElse outTxt.Last = "\" OrElse outTxt.Contains(".") Then
-            tbOut.BackColor = Color.Red
+            txt_Out.BackColor = Color.Red
         Else
-            tbOut.BackColor = Color.White
+            txt_Out.BackColor = Color.White
         End If
 
     End Sub
 
-    ' --- Drag-drop handlers ---
+    ' --- F/C Compiler Drag-drop handlers ---
     ' - tbIn -
-    Private Sub tbIn_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbIn.DragEnter
+    Private Sub tbIn_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbx_In.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.All
         Else
             e.Effect = DragDropEffects.None
         End If
     End Sub
-    Private Sub tbIn_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbIn.DragDrop
+    Private Sub tbIn_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbx_In.DragDrop
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load drag-dropped filepath
             Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
             If FileList.Count <> 0 Then
-                tbIn.Text = FileList.GetValue(0).ToString
+                tbx_In.Text = FileList.GetValue(0).ToString
             End If
 
             ' Reminder
@@ -344,20 +353,20 @@ Public Class FormFCCoordinator
     End Sub
 
     ' - tbOut -
-    Private Sub tbOut_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbOut.DragEnter
+    Private Sub tbOut_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_Out.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.All
         Else
             e.Effect = DragDropEffects.None
         End If
     End Sub
-    Private Sub tbOut_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbOut.DragDrop
+    Private Sub tbOut_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_Out.DragDrop
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load drag-dropped filepath
             Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
             If FileList.Count <> 0 Then
-                tbOut.Text = FileList.GetValue(0).ToString
+                txt_Out.Text = FileList.GetValue(0).ToString
             End If
 
             ' Reminder
@@ -366,6 +375,67 @@ Public Class FormFCCoordinator
             End If
 
         End If
+    End Sub
+
+    ' --- Markings refresher drag/drop handlers ---
+    Private Sub txtFilePath_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txtFilePath.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.All
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+    Private Sub txtFilePath_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txtFilePath.DragDrop
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+
+            ' Load drag-dropped filepath
+            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            If FileList.Count <> 0 Then
+                txtFilePath.Text = FileList.GetValue(0).ToString
+            End If
+
+            ' Reminder
+            If FileList.Count > 1 Then
+                MsgBox("The re-marking system can only process one markings file at a time. The first file in the drag-drop list will be used.")
+            End If
+
+        End If
+    End Sub
+
+    Private Sub OFileDlgIn_Open() Handles btn_OFDIn.Click
+
+        ' File dialog directory persistence
+        If Form1.MasterFileDialogLocation.Length <> 0 AndAlso Directory.Exists(Form1.MasterFileDialogLocation) Then
+            OFileDlg.InitialDirectory = Form1.MasterFileDialogLocation
+        End If
+        Dim DlgResult As DialogResult = OFileDlg.ShowDialog()
+        If OFileDlg.FileName.Length > 1 Then
+            Form1.MasterFileDialogLocation = Path.GetDirectoryName(OFileDlg.FileName)
+        End If
+
+        ' Handle resulting file path
+        If DlgResult = DialogResult.OK Then
+            tbx_In.Text = OFileDlg.FileName
+        End If
+
+    End Sub
+
+    Private Sub OFolderDlgOut_Open() Handles btn_OFDOut.Click
+
+        ' File dialog directory persistence
+        If Form1.MasterFileDialogLocation.Length <> 0 AndAlso Directory.Exists(Form1.MasterFileDialogLocation) Then
+            OFolderDlg.SelectedPath = Form1.MasterFileDialogLocation
+        End If
+        Dim DlgResult As DialogResult = OFolderDlg.ShowDialog()
+        If OFolderDlg.SelectedPath.Length > 1 Then
+            Form1.MasterFileDialogLocation = Path.GetDirectoryName(OFolderDlg.SelectedPath)
+        End If
+
+        ' Handle resulting file path
+        If DlgResult = DialogResult.OK Then
+            txt_Out.Text = OFolderDlg.SelectedPath
+        End If
+
     End Sub
 
 End Class

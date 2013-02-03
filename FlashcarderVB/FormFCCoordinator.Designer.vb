@@ -41,16 +41,19 @@ Partial Class FormFCCoordinator
         Me.rbnCOptAll = New System.Windows.Forms.RadioButton()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.btn_OFDOut = New System.Windows.Forms.Button()
+        Me.btn_OFDIn = New System.Windows.Forms.Button()
         Me.cbxAppendSubject = New System.Windows.Forms.CheckBox()
         Me.btnCompileFCs = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.tbOut = New System.Windows.Forms.TextBox()
+        Me.txt_Out = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.tbIn = New System.Windows.Forms.TextBox()
+        Me.tbx_In = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.OFDlg = New System.Windows.Forms.OpenFileDialog()
+        Me.OFileDlg = New System.Windows.Forms.OpenFileDialog()
+        Me.OFolderDlg = New System.Windows.Forms.FolderBrowserDialog()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -138,7 +141,7 @@ Partial Class FormFCCoordinator
         '
         'btnViewMarkings
         '
-        Me.btnViewMarkings.Location = New System.Drawing.Point(6, 69)
+        Me.btnViewMarkings.Location = New System.Drawing.Point(17, 69)
         Me.btnViewMarkings.Name = "btnViewMarkings"
         Me.btnViewMarkings.Size = New System.Drawing.Size(145, 23)
         Me.btnViewMarkings.TabIndex = 1
@@ -147,7 +150,7 @@ Partial Class FormFCCoordinator
         '
         'btnRemark
         '
-        Me.btnRemark.Location = New System.Drawing.Point(6, 98)
+        Me.btnRemark.Location = New System.Drawing.Point(17, 98)
         Me.btnRemark.Name = "btnRemark"
         Me.btnRemark.Size = New System.Drawing.Size(145, 23)
         Me.btnRemark.TabIndex = 0
@@ -156,7 +159,7 @@ Partial Class FormFCCoordinator
         '
         'btnOpenManually
         '
-        Me.btnOpenManually.Location = New System.Drawing.Point(127, 57)
+        Me.btnOpenManually.Location = New System.Drawing.Point(155, 57)
         Me.btnOpenManually.Name = "btnOpenManually"
         Me.btnOpenManually.Size = New System.Drawing.Size(84, 32)
         Me.btnOpenManually.TabIndex = 4
@@ -250,12 +253,14 @@ Partial Class FormFCCoordinator
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.btn_OFDOut)
+        Me.TabPage3.Controls.Add(Me.btn_OFDIn)
         Me.TabPage3.Controls.Add(Me.cbxAppendSubject)
         Me.TabPage3.Controls.Add(Me.btnCompileFCs)
         Me.TabPage3.Controls.Add(Me.Label7)
-        Me.TabPage3.Controls.Add(Me.tbOut)
+        Me.TabPage3.Controls.Add(Me.txt_Out)
         Me.TabPage3.Controls.Add(Me.Label6)
-        Me.TabPage3.Controls.Add(Me.tbIn)
+        Me.TabPage3.Controls.Add(Me.tbx_In)
         Me.TabPage3.Controls.Add(Me.Label3)
         Me.TabPage3.Location = New System.Drawing.Point(4, 25)
         Me.TabPage3.Name = "TabPage3"
@@ -263,6 +268,24 @@ Partial Class FormFCCoordinator
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Text <--> Flashcard"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'btn_OFDOut
+        '
+        Me.btn_OFDOut.Location = New System.Drawing.Point(361, 109)
+        Me.btn_OFDOut.Name = "btn_OFDOut"
+        Me.btn_OFDOut.Size = New System.Drawing.Size(23, 23)
+        Me.btn_OFDOut.TabIndex = 8
+        Me.btn_OFDOut.Text = "+"
+        Me.btn_OFDOut.UseVisualStyleBackColor = True
+        '
+        'btn_OFDIn
+        '
+        Me.btn_OFDIn.Location = New System.Drawing.Point(361, 53)
+        Me.btn_OFDIn.Name = "btn_OFDIn"
+        Me.btn_OFDIn.Size = New System.Drawing.Size(23, 23)
+        Me.btn_OFDIn.TabIndex = 7
+        Me.btn_OFDIn.Text = "+"
+        Me.btn_OFDIn.UseVisualStyleBackColor = True
         '
         'cbxAppendSubject
         '
@@ -292,13 +315,13 @@ Partial Class FormFCCoordinator
         Me.Label7.TabIndex = 4
         Me.Label7.Text = "Output FOLDER"
         '
-        'tbOut
+        'txt_Out
         '
-        Me.tbOut.AllowDrop = True
-        Me.tbOut.Location = New System.Drawing.Point(6, 110)
-        Me.tbOut.Name = "tbOut"
-        Me.tbOut.Size = New System.Drawing.Size(378, 22)
-        Me.tbOut.TabIndex = 3
+        Me.txt_Out.AllowDrop = True
+        Me.txt_Out.Location = New System.Drawing.Point(6, 110)
+        Me.txt_Out.Name = "txt_Out"
+        Me.txt_Out.Size = New System.Drawing.Size(349, 22)
+        Me.txt_Out.TabIndex = 3
         '
         'Label6
         '
@@ -309,13 +332,13 @@ Partial Class FormFCCoordinator
         Me.Label6.TabIndex = 2
         Me.Label6.Text = "Input FILE"
         '
-        'tbIn
+        'tbx_In
         '
-        Me.tbIn.AllowDrop = True
-        Me.tbIn.Location = New System.Drawing.Point(6, 53)
-        Me.tbIn.Name = "tbIn"
-        Me.tbIn.Size = New System.Drawing.Size(378, 22)
-        Me.tbIn.TabIndex = 1
+        Me.tbx_In.AllowDrop = True
+        Me.tbx_In.Location = New System.Drawing.Point(6, 53)
+        Me.tbx_In.Name = "tbx_In"
+        Me.tbx_In.Size = New System.Drawing.Size(349, 22)
+        Me.tbx_In.TabIndex = 1
         '
         'Label3
         '
@@ -344,9 +367,9 @@ Partial Class FormFCCoordinator
         Me.Label4.TabIndex = 2
         Me.Label4.Text = "To open a file, drag-drop it or click the Open File button"
         '
-        'OFDlg
+        'OFileDlg
         '
-        Me.OFDlg.Filter = "AHK Shortcuts|*.ahk|Flashcards|*.ini|All Files|*.*"
+        Me.OFileDlg.Filter = "AHK Shortcuts|*.ahk|Flashcards|*.ini|All Files|*.*"
         '
         'FormFCCoordinator
         '
@@ -390,15 +413,18 @@ Partial Class FormFCCoordinator
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents btnRemark As System.Windows.Forms.Button
-    Friend WithEvents OFDlg As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents OFileDlg As System.Windows.Forms.OpenFileDialog
     Friend WithEvents btnViewMarkings As System.Windows.Forms.Button
     Friend WithEvents txtMarkTgt As System.Windows.Forms.TextBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
     Friend WithEvents btnCompileFCs As System.Windows.Forms.Button
     Friend WithEvents Label7 As System.Windows.Forms.Label
-    Friend WithEvents tbOut As System.Windows.Forms.TextBox
+    Friend WithEvents txt_Out As System.Windows.Forms.TextBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents tbIn As System.Windows.Forms.TextBox
+    Friend WithEvents tbx_In As System.Windows.Forms.TextBox
     Friend WithEvents cbxAppendSubject As System.Windows.Forms.CheckBox
+    Friend WithEvents btn_OFDOut As System.Windows.Forms.Button
+    Friend WithEvents btn_OFDIn As System.Windows.Forms.Button
+    Friend WithEvents OFolderDlg As System.Windows.Forms.FolderBrowserDialog
 End Class

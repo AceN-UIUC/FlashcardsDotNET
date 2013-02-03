@@ -397,9 +397,18 @@ Public Class FormQuestionManager
     End Sub
 
     Private Sub btnOpenManually_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOpenManually.Click
-        OFDlg.ShowDialog()
+
+        ' File dialog directory persistence
+        If Form1.MasterFileDialogLocation.Length <> 0 AndAlso Directory.Exists(Form1.MasterFileDialogLocation) Then
+            OFileDlg.InitialDirectory = Form1.MasterFileDialogLocation
+        End If
+        Dim DlgResult As DialogResult = OFileDlg.ShowDialog()
+        If OFileDlg.FileName.Length > 1 Then
+            Form1.MasterFileDialogLocation = Path.GetDirectoryName(OFileDlg.FileName)
+        End If
+
     End Sub
-    Private Sub ReceiveManualFile() Handles OFDlg.FileOk
+    Private Sub ReceiveManualFile() Handles OFileDlg.FileOk
 
         ' Save old file (if one is active)
         If QAMList.Count <> 0 Then
@@ -407,8 +416,8 @@ Public Class FormQuestionManager
         End If
 
         ' Import new file
-        If OFDlg.FileNames.Count > 0 Then
-            DragDropHandler(OFDlg.FileNames)
+        If OFileDlg.FileNames.Count > 0 Then
+            DragDropHandler(OFileDlg.FileNames)
         End If
 
         ' Highlight questions based on markings (if appropriate)
