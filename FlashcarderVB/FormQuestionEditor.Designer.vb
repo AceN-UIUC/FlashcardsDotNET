@@ -27,10 +27,12 @@ Partial Class FormQuestionEditor
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtQs = New System.Windows.Forms.TextBox()
-        Me.txtAns = New System.Windows.Forms.TextBox()
         Me.txtMs = New System.Windows.Forms.TextBox()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
+        Me.pnlOptions = New System.Windows.Forms.Panel()
+        Me.btnAddAnswer = New System.Windows.Forms.Button()
+        Me.pnlOptions.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label1
@@ -47,14 +49,14 @@ Partial Class FormQuestionEditor
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(17, 146)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(54, 17)
+        Me.Label2.Size = New System.Drawing.Size(71, 17)
         Me.Label2.TabIndex = 1
-        Me.Label2.Text = "Answer"
+        Me.Label2.Text = "Answer(s)"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(13, 290)
+        Me.Label3.Location = New System.Drawing.Point(3, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(58, 17)
         Me.Label3.TabIndex = 2
@@ -69,18 +71,9 @@ Partial Class FormQuestionEditor
         Me.txtQs.Size = New System.Drawing.Size(373, 112)
         Me.txtQs.TabIndex = 3
         '
-        'txtAns
-        '
-        Me.txtAns.Location = New System.Drawing.Point(16, 166)
-        Me.txtAns.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.txtAns.Multiline = True
-        Me.txtAns.Name = "txtAns"
-        Me.txtAns.Size = New System.Drawing.Size(373, 112)
-        Me.txtAns.TabIndex = 4
-        '
         'txtMs
         '
-        Me.txtMs.Location = New System.Drawing.Point(17, 314)
+        Me.txtMs.Location = New System.Drawing.Point(7, 24)
         Me.txtMs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtMs.Name = "txtMs"
         Me.txtMs.Size = New System.Drawing.Size(55, 22)
@@ -88,7 +81,7 @@ Partial Class FormQuestionEditor
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(236, 314)
+        Me.btnSave.Location = New System.Drawing.Point(207, 29)
         Me.btnSave.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(75, 23)
@@ -98,7 +91,7 @@ Partial Class FormQuestionEditor
         '
         'btnCancel
         '
-        Me.btnCancel.Location = New System.Drawing.Point(316, 314)
+        Me.btnCancel.Location = New System.Drawing.Point(288, 29)
         Me.btnCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
@@ -106,17 +99,35 @@ Partial Class FormQuestionEditor
         Me.btnCancel.Text = "Cancel"
         Me.btnCancel.UseVisualStyleBackColor = True
         '
+        'pnlOptions
+        '
+        Me.pnlOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.pnlOptions.Controls.Add(Me.btnAddAnswer)
+        Me.pnlOptions.Controls.Add(Me.Label3)
+        Me.pnlOptions.Controls.Add(Me.btnCancel)
+        Me.pnlOptions.Controls.Add(Me.txtMs)
+        Me.pnlOptions.Controls.Add(Me.btnSave)
+        Me.pnlOptions.Location = New System.Drawing.Point(16, 256)
+        Me.pnlOptions.Name = "pnlOptions"
+        Me.pnlOptions.Size = New System.Drawing.Size(377, 64)
+        Me.pnlOptions.TabIndex = 8
+        '
+        'btnAddAnswer
+        '
+        Me.btnAddAnswer.Location = New System.Drawing.Point(102, 29)
+        Me.btnAddAnswer.Name = "btnAddAnswer"
+        Me.btnAddAnswer.Size = New System.Drawing.Size(99, 23)
+        Me.btnAddAnswer.TabIndex = 8
+        Me.btnAddAnswer.Text = "Add Answer"
+        Me.btnAddAnswer.UseVisualStyleBackColor = True
+        '
         'FormQuestionEditor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(405, 347)
-        Me.Controls.Add(Me.btnCancel)
-        Me.Controls.Add(Me.btnSave)
-        Me.Controls.Add(Me.txtMs)
-        Me.Controls.Add(Me.txtAns)
+        Me.ClientSize = New System.Drawing.Size(405, 328)
+        Me.Controls.Add(Me.pnlOptions)
         Me.Controls.Add(Me.txtQs)
-        Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -124,6 +135,8 @@ Partial Class FormQuestionEditor
         Me.Name = "FormQuestionEditor"
         Me.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide
         Me.Text = "Ace's Flashcarder - Question Editor"
+        Me.pnlOptions.ResumeLayout(False)
+        Me.pnlOptions.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -132,8 +145,9 @@ Partial Class FormQuestionEditor
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents txtQs As System.Windows.Forms.TextBox
-    Friend WithEvents txtAns As System.Windows.Forms.TextBox
     Friend WithEvents txtMs As System.Windows.Forms.TextBox
     Friend WithEvents btnSave As System.Windows.Forms.Button
     Friend WithEvents btnCancel As System.Windows.Forms.Button
+    Friend WithEvents pnlOptions As System.Windows.Forms.Panel
+    Friend WithEvents btnAddAnswer As System.Windows.Forms.Button
 End Class

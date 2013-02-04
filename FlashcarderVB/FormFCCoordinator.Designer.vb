@@ -41,10 +41,15 @@ Partial Class FormFCCoordinator
         Me.rbnCOptAll = New System.Windows.Forms.RadioButton()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+
         Me.btn_OFDOut = New System.Windows.Forms.Button()
         Me.btn_OFDIn = New System.Windows.Forms.Button()
         Me.cbxAppendSubject = New System.Windows.Forms.CheckBox()
         Me.btnCompileFCs = New System.Windows.Forms.Button()
+
+        'Me.cbxAppendSubject = New System.Windows.Forms.CheckBox()
+        'Me.Button1 = New System.Windows.Forms.Button()
+
         Me.Label7 = New System.Windows.Forms.Label()
         Me.txt_Out = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -52,8 +57,11 @@ Partial Class FormFCCoordinator
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.Label4 = New System.Windows.Forms.Label()
+
         Me.OFileDlg = New System.Windows.Forms.OpenFileDialog()
         Me.OFolderDlg = New System.Windows.Forms.FolderBrowserDialog()
+
+        'Me.OFDlg = New System.Windows.Forms.OpenFileDialog()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -269,6 +277,7 @@ Partial Class FormFCCoordinator
         Me.TabPage3.Text = "Text <--> Flashcard"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+
         'btn_OFDOut
         '
         Me.btn_OFDOut.Location = New System.Drawing.Point(361, 109)
@@ -287,6 +296,7 @@ Partial Class FormFCCoordinator
         Me.btn_OFDIn.Text = "+"
         Me.btn_OFDIn.UseVisualStyleBackColor = True
         '
+
         'cbxAppendSubject
         '
         Me.cbxAppendSubject.AutoSize = True
@@ -297,7 +307,10 @@ Partial Class FormFCCoordinator
         Me.cbxAppendSubject.Text = "Append subject to output file name"
         Me.cbxAppendSubject.UseVisualStyleBackColor = True
         '
+
         'btnCompileFCs
+
+        'Button1
         '
         Me.btnCompileFCs.Location = New System.Drawing.Point(164, 204)
         Me.btnCompileFCs.Name = "btnCompileFCs"
@@ -369,8 +382,10 @@ Partial Class FormFCCoordinator
         '
         'OFileDlg
         '
+
         Me.OFileDlg.Filter = "AHK Shortcuts|*.ahk|Flashcards|*.ini|All Files|*.*"
         '
+
         'FormFCCoordinator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
