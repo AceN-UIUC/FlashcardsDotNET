@@ -95,11 +95,18 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CornellParsingAI.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCornellParser.Designer.vb">
+      <DependentUpon>FormCornellParser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormCornellParser.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormFCCoordinator.Designer.vb">
@@ -157,6 +164,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCornellParser.resx">
+      <DependentUpon>FormCornellParser.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormFCCoordinator.resx">
       <DependentUpon>FormFCCoordinator.vb</DependentUpon>

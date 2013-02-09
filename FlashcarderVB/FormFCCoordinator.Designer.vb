@@ -41,27 +41,19 @@ Partial Class FormFCCoordinator
         Me.rbnCOptAll = New System.Windows.Forms.RadioButton()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
-
         Me.btn_OFDOut = New System.Windows.Forms.Button()
         Me.btn_OFDIn = New System.Windows.Forms.Button()
         Me.cbxAppendSubject = New System.Windows.Forms.CheckBox()
         Me.btnCompileFCs = New System.Windows.Forms.Button()
-
-        'Me.cbxAppendSubject = New System.Windows.Forms.CheckBox()
-        'Me.Button1 = New System.Windows.Forms.Button()
-
         Me.Label7 = New System.Windows.Forms.Label()
         Me.txt_Out = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.tbx_In = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
-        Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.Label4 = New System.Windows.Forms.Label()
-
         Me.OFileDlg = New System.Windows.Forms.OpenFileDialog()
         Me.OFolderDlg = New System.Windows.Forms.FolderBrowserDialog()
-
-        'Me.OFDlg = New System.Windows.Forms.OpenFileDialog()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -75,7 +67,6 @@ Partial Class FormFCCoordinator
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
-        Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Location = New System.Drawing.Point(0, 25)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -84,13 +75,14 @@ Partial Class FormFCCoordinator
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Button1)
         Me.TabPage1.Controls.Add(Me.Label1)
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage1.Size = New System.Drawing.Size(394, 236)
         Me.TabPage1.TabIndex = 0
-        Me.TabPage1.Text = "Combine"
+        Me.TabPage1.Text = "Notes --> Q/A"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
         'Label1
@@ -98,9 +90,9 @@ Partial Class FormFCCoordinator
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(3, 3)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(302, 17)
+        Me.Label1.Size = New System.Drawing.Size(377, 17)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "This combines multiple flashcard sets into one."
+        Me.Label1.Text = "This converts Cornell-format notes into questions/answers."
         '
         'TabPage2
         '
@@ -277,7 +269,6 @@ Partial Class FormFCCoordinator
         Me.TabPage3.Text = "Text <--> Flashcard"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
-
         'btn_OFDOut
         '
         Me.btn_OFDOut.Location = New System.Drawing.Point(361, 109)
@@ -296,7 +287,6 @@ Partial Class FormFCCoordinator
         Me.btn_OFDIn.Text = "+"
         Me.btn_OFDIn.UseVisualStyleBackColor = True
         '
-
         'cbxAppendSubject
         '
         Me.cbxAppendSubject.AutoSize = True
@@ -307,10 +297,7 @@ Partial Class FormFCCoordinator
         Me.cbxAppendSubject.Text = "Append subject to output file name"
         Me.cbxAppendSubject.UseVisualStyleBackColor = True
         '
-
         'btnCompileFCs
-
-        'Button1
         '
         Me.btnCompileFCs.Location = New System.Drawing.Point(164, 204)
         Me.btnCompileFCs.Name = "btnCompileFCs"
@@ -362,15 +349,6 @@ Partial Class FormFCCoordinator
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "This converts between text and flashcard formats"
         '
-        'TabPage4
-        '
-        Me.TabPage4.Location = New System.Drawing.Point(4, 25)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(394, 236)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "Split/Tier"
-        Me.TabPage4.UseVisualStyleBackColor = True
-        '
         'Label4
         '
         Me.Label4.AutoSize = True
@@ -382,10 +360,17 @@ Partial Class FormFCCoordinator
         '
         'OFileDlg
         '
-
         Me.OFileDlg.Filter = "AHK Shortcuts|*.ahk|Flashcards|*.ini|All Files|*.*"
         '
-
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(164, 117)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.TabIndex = 1
+        Me.Button1.Text = "Open"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'FormFCCoordinator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -432,7 +417,6 @@ Partial Class FormFCCoordinator
     Friend WithEvents btnViewMarkings As System.Windows.Forms.Button
     Friend WithEvents txtMarkTgt As System.Windows.Forms.TextBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
     Friend WithEvents btnCompileFCs As System.Windows.Forms.Button
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents txt_Out As System.Windows.Forms.TextBox
@@ -442,4 +426,5 @@ Partial Class FormFCCoordinator
     Friend WithEvents btn_OFDOut As System.Windows.Forms.Button
     Friend WithEvents btn_OFDIn As System.Windows.Forms.Button
     Friend WithEvents OFolderDlg As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents Button1 As System.Windows.Forms.Button
 End Class

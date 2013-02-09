@@ -438,4 +438,10 @@ Public Class FormFCCoordinator
 
     End Sub
 
+    Private Sub Button1_Click() Handles Button1.Click
+
+        ' DBG
+        FormCornellParser.Show()
+
+    End Sub
 End Class
