@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Text.RegularExpressions
 
 Public Class FormFCCoordinator
 
@@ -17,6 +18,11 @@ Public Class FormFCCoordinator
     End Sub
 #End Region
 
+    ' List of extracted question objects (from the Cornell note parser)
+    Public Shared ExtractedQAMList As New List(Of Question)
+
+    ' List of files (used in drag drop operations)
+    '   TODO - Would a plain old string be better here? (Esp. since only 1 file is allowed at once?)
     Public FileArr As String()
 
     Private Sub Loader() Handles MyBase.Load
@@ -185,32 +191,27 @@ Public Class FormFCCoordinator
         ' Check that pre-checked file status is OK
         '   NOTE: This checks both the previously checked status (textbox color) and the current status of the files
         '   This is necessary in case the files are moved/deleted between entering their location in (first validation) and activating this method
-        If tbx_In.BackColor <> Color.White OrElse Not IO.File.Exists(tbx_In.Text) Then
+        If txt_CompilerIn.BackColor <> Color.White OrElse Not IO.File.Exists(txt_CompilerIn.Text) Then
             MsgBox("The input file is invalid.")
             Exit Sub
-        ElseIf txt_Out.BackColor <> Color.White OrElse Not IO.Directory.Exists(txt_Out.Text) Then
+        ElseIf txt_CompilerOut.BackColor <> Color.White OrElse Not IO.Directory.Exists(txt_CompilerOut.Text) Then
             MsgBox("The output folder is invalid.")
             Exit Sub
         End If
 
         ' Generate output file paths
-        Dim InputFileName As String = tbx_In.Text.Substring(tbx_In.Text.LastIndexOf("\"))
-        If InputFileName.Contains(".") Then
-            InputFileName = InputFileName.Substring(0, InputFileName.IndexOf(".")) & "_"
-        Else
-            InputFileName &= "_"
-        End If
+        Dim InputFileName As String = Path.GetFileNameWithoutExtension(txt_CompilerIn.Text) & "_"
         If Not cbxAppendSubject.Checked Then
             InputFileName = "\"
         End If
-        Dim QOutPath As String = txt_Out.Text & InputFileName & "questions.txt"
-        Dim AOutPath As String = txt_Out.Text & InputFileName & "answers.txt"
+        Dim QOutPath As String = txt_CompilerOut.Text & InputFileName & "questions.txt"
+        Dim AOutPath As String = txt_CompilerOut.Text & InputFileName & "answers.txt"
 
         ' Create output folder if necessary (note: this doesn't prompt the user as to whether to create the directory)
         '   The try/catch is to notify the user of any failures
-        If Not IO.Directory.Exists(txt_Out.Text) Then
+        If Not IO.Directory.Exists(txt_CompilerOut.Text) Then
             Try
-                IO.Directory.CreateDirectory(txt_Out.Text)
+                IO.Directory.CreateDirectory(txt_CompilerOut.Text)
             Catch
                 MsgBox("The directory specified for the output files doesn't exist and couldn't be created. No files have been modified.")
                 Exit Sub
@@ -218,9 +219,9 @@ Public Class FormFCCoordinator
         End If
 
         ' Alert the user if existing files will be modified at the output location
-        If Dir(QOutPath) <> "" AndAlso Dir(AOutPath) <> "" Then
+        If File.Exists(QOutPath) AndAlso File.Exists(AOutPath) <> "" Then
             If MsgBox("There are existing output files in that location. The output generated here will be appended to them. Continue?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
-                MsgBox("No files have been altered.")
+                MsgBox("The flashcard compilation operation was cancelled. No files have been altered.")
                 Exit Sub
             End If
         End If
@@ -231,7 +232,7 @@ Public Class FormFCCoordinator
         Dim AnswerCnt As Integer = 0 ' Used for questions that have multiple valid answers
         Dim CurLineIsQuestion As Boolean = True
         Dim LineQueue_Questions, LineQueue_Answers As New List(Of String) ' A queue, not a stack, according to Dylan @ ACM
-        Dim SR As New StreamReader(tbx_In.Text)
+        Dim SR As New StreamReader(txt_CompilerIn.Text)
         While Not SR.EndOfStream
 
             ' Get line
@@ -288,32 +289,25 @@ Public Class FormFCCoordinator
 
     End Sub
 
-    Private Sub StartParsing() Handles Button1.Click
-
-        ' DBG
-        FormCornellParser.Show()
-
-    End Sub
-
 #Region "File drag-drop handlers"
 
     ' === F/C Compiler ===
 
     ' - tbIn -
-    Private Sub tbIn_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbx_In.DragEnter
+    Private Sub tbIn_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_CompilerIn.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.All
         Else
             e.Effect = DragDropEffects.None
         End If
     End Sub
-    Private Sub tbIn_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbx_In.DragDrop
+    Private Sub tbIn_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_CompilerIn.DragDrop
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load drag-dropped filepath
             Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
             If FileList.Count <> 0 Then
-                tbx_In.Text = FileList.GetValue(0).ToString
+                txt_CompilerIn.Text = FileList.GetValue(0).ToString
             End If
 
             ' Reminder
@@ -325,20 +319,20 @@ Public Class FormFCCoordinator
     End Sub
 
     ' - tbOut -
-    Private Sub tbOut_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_Out.DragEnter
+    Private Sub tbOut_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_CompilerOut.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.All
         Else
             e.Effect = DragDropEffects.None
         End If
     End Sub
-    Private Sub tbOut_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_Out.DragDrop
+    Private Sub tbOut_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_CompilerOut.DragDrop
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load drag-dropped filepath
             Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
             If FileList.Count <> 0 Then
-                txt_Out.Text = FileList.GetValue(0).ToString
+                txt_CompilerOut.Text = FileList.GetValue(0).ToString
             End If
 
             ' Reminder
@@ -442,7 +436,7 @@ Public Class FormFCCoordinator
 
         ' Handle resulting file path
         If DlgResult = DialogResult.OK Then
-            tbx_In.Text = OFileDlg.FileName
+            txt_CompilerIn.Text = OFileDlg.FileName
         End If
 
     End Sub
@@ -459,7 +453,7 @@ Public Class FormFCCoordinator
 
         ' Handle resulting file path
         If DlgResult = DialogResult.OK Then
-            txt_Out.Text = OFolderDlg.SelectedPath
+            txt_CompilerOut.Text = OFolderDlg.SelectedPath
         End If
 
     End Sub
@@ -549,16 +543,20 @@ Public Class FormFCCoordinator
 #End Region
 #Region "Event Handlers"
 
-    ' NOTE: These are in no particular order
-
-    Private Sub tbOutChgd() Handles txt_Out.TextChanged
-        ValidateFolderTextbox(txt_Out, False)
+    ' === F/C compiler ===
+    Private Sub tbOutChgd() Handles txt_CompilerOut.TextChanged
+        ValidateFolderTextbox(txt_CompilerOut, False)
     End Sub
+    Private Sub tbInChgd() Handles txt_CompilerIn.TextChanged
+        ValidateFileTextbox(txt_CompilerIn, True)
+    End Sub
+
+    ' === Note parser ===
     Private Sub txtNotesInChgd() Handles txt_NotesIn.TextChanged
         ValidateFileTextbox(txt_NotesIn, True)
     End Sub
-    Private Sub tbInChgd() Handles tbx_In.TextChanged
-        ValidateFileTextbox(tbx_In, True)
+    Private Sub txtNotesOutChgd() Handles txt_NotesOut.TextChanged
+        ValidateFolderTextbox(txt_NotesOut, True)
     End Sub
 
     ' === Numerical inputs for re-marking system ===
@@ -578,6 +576,225 @@ Public Class FormFCCoordinator
     End Sub
 
 #End Region
+
+#End Region
+
+#Region "Cornell note parser specific stuff"
+
+    ' Parsing handler
+    Private Sub StartParsing() Handles btnNotesGo.Click
+
+        Dim CurIndex As Integer = 0
+
+        ' Make sure textboxes are valid
+        ValidateFileTextbox(txt_NotesIn, True)
+        ValidateFolderTextbox(txt_NotesOut, False)
+        If txt_NotesIn.BackColor = Color.Red OrElse txt_NotesOut.BackColor = Color.Red Then
+            MsgBox("Invalid file path(s) specified. Note parsing operation will be cancelled.")
+            Exit Sub
+        End If
+
+        ' Start reading notes
+        Dim FileLines As String() = File.ReadAllLines(txt_NotesIn.Text)
+
+        ' Highlight according to classification
+        For i = 0 To FileLines.Count - 1
+
+            ' Get current line and data about it
+            Dim CurLine As String = FileLines.GetValue(i)
+            Dim IsHeader As Boolean = i <> FileLines.Count - 1 AndAlso CornellParsingAI.lineIsHeader(CurLine, FileLines.GetValue(i + 1)) ' Some ninja short-circuiting
+            Dim IsDefinition As Boolean = CornellParsingAI.lineIsDefinition(CurLine)
+
+            ' Definitions - lime green
+            If CornellParsingAI.lineIsDefinition(CurLine) Then
+
+                ' Write question to output
+                FormCornellAIEditor.IsDefinitionQuestion = True
+                AddQuestion(CornellParsingAI.questionFromDefinition(CurLine))
+
+            End If
+
+            ' Headers - pink
+            If i < FileLines.Count - 1 AndAlso IsHeader Then
+
+                ' Find header and its attached elements
+                Dim Answer As String = ""
+                Dim QLines As List(Of String) = CornellParsingAI.findList(FileLines, i)
+
+                ' Remove definition from header, if applicable
+                If CornellParsingAI.lineIsDefinition(QLines.Item(0)) Then
+
+                    QLines.Item(0) = QLines.Item(0).Remove(QLines.Item(0).IndexOf(" - ")).Trim({" "c, CChar(vbTab)}) ' Isolate the question component of the definition
+
+                End If
+
+                ' Assemble question
+                For j = 1 To QLines.Count - 1 ' Skip the header (j = 1)
+
+                    Dim Line As String = QLines.Item(j)
+
+                    ' NOTE: A line can be BOTH a legitimate question header AND a definition!
+
+                    ' The part of the line that is a question (note: definitions have both a question and answer)
+                    Dim QuestionPart As String = Line.Trim
+
+                    If CornellParsingAI.lineIsDefinition(Line) Then
+
+                        ' Definitions
+                        QuestionPart = QuestionPart.Remove(Line.IndexOf(" - ")).Trim({" "c, CChar(vbTab)}) ' Isolate the question component of the definition
+
+                    End If
+
+                    ' Answers (this applies regardless of whether the line is a definition)
+                    Answer &= QuestionPart & If(j <> QLines.Count - 1, ", ", "") ' Don't append a comma to the last line
+
+                Next
+                Answer = Answer.Trim
+
+                ' Output answer to QAM creation dialog
+                If QLines.Count <> 0 Then
+
+                    ' Isolate question
+                    Dim QuestionPart As String = QLines.Item(0)
+
+                    ' Isolate answer (here, there is only one)
+                    Dim AnswerList As New List(Of String)
+                    AnswerList.Add(Answer)
+
+                    ' Present question to user and add it to the question list, if applicable
+                    FormCornellAIEditor.IsDefinitionQuestion = False
+                    AddQuestion(New Question(QLines.Item(0).Trim, AnswerList, 0))
+
+                End If
+
+            End If
+
+            ' Track current line index
+            CurIndex += CurLine.Length + 1
+
+        Next
+
+        ' === Compile questions ===
+        ' Get temporary file location
+        Dim TempFileLoc As String = Path.GetDirectoryName(txt_NotesOut.Text) & "\fcvb_temp.txt"
+
+        ' Make sure temporary file location is OK to use
+        If File.Exists(TempFileLoc) Then
+            If MsgBox("A file 'fcvb_temp.txt' already exists in path " & Path.GetDirectoryName(txt_NotesOut.Text) & _
+                      ". In order to continue, it must be deleted. Delete it?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+
+                ' Delete conflicting file
+                File.Delete(TempFileLoc)
+
+            Else
+
+                ' Stop the operation
+                MsgBox("Cornell note parsing operation cancelled.")
+                ExtractedQAMList.Clear()
+                Exit Sub
+
+            End If
+        End If
+
+        ' Save questions to a temporary file (in question-answer (Q/A) format)
+        Dim SWriter As New StreamWriter(TempFileLoc)
+        For Each Item As Question In ExtractedQAMList
+
+            ' Question
+            SWriter.WriteLine(Item.Question)
+
+            ' Answers
+            For Each Answer As String In Item.Question
+                SWriter.WriteLine(Answer)
+            Next
+
+            ' Spacing
+            SWriter.WriteLine()
+
+        Next
+
+        ' Perform write, then clean up SWriter
+        SWriter.Flush()
+        SWriter.Dispose()
+
+        ' Compile questions (Q/A format --> official flashcard format)
+        '   TODO - This is hackish (because it modifies GUI elements - without restoring them! - instead of actually passing things as function parameters)
+        txt_CompilerIn.Text = TempFileLoc
+        txt_CompilerOut.Text = txt_NotesOut.Text
+        btnCompileFCs.PerformClick()
+
+        ' Notify user of operation's completion
+        MsgBox("Cornell parsing operation complete")
+
+    End Sub
+
+    ' Question adding method
+    Public Sub AddQuestion(ByRef Question As Question)
+
+        ' Format question
+        'If Question.Question.Length <> 0 AndAlso Char.IsLower(Question.Question.First) Then
+        '    Question.Question = CStr(Question.Question.Substring(0, 1).ToUpperInvariant) & Question.Question.Remove(0, 1)
+        'End If
+
+        ' Update auto-complete suggestions
+        Dim AutoCompleteSuggestions As String() = ({"Who were",
+                                        "What are the meanings of",
+                                        "What are the significances of",
+                                        "Name the [#]",
+                                        "What are the [#] types of",
+                                        "What are the [#]",
+                                        "([#] things)",
+                                        "Define"}) ' Some sample values for now
+
+        ' Format auto-complete suggestions
+        For j = 0 To AutoCompleteSuggestions.Count - 1
+
+            Dim CurValue As String = AutoCompleteSuggestions.GetValue(j).ToString
+
+            ' Regex stuff
+            Dim L As String = "(?<=(\A|\s))"
+            Dim R As String = "(?=(\Z|\s))"
+
+            ' Singular/plural handlers
+            If Not Question.AnswerList.FirstOrDefault.Contains(",") Then
+
+                ' Singular
+                CurValue = Regex.Replace(CurValue, "s" & R, "") ' plurals --> singulars (note: this doesn't affect were --> was or are --> is - those are deliberately after this)
+                CurValue = Regex.Replace(CurValue, L & "are" & R, "is") ' are --> is
+                CurValue = Regex.Replace(CurValue, L & "were" & R, "was") ' were --> was
+
+            Else
+
+                ' Plural
+
+            End If
+
+            ' Spaces
+            CurValue = CurValue.Trim
+
+            ' Answer count insertion
+            CurValue = CurValue.Replace("[#]", Regex.Matches(Question.AnswerList.FirstOrDefault, ",").Count + 1)
+
+            ' Update answer list (with correctly formatted value)
+            AutoCompleteSuggestions.SetValue(CurValue, j)
+
+        Next
+
+        ' Load auto-complete suggestions into Cornell AI question editor
+        FormCornellAIEditor.acTbx.AutoCompleteSuggestions.Clear()
+        FormCornellAIEditor.acTbx.AutoCompleteSuggestions.AddRange(AutoCompleteSuggestions)
+
+        ' Load QAM details into Cornell AI question editor
+        FormCornellAIEditor.QAMObj = Question
+        FormCornellAIEditor.DialogResult = DialogResult.None
+        Dim Result As DialogResult = FormCornellAIEditor.ShowDialog()
+
+        ' Save finalized QAM object
+        If Result = DialogResult.OK Then
+            ExtractedQAMList.Add(FormCornellAIEditor.QAMObj)
+        End If
+
+    End Sub
 
 #End Region
 

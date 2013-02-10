@@ -191,7 +191,7 @@ Public Class FormCornellAIEditor
     Private Sub cbxCapitalizeFirstChanged() Handles cbxCapitalizeFirst.CheckedChanged, Me.VisibleChanged
 
         ' Skip if form is being hidden (to avoid changing saved QAM object without user's knowledge)
-        If Not Me.Visible Then
+        If Not Me.Visible OrElse txtQs.Text.Length < 2 Then
             Exit Sub
         End If
 

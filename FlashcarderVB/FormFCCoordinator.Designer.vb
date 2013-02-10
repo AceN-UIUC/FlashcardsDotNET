@@ -28,7 +28,7 @@ Partial Class FormFCCoordinator
         Me.btn_NotesOFDIn = New System.Windows.Forms.Button()
         Me.txt_NotesOut = New System.Windows.Forms.TextBox()
         Me.txt_NotesIn = New System.Windows.Forms.TextBox()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnNotesGo = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.btn_OFDMarkings = New System.Windows.Forms.Button()
@@ -52,9 +52,9 @@ Partial Class FormFCCoordinator
         Me.cbxAppendSubject = New System.Windows.Forms.CheckBox()
         Me.btnCompileFCs = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.txt_Out = New System.Windows.Forms.TextBox()
+        Me.txt_CompilerOut = New System.Windows.Forms.TextBox()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.tbx_In = New System.Windows.Forms.TextBox()
+        Me.txt_CompilerIn = New System.Windows.Forms.TextBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.OFileDlg = New System.Windows.Forms.OpenFileDialog()
@@ -84,7 +84,7 @@ Partial Class FormFCCoordinator
         Me.TabPage1.Controls.Add(Me.btn_NotesOFDIn)
         Me.TabPage1.Controls.Add(Me.txt_NotesOut)
         Me.TabPage1.Controls.Add(Me.txt_NotesIn)
-        Me.TabPage1.Controls.Add(Me.Button1)
+        Me.TabPage1.Controls.Add(Me.btnNotesGo)
         Me.TabPage1.Controls.Add(Me.Label1)
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
@@ -126,14 +126,14 @@ Partial Class FormFCCoordinator
         Me.txt_NotesIn.Size = New System.Drawing.Size(277, 22)
         Me.txt_NotesIn.TabIndex = 2
         '
-        'Button1
+        'btnNotesGo
         '
-        Me.Button1.Location = New System.Drawing.Point(164, 117)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 28)
-        Me.Button1.TabIndex = 1
-        Me.Button1.Text = "Go"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.btnNotesGo.Location = New System.Drawing.Point(164, 117)
+        Me.btnNotesGo.Name = "btnNotesGo"
+        Me.btnNotesGo.Size = New System.Drawing.Size(75, 28)
+        Me.btnNotesGo.TabIndex = 1
+        Me.btnNotesGo.Text = "Go"
+        Me.btnNotesGo.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -319,9 +319,9 @@ Partial Class FormFCCoordinator
         Me.TabPage3.Controls.Add(Me.cbxAppendSubject)
         Me.TabPage3.Controls.Add(Me.btnCompileFCs)
         Me.TabPage3.Controls.Add(Me.Label7)
-        Me.TabPage3.Controls.Add(Me.txt_Out)
+        Me.TabPage3.Controls.Add(Me.txt_CompilerOut)
         Me.TabPage3.Controls.Add(Me.Label6)
-        Me.TabPage3.Controls.Add(Me.tbx_In)
+        Me.TabPage3.Controls.Add(Me.txt_CompilerIn)
         Me.TabPage3.Controls.Add(Me.Label3)
         Me.TabPage3.Location = New System.Drawing.Point(4, 25)
         Me.TabPage3.Name = "TabPage3"
@@ -376,13 +376,13 @@ Partial Class FormFCCoordinator
         Me.Label7.TabIndex = 4
         Me.Label7.Text = "Output FOLDER"
         '
-        'txt_Out
+        'txt_CompilerOut
         '
-        Me.txt_Out.AllowDrop = True
-        Me.txt_Out.Location = New System.Drawing.Point(6, 110)
-        Me.txt_Out.Name = "txt_Out"
-        Me.txt_Out.Size = New System.Drawing.Size(349, 22)
-        Me.txt_Out.TabIndex = 3
+        Me.txt_CompilerOut.AllowDrop = True
+        Me.txt_CompilerOut.Location = New System.Drawing.Point(6, 110)
+        Me.txt_CompilerOut.Name = "txt_CompilerOut"
+        Me.txt_CompilerOut.Size = New System.Drawing.Size(349, 22)
+        Me.txt_CompilerOut.TabIndex = 3
         '
         'Label6
         '
@@ -393,13 +393,13 @@ Partial Class FormFCCoordinator
         Me.Label6.TabIndex = 2
         Me.Label6.Text = "Input FILE"
         '
-        'tbx_In
+        'txt_CompilerIn
         '
-        Me.tbx_In.AllowDrop = True
-        Me.tbx_In.Location = New System.Drawing.Point(6, 53)
-        Me.tbx_In.Name = "tbx_In"
-        Me.tbx_In.Size = New System.Drawing.Size(349, 22)
-        Me.tbx_In.TabIndex = 1
+        Me.txt_CompilerIn.AllowDrop = True
+        Me.txt_CompilerIn.Location = New System.Drawing.Point(6, 53)
+        Me.txt_CompilerIn.Name = "txt_CompilerIn"
+        Me.txt_CompilerIn.Size = New System.Drawing.Size(349, 22)
+        Me.txt_CompilerIn.TabIndex = 1
         '
         'Label3
         '
@@ -471,14 +471,14 @@ Partial Class FormFCCoordinator
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents btnCompileFCs As System.Windows.Forms.Button
     Friend WithEvents Label7 As System.Windows.Forms.Label
-    Friend WithEvents txt_Out As System.Windows.Forms.TextBox
+    Friend WithEvents txt_CompilerOut As System.Windows.Forms.TextBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents tbx_In As System.Windows.Forms.TextBox
+    Friend WithEvents txt_CompilerIn As System.Windows.Forms.TextBox
     Friend WithEvents cbxAppendSubject As System.Windows.Forms.CheckBox
     Friend WithEvents btn_OFDOut As System.Windows.Forms.Button
     Friend WithEvents btn_OFDIn As System.Windows.Forms.Button
     Friend WithEvents OFolderDlg As System.Windows.Forms.FolderBrowserDialog
-    Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents btnNotesGo As System.Windows.Forms.Button
     Friend WithEvents btn_NotesOFDOut As System.Windows.Forms.Button
     Friend WithEvents btn_NotesOFDIn As System.Windows.Forms.Button
     Friend WithEvents txt_NotesOut As System.Windows.Forms.TextBox
