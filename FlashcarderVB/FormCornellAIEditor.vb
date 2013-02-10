@@ -2,7 +2,11 @@
 
 Public Class FormCornellAIEditor
 
+    ' QAM object
     Public Shared QAMObj As Question
+
+    ' Indicates whether the current question is a definition one
+    Public Shared IsDefinitionQuestion As Boolean = False
 
     ' Private variables indicating text changes
     Private Shared QTxtHasChgd As Boolean = False
@@ -23,13 +27,17 @@ Public Class FormCornellAIEditor
 
         ' -- Answers --
 
-        ' Answer textboxes
+        ' - Answer textboxes -
+
+        ' Remove old textboxes
+        For i = 0 To answerTbxList.Count - 1
+            answerTbxList.Item(i).Dispose()
+        Next
+
+        ' Make new textboxes
         answerTbxList.Clear()
         For i = 0 To QAMObj.AnswerList.Count - 1
-
-            ' Make new textbox
             MakeAnswerTextbox(QAMObj.AnswerList.Item(i))
-
         Next
 
         ' Text has been loaded, so reset the changed flag
@@ -39,9 +47,18 @@ Public Class FormCornellAIEditor
 
     Private Sub Loader() Handles MyBase.Load
 
-        ' Automatically use the icon/title of the first form
+        ' - Automatically use the icon/title of the first form -
         Me.Icon = Form1.Icon
         Me.Text = Form1.Text + " - Question Editor"
+
+        ' - Auto-completion setup -
+        ' Initialize autocomplete textbox
+        acTbx.Location = New Point(6, 21)
+        acTbx.Size = New Size(262, 106)
+        acTbx.Visible = True
+
+        ' Add autocomplete textbox to the groupbox
+        gbxAutoCompletion.Controls.Add(acTbx)
 
     End Sub
 
@@ -144,19 +161,6 @@ Public Class FormCornellAIEditor
 
     End Sub
 
-    ' Add a user-defined auto-completion textbox to the groupbox
-    Private Sub gbxAutoCompletion_Init() Handles Me.Load
-
-        ' Initialize autocomplete textbox
-        acTbx.Location = New Point(6, 21)
-        acTbx.Size = New Size(262, 106)
-        acTbx.Visible = True
-
-        ' Add autocomplete textbox to the groupbox
-        gbxAutoCompletion.Controls.Add(acTbx)
-
-    End Sub
-
     ' Text adding buttons
     Private Sub AddBefore() Handles btnAddBefore.Click
         txtQs.Text = acTbx.Text.TrimEnd & " " & txtQs.Text
@@ -168,13 +172,32 @@ Public Class FormCornellAIEditor
     ' Toggle/update questionmark appending
     Private Sub cbxAppendQMarkChanged() Handles cbxAppendQMark.CheckedChanged, Me.VisibleChanged
 
+        ' Skip if form is being hidden (to avoid changing saved QAM object without user's knowledge)
+        If Not Me.Visible Then
+            Exit Sub
+        End If
+
         ' Remove any existing questionmarks
-        txtQs.Text = txtQs.Text.TrimEnd({"?"c})
+        txtQs.Text = txtQs.Text.TrimEnd({"?"c, "."c})
 
         ' Append a new one if necessary
         If cbxAppendQMark.Checked Then
-            txtQs.Text &= "?"
+            txtQs.Text &= If(IsDefinitionQuestion, ".", "?")
         End If
+
+    End Sub
+
+    ' Toggle/update first letter capitalization (for questions)
+    Private Sub cbxCapitalizeFirstChanged() Handles cbxCapitalizeFirst.CheckedChanged, Me.VisibleChanged
+
+        ' Skip if form is being hidden (to avoid changing saved QAM object without user's knowledge)
+        If Not Me.Visible Then
+            Exit Sub
+        End If
+
+        ' Un/capitalize first letter
+        Dim FirstChar As String = txtQs.Text.Substring(0, 1).ToLowerInvariant
+        txtQs.Text = If(cbxCapitalizeFirst.Checked, FirstChar.ToUpperInvariant, FirstChar) & txtQs.Text.Remove(0, 1)
 
     End Sub
 

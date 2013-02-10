@@ -30,9 +30,10 @@ Partial Class FormCornellAIEditor
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.gbxAutoCompletion = New System.Windows.Forms.GroupBox()
+        Me.cbxAppendQMark = New System.Windows.Forms.CheckBox()
         Me.btnAddAfter = New System.Windows.Forms.Button()
         Me.btnAddBefore = New System.Windows.Forms.Button()
-        Me.cbxAppendQMark = New System.Windows.Forms.CheckBox()
+        Me.cbxCapitalizeFirst = New System.Windows.Forms.CheckBox()
         Me.pnlOptions.SuspendLayout()
         Me.gbxAutoCompletion.SuspendLayout()
         Me.SuspendLayout()
@@ -106,15 +107,28 @@ Partial Class FormCornellAIEditor
         '
         'gbxAutoCompletion
         '
+        Me.gbxAutoCompletion.Controls.Add(Me.cbxCapitalizeFirst)
         Me.gbxAutoCompletion.Controls.Add(Me.cbxAppendQMark)
         Me.gbxAutoCompletion.Controls.Add(Me.btnAddAfter)
         Me.gbxAutoCompletion.Controls.Add(Me.btnAddBefore)
-        Me.gbxAutoCompletion.Location = New System.Drawing.Point(16, 297)
+        Me.gbxAutoCompletion.Location = New System.Drawing.Point(16, 258)
         Me.gbxAutoCompletion.Name = "gbxAutoCompletion"
-        Me.gbxAutoCompletion.Size = New System.Drawing.Size(377, 127)
+        Me.gbxAutoCompletion.Size = New System.Drawing.Size(377, 166)
         Me.gbxAutoCompletion.TabIndex = 10
         Me.gbxAutoCompletion.TabStop = False
         Me.gbxAutoCompletion.Text = "Auto-Completion"
+        '
+        'cbxAppendQMark
+        '
+        Me.cbxAppendQMark.AutoSize = True
+        Me.cbxAppendQMark.Checked = True
+        Me.cbxAppendQMark.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbxAppendQMark.Location = New System.Drawing.Point(256, 139)
+        Me.cbxAppendQMark.Name = "cbxAppendQMark"
+        Me.cbxAppendQMark.Size = New System.Drawing.Size(107, 21)
+        Me.cbxAppendQMark.TabIndex = 11
+        Me.cbxAppendQMark.Text = "Append ? / ."
+        Me.cbxAppendQMark.UseVisualStyleBackColor = True
         '
         'btnAddAfter
         '
@@ -134,15 +148,15 @@ Partial Class FormCornellAIEditor
         Me.btnAddBefore.Text = "Add before"
         Me.btnAddBefore.UseVisualStyleBackColor = True
         '
-        'cbxAppendQMark
+        'cbxCapitalizeFirst
         '
-        Me.cbxAppendQMark.AutoSize = True
-        Me.cbxAppendQMark.Location = New System.Drawing.Point(273, 91)
-        Me.cbxAppendQMark.Name = "cbxAppendQMark"
-        Me.cbxAppendQMark.Size = New System.Drawing.Size(97, 21)
-        Me.cbxAppendQMark.TabIndex = 11
-        Me.cbxAppendQMark.Text = "Append '?'"
-        Me.cbxAppendQMark.UseVisualStyleBackColor = True
+        Me.cbxCapitalizeFirst.AutoSize = True
+        Me.cbxCapitalizeFirst.Location = New System.Drawing.Point(6, 139)
+        Me.cbxCapitalizeFirst.Name = "cbxCapitalizeFirst"
+        Me.cbxCapitalizeFirst.Size = New System.Drawing.Size(155, 21)
+        Me.cbxCapitalizeFirst.TabIndex = 12
+        Me.cbxCapitalizeFirst.Text = "Capitalize 1st Letter"
+        Me.cbxCapitalizeFirst.UseVisualStyleBackColor = True
         '
         'FormCornellAIEditor
         '
@@ -174,4 +188,5 @@ Partial Class FormCornellAIEditor
     Friend WithEvents btnAddAfter As System.Windows.Forms.Button
     Friend WithEvents btnAddBefore As System.Windows.Forms.Button
     Friend WithEvents cbxAppendQMark As System.Windows.Forms.CheckBox
+    Friend WithEvents cbxCapitalizeFirst As System.Windows.Forms.CheckBox
 End Class

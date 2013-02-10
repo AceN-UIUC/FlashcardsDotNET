@@ -27,21 +27,6 @@ Public Class FormFCCoordinator
 
     End Sub
 
-    Private Sub tbxNum_TextChanged() Handles tbxNum.TextChanged
-        If Integer.TryParse(tbxNum.Text, New Integer) Then
-            tbxNum.BackColor = Color.White
-        Else
-            tbxNum.BackColor = Color.Red
-        End If
-    End Sub
-    Private Sub txtMarkTgt_TextChanged() Handles txtMarkTgt.TextChanged
-        If Integer.TryParse(txtMarkTgt.Text, New Integer) Then
-            txtMarkTgt.BackColor = Color.White
-        Else
-            txtMarkTgt.BackColor = Color.Red
-        End If
-    End Sub
-
     Private Sub btnOpenManually_Click() Handles btnOpenManually.Click
 
         ' File dialog directory persistence
@@ -66,7 +51,7 @@ Public Class FormFCCoordinator
             FormQuestionManager.cbx_VrifyMs.Checked = False
 
             If TabControl1.SelectedIndex = 1 Then
-                txtFilePath.Text = FileArr.GetValue(0).ToString
+                tbx_MarkingPath.Text = FileArr.GetValue(0).ToString
             End If
 
         End If
@@ -176,34 +161,23 @@ Public Class FormFCCoordinator
         Next
 
         ' Write to file
-        IO.File.WriteAllLines(txtFilePath.Text, LineList)
+        IO.File.WriteAllLines(tbx_MarkingPath.Text, LineList)
 
     End Sub
 
     Private Sub btnViewMarkings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnViewMarkings.Click
-        If Not String.IsNullOrWhiteSpace(txtFilePath.Text) Then
-            FormQuestionManager.LoadFile(txtFilePath.Text, True)
+        If Not String.IsNullOrWhiteSpace(tbx_MarkingPath.Text) Then
+            FormQuestionManager.LoadFile(tbx_MarkingPath.Text, True)
             FormQuestionManager.Show()
         End If
     End Sub
 
     Private Sub btnRemark_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemark.Click
-        If Not String.IsNullOrWhiteSpace(txtFilePath.Text) Then
+        If Not String.IsNullOrWhiteSpace(tbx_MarkingPath.Text) Then
             If FileArr.Count = 1 Then
                 SDragDrop_MReset(FileArr)
             End If
         End If
-    End Sub
-
-    Private Sub tbInChgd() Handles tbx_In.TextChanged
-
-        ' NOTE: This does NOT check the file's format - it merely checks that it exists
-        If tbx_In.Text.Length = 0 OrElse IO.File.Exists(tbx_In.Text) Then ' Hooray for short-circuiting! (Dir(blah) isn't evaluated if tbIn.Text is null)
-            tbx_In.BackColor = Color.White
-        Else
-            tbx_In.BackColor = Color.Red
-        End If
-
     End Sub
 
     Private Sub btnGo() Handles btnCompileFCs.Click
@@ -314,19 +288,17 @@ Public Class FormFCCoordinator
 
     End Sub
 
-    Private Sub tbOut_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_Out.TextChanged
+    Private Sub StartParsing() Handles Button1.Click
 
-        ' Make sure the output folder directory isn't ending with a \, isn't to a file (i.e. it SHOULD NOT contain a "."), is non-null
-        Dim outTxt As String = txt_Out.Text
-        If outTxt.Length = 0 OrElse outTxt.Last = "\" OrElse outTxt.Contains(".") Then
-            txt_Out.BackColor = Color.Red
-        Else
-            txt_Out.BackColor = Color.White
-        End If
+        ' DBG
+        FormCornellParser.Show()
 
     End Sub
 
-    ' --- F/C Compiler Drag-drop handlers ---
+#Region "File drag-drop handlers"
+
+    ' === F/C Compiler ===
+
     ' - tbIn -
     Private Sub tbIn_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbx_In.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
@@ -377,21 +349,21 @@ Public Class FormFCCoordinator
         End If
     End Sub
 
-    ' --- Markings refresher drag/drop handlers ---
-    Private Sub txtFilePath_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txtFilePath.DragEnter
+    ' === Markings refresher ===
+    Private Sub txtMarkingsPath_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbx_MarkingPath.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.All
         Else
             e.Effect = DragDropEffects.None
         End If
     End Sub
-    Private Sub txtFilePath_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txtFilePath.DragDrop
+    Private Sub txtMarkingsPath_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles tbx_MarkingPath.DragDrop
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load drag-dropped filepath
             Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
             If FileList.Count <> 0 Then
-                txtFilePath.Text = FileList.GetValue(0).ToString
+                tbx_MarkingPath.Text = FileList.GetValue(0).ToString
             End If
 
             ' Reminder
@@ -402,6 +374,61 @@ Public Class FormFCCoordinator
         End If
     End Sub
 
+    ' === Note parser ===
+
+    ' - txt_NotesIn -
+    Private Sub txtNotesIn_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_NotesIn.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.All
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+    Private Sub txtNotesIn_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_NotesIn.DragDrop
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+
+            ' Load drag-dropped filepath
+            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            If FileList.Count <> 0 Then
+                txt_NotesIn.Text = FileList.GetValue(0).ToString
+            End If
+
+            ' Reminder
+            If FileList.Count > 1 Then
+                MsgBox("The note parsing system can only process one file at a time. The first file in the drag-drop list will be used.")
+            End If
+
+        End If
+    End Sub
+
+    ' - txt_NotesOut -
+    Private Sub txtNotesOut_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_NotesOut.DragEnter
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.All
+        Else
+            e.Effect = DragDropEffects.None
+        End If
+    End Sub
+    Private Sub txtNotesOut_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles txt_NotesOut.DragDrop
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+
+            ' Load drag-dropped filepath
+            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            If FileList.Count <> 0 Then
+                txt_NotesOut.Text = FileList.GetValue(0).ToString
+            End If
+
+            ' Reminder
+            If FileList.Count > 1 Then
+                MsgBox("The note parsing system can only output to one file at a time. The first file in the drag-drop list will be used.")
+            End If
+
+        End If
+    End Sub
+
+#End Region
+#Region "File dialog handlers"
+    ' F/C compiler file dialog handlers
     Private Sub OFileDlgIn_Open() Handles btn_OFDIn.Click
 
         ' File dialog directory persistence
@@ -419,7 +446,6 @@ Public Class FormFCCoordinator
         End If
 
     End Sub
-
     Private Sub OFolderDlgOut_Open() Handles btn_OFDOut.Click
 
         ' File dialog directory persistence
@@ -438,10 +464,121 @@ Public Class FormFCCoordinator
 
     End Sub
 
-    Private Sub Button1_Click() Handles Button1.Click
+    ' Markings file dialog handler
+    Private Sub OFileDlgMarkings_Open() Handles btn_OFDMarkings.Click
 
-        ' DBG
-        FormCornellParser.Show()
+        ' File dialog directory persistence
+        If Form1.MasterFileDialogLocation.Length <> 0 AndAlso Directory.Exists(Form1.MasterFileDialogLocation) Then
+            OFileDlg.InitialDirectory = Form1.MasterFileDialogLocation
+        End If
+        Dim DlgResult As DialogResult = OFileDlg.ShowDialog()
+        If OFileDlg.FileName.Length > 1 Then
+            Form1.MasterFileDialogLocation = Path.GetDirectoryName(OFileDlg.FileName)
+        End If
+
+        ' Handle resulting file path
+        If DlgResult = DialogResult.OK Then
+            tbx_MarkingPath.Text = OFileDlg.FileName
+        End If
 
     End Sub
+
+    ' Notes file dialog handlers
+    Private Sub OFileDlgNotesIn_Open() Handles btn_NotesOFDIn.Click
+
+        ' File dialog directory persistence
+        If Form1.MasterFileDialogLocation.Length <> 0 AndAlso Directory.Exists(Form1.MasterFileDialogLocation) Then
+            OFileDlg.InitialDirectory = Form1.MasterFileDialogLocation
+        End If
+        Dim DlgResult As DialogResult = OFileDlg.ShowDialog()
+        If OFileDlg.FileName.Length > 1 Then
+            Form1.MasterFileDialogLocation = Path.GetDirectoryName(OFileDlg.FileName)
+        End If
+
+        ' Handle resulting file path
+        If DlgResult = DialogResult.OK Then
+            txt_NotesIn.Text = OFileDlg.FileName
+        End If
+
+    End Sub
+    Private Sub OFileDlgNotesOut_Open() Handles btn_NotesOFDOut.Click
+
+        ' File dialog directory persistence
+        If Form1.MasterFileDialogLocation.Length <> 0 AndAlso Directory.Exists(Form1.MasterFileDialogLocation) Then
+            OFileDlg.InitialDirectory = Form1.MasterFileDialogLocation
+        End If
+        Dim DlgResult As DialogResult = OFileDlg.ShowDialog()
+        If OFileDlg.FileName.Length > 1 Then
+            Form1.MasterFileDialogLocation = Path.GetDirectoryName(OFileDlg.FileName)
+        End If
+
+        ' Handle resulting file path
+        If DlgResult = DialogResult.OK Then
+            txt_NotesOut.Text = OFileDlg.FileName
+        End If
+
+    End Sub
+#End Region
+#Region "Textbox validation (Functions + Event Handlers)"
+
+#Region "Functions"
+    ' Validate file textbox (this assumes that the target file path is in the provided TextBox)
+    Public Shared Sub ValidateFileTextbox(ByRef Textbox As TextBox, ByVal MustExist As Boolean)
+
+        Dim Text As String = Textbox.Text
+        If Text.Length = 0 OrElse Not Text.Contains(".") OrElse (MustExist AndAlso Not File.Exists(Text)) Then
+            Textbox.BackColor = Color.Red
+        Else
+            Textbox.BackColor = Color.White
+        End If
+
+    End Sub
+
+    ' Validate folder textbox (this assumes that the target file path is in the provided TextBox)
+    Public Shared Sub ValidateFolderTextbox(ByRef Textbox As TextBox, ByVal MustExist As Boolean)
+
+        ' Make sure the output folder directory isn't ending with a \, isn't to a file (i.e. it SHOULD NOT contain a "."), and is non-null
+        Dim Text As String = Textbox.Text
+        If Text.Length = 0 OrElse Text.Last = "\" OrElse Text.Contains(".") OrElse (MustExist AndAlso Not Directory.Exists(Text)) Then
+            Textbox.BackColor = Color.Red
+        Else
+            Textbox.BackColor = Color.White
+        End If
+
+    End Sub
+#End Region
+#Region "Event Handlers"
+
+    ' NOTE: These are in no particular order
+
+    Private Sub tbOutChgd() Handles txt_Out.TextChanged
+        ValidateFolderTextbox(txt_Out, False)
+    End Sub
+    Private Sub txtNotesInChgd() Handles txt_NotesIn.TextChanged
+        ValidateFileTextbox(txt_NotesIn, True)
+    End Sub
+    Private Sub tbInChgd() Handles tbx_In.TextChanged
+        ValidateFileTextbox(tbx_In, True)
+    End Sub
+
+    ' === Numerical inputs for re-marking system ===
+    Private Sub tbxNum_TextChanged() Handles tbxNum.TextChanged
+        If Integer.TryParse(tbxNum.Text, New Integer) Then
+            tbxNum.BackColor = Color.White
+        Else
+            tbxNum.BackColor = Color.Red
+        End If
+    End Sub
+    Private Sub txtMarkTgt_TextChanged() Handles txtMarkTgt.TextChanged
+        If Integer.TryParse(txtMarkTgt.Text, New Integer) Then
+            txtMarkTgt.BackColor = Color.White
+        Else
+            txtMarkTgt.BackColor = Color.Red
+        End If
+    End Sub
+
+#End Region
+
+#End Region
+
 End Class

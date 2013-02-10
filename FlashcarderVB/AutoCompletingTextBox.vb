@@ -3,6 +3,10 @@
     ' List of autocomplete suggestions
     Public AutoCompleteSuggestions As New List(Of String)
 
+    ' Search modes
+    Public EnableStartsWithSearch As Boolean = True
+    Public EnableContainsSearch As Boolean = True ' This is inherently less restrictive than starts-with search, so it comes after
+
     ' Active text
     Public Shadows Property Text As String
         Get
@@ -19,11 +23,23 @@
         ' Search for matching suggestions (that aren't identical to what's been typed)
         lb1.Items.Clear()
         If tb1 IsNot Nothing AndAlso tb1.Text.Length <> 0 Then
+
+            ' Searching
             For Each Suggestion As String In AutoCompleteSuggestions
-                If Suggestion.Length > tb1.Text.Length AndAlso Suggestion.StartsWith(tb1.Text) Then
-                    lb1.Items.Add(Suggestion)
+
+                Dim Idx As Integer = Suggestion.IndexOf(tb1.Text)
+
+                ' Initial condition set (kept separate for readability)
+                If Suggestion.Length > tb1.Text.Length AndAlso Idx <> -1 Then
+
+                    ' Final condition set (kept separate for readability)
+                    If EnableContainsSearch OrElse (Idx = 0 AndAlso EnableStartsWithSearch) Then
+                        lb1.Items.Add(Suggestion)
+                    End If
+
                 End If
             Next
+
         End If
 
         ' If nothing was found, notify the user
