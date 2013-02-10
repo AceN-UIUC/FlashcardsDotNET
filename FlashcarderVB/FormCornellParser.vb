@@ -1,4 +1,9 @@
-﻿Public Class FormCornellParser
+﻿Imports System.Text.RegularExpressions
+
+Public Class FormCornellParser
+
+    ' List of extracted question objects
+    Public Shared ExtractedQAMList As New List(Of Question)
 
     Private Sub tb1_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tb1.TextChanged
 
@@ -43,19 +48,81 @@
                     If CornellParsingAI.lineIsDefinition(Line) Then
 
                         ' Definitions
-                        QuestionPart = QuestionPart.Remove(Line.IndexOf(" - ")) ' Isolate the question component of the definition
-                        Console.WriteLine(CornellParsingAI.questionFromDefinition(Line).Question)
+                        QuestionPart = QuestionPart.Remove(Line.IndexOf(" - ")).Trim({" "c, CChar(vbTab)}) ' Isolate the question component of the definition
 
                     End If
 
                     ' Answers (this applies regardless of whether the line is a definition)
-                    Answer &= QuestionPart & ", "
+                    Answer &= QuestionPart & If(j <> QLines.Count - 1, ", ", "") ' Don't append a comma to the last line
 
                 Next
 
-                ' Output answer
+                ' Output answer to QAM creation dialog
                 If QLines.Count <> 0 Then
-                    Console.WriteLine(QLines.Item(0) & " / " & Answer)
+
+                    ' Isolate question
+                    Dim QuestionPart As String = QLines.Item(0)
+
+                    ' Isolate answer (here, there is only one)
+                    Dim AnswerList As New List(Of String)
+                    AnswerList.Add(Answer)
+
+                    ' Update autocomplete suggestions
+                    Dim AutoCompleteSuggestions As String() = ({"Who were ",
+                                                    "What are the meanings of ",
+                                                    "What are the significances of ",
+                                                    "Name the [#]",
+                                                    "What are the [#] types of",
+                                                    "What are the [#]"}) ' Some sample values for now
+
+                    ' Format auto-complete suggestions
+                    For j = 0 To AutoCompleteSuggestions.Count - 1
+
+                        Dim CurValue As String = AutoCompleteSuggestions.GetValue(j).ToString
+
+                        ' Regex stuff
+                        Dim L As String = "(?<=(\A|\s))"
+                        Dim R As String = "(?=(\Z|\s))"
+
+                        ' Singular/plural handlers
+                        If Not Answer.Contains(",") Then
+
+                            ' Singular
+                            CurValue = Regex.Replace(CurValue, "s" & R, "") ' plurals --> singulars (note: this doesn't affect were --> was or are --> is - those are deliberately after this)
+                            CurValue = Regex.Replace(CurValue, L & "are" & R, "is") ' are --> is
+                            CurValue = Regex.Replace(CurValue, L & "were" & R, "was") ' were --> was
+
+                        Else
+
+                            ' Plural
+
+                        End If
+
+                        ' Spaces
+                        CurValue = CurValue.Trim
+
+                        ' Answer count insertion
+                        CurValue = CurValue.Replace("[#]", Regex.Matches(Answer, ",").Count + 1)
+
+                        ' Update answer list (with correctly formatted value)
+                        AutoCompleteSuggestions.SetValue(CurValue, j)
+
+                    Next
+
+                    ' Load auto-complete suggestions into Cornell AI question editor
+                    FormCornellAIEditor.acTbx.AutoCompleteSuggestions.Clear()
+                    FormCornellAIEditor.acTbx.AutoCompleteSuggestions.AddRange(AutoCompleteSuggestions)
+
+                    ' Load QAM details into Cornell AI question editor
+                    FormCornellAIEditor.QAMObj = New Question(QLines.Item(0), AnswerList, 0)
+                    FormCornellAIEditor.DialogResult = DialogResult.None
+                    Dim Result As DialogResult = FormCornellAIEditor.ShowDialog()
+
+                    ' Save finalized QAM object
+                    If Result = DialogResult.OK Then
+                        ExtractedQAMList.Add(FormCornellAIEditor.QAMObj)
+                    End If
+
                 End If
 
             End If
@@ -64,6 +131,9 @@
             CurIndex += CurLine.Length + 1
 
         Next
+
+        ' Done (DBG)
+        Dim Z = 1
 
     End Sub
 
@@ -74,4 +144,7 @@
         tb1.DeselectAll()
     End Sub
 
+    Private Sub FormCornellParser_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

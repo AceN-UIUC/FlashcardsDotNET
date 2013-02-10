@@ -95,12 +95,24 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoCompletingTextBox.Designer.vb">
+      <DependentUpon>AutoCompletingTextBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AutoCompletingTextBox.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="CornellParsingAI.vb" />
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCornellAIEditor.Designer.vb">
+      <DependentUpon>FormCornellAIEditor.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FormCornellAIEditor.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormCornellParser.Designer.vb">
@@ -162,8 +174,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AutoCompletingTextBox.resx">
+      <DependentUpon>AutoCompletingTextBox.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCornellAIEditor.resx">
+      <DependentUpon>FormCornellAIEditor.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormCornellParser.resx">
       <DependentUpon>FormCornellParser.vb</DependentUpon>

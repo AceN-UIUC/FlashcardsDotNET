@@ -1,4 +1,6 @@
-﻿Public Class FormQuestionEditor
+﻿Imports System.Text.RegularExpressions
+
+Public Class FormCornellAIEditor
 
     Public Shared QAMObj As Question
 
@@ -9,15 +11,15 @@
     ' List of answer textboxes
     Private Shared answerTbxList As New List(Of TextBox)
 
+    ' Auto-completing textbox (used to add common phrases to questions)
+    Public acTbx As New AutoCompletingTextBox
+
     ' Update on visibility change
     Private Sub VisChgd() Handles MyBase.VisibleChanged
 
         ' -- Questions --
         txtQs.Text = QAMObj.Question
         QTxtHasChgd = False ' Text has been loaded, so reset the changed flag
-
-        ' -- Markings --
-        txtMs.Text = CStr(QAMObj.Marking)
 
         ' -- Answers --
 
@@ -72,14 +74,6 @@
             QAMObj.AnswerList = L
         End If
 
-        ' Markings saving
-        Try
-            If Not String.IsNullOrWhiteSpace(txtMs.Text) Then
-                QAMObj.Marking = CInt(txtMs.Text)
-            End If
-        Catch
-        End Try
-
         ' Update HasChanged variables
         Form1.QHasChgd = QTxtHasChgd OrElse Form1.QHasChgd
         Form1.AHasChgd = ATxtHasChgd OrElse Form1.AHasChgd
@@ -101,10 +95,6 @@
 
     Private Sub AnswersChanged()
         ATxtHasChgd = True
-    End Sub
-
-    Private Sub SLoad() Handles MyBase.Load
-        Me.Text = Form1.MainTitle & " - Question Editor"
     End Sub
 
     ' Add an answer
@@ -144,10 +134,47 @@
 
         ' -- Form manipulation --
         ' Form resizing
-        Me.Height = 285 + answerTbxList.Count * 90
+        Me.Height = 423 + answerTbxList.Count * 90
 
         ' Options panel repositioning
-        pnlOptions.Location = New Point(pnlOptions.Location.X, Me.Height - 119)
+        pnlOptions.Location = New Point(pnlOptions.Location.X, Me.Height - 83)
+
+        ' Auto-completion groupbox repositioning
+        gbxAutoCompletion.Location = New Point(gbxAutoCompletion.Location.X, Me.Height - 216)
+
+    End Sub
+
+    ' Add a user-defined auto-completion textbox to the groupbox
+    Private Sub gbxAutoCompletion_Init() Handles Me.Load
+
+        ' Initialize autocomplete textbox
+        acTbx.Location = New Point(6, 21)
+        acTbx.Size = New Size(262, 106)
+        acTbx.Visible = True
+
+        ' Add autocomplete textbox to the groupbox
+        gbxAutoCompletion.Controls.Add(acTbx)
+
+    End Sub
+
+    ' Text adding buttons
+    Private Sub AddBefore() Handles btnAddBefore.Click
+        txtQs.Text = acTbx.Text.TrimEnd & " " & txtQs.Text
+    End Sub
+    Private Sub AddAfter() Handles btnAddAfter.Click
+        txtQs.Text = txtQs.Text & acTbx.Text
+    End Sub
+
+    ' Toggle/update questionmark appending
+    Private Sub cbxAppendQMarkChanged() Handles cbxAppendQMark.CheckedChanged, Me.VisibleChanged
+
+        ' Remove any existing questionmarks
+        txtQs.Text = txtQs.Text.TrimEnd({"?"c})
+
+        ' Append a new one if necessary
+        If cbxAppendQMark.Checked Then
+            txtQs.Text &= "?"
+        End If
 
     End Sub
 
