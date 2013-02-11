@@ -114,6 +114,7 @@ Partial Class FormFCCoordinator
         '
         'txt_NotesOut
         '
+        Me.txt_NotesOut.AllowDrop = True
         Me.txt_NotesOut.Location = New System.Drawing.Point(82, 69)
         Me.txt_NotesOut.Name = "txt_NotesOut"
         Me.txt_NotesOut.Size = New System.Drawing.Size(277, 22)
@@ -121,6 +122,7 @@ Partial Class FormFCCoordinator
         '
         'txt_NotesIn
         '
+        Me.txt_NotesIn.AllowDrop = True
         Me.txt_NotesIn.Location = New System.Drawing.Point(82, 35)
         Me.txt_NotesIn.Name = "txt_NotesIn"
         Me.txt_NotesIn.Size = New System.Drawing.Size(277, 22)
