@@ -18,6 +18,16 @@ Public Class FormCornellAIEditor
     ' Auto-completing textbox (used to add common phrases to questions)
     Public acTbx As New AutoCompletingTextBox
 
+    ' Maintain position through shows/hides
+    Private MyPos As New Point(0, 0)
+    Private Sub UpdateMyPos() Handles Me.VisibleChanged
+        If Me.Visible Then
+            Me.Location = MyPos ' Go to stored location on show
+        Else
+            MyPos = Me.Location ' Update stored location on hide
+        End If
+    End Sub
+
     ' Update on visibility change
     Private Sub VisChgd() Handles MyBase.VisibleChanged
 
@@ -45,11 +55,12 @@ Public Class FormCornellAIEditor
 
     End Sub
 
+    ' Loading
     Private Sub Loader() Handles MyBase.Load
 
         ' - Automatically use the icon/title of the first form -
         Me.Icon = Form1.Icon
-        Me.Text = Form1.Text + " - Question Editor"
+        Me.Text = Form1.MainTitle + " - Question Editor"
 
         ' - Auto-completion setup -
         ' Initialize autocomplete textbox
@@ -62,6 +73,7 @@ Public Class FormCornellAIEditor
 
     End Sub
 
+#Region "Final operation buttons (Save, Cancel) event handlers"
     Public Sub Cancel() Handles btnCancel.Click
         QTxtHasChgd = False
         ATxtHasChgd = False
@@ -105,6 +117,7 @@ Public Class FormCornellAIEditor
         Me.Close()
 
     End Sub
+#End Region
 
     Private Sub QuestionsChanged() Handles txtQs.TextChanged
         QTxtHasChgd = True
@@ -151,13 +164,13 @@ Public Class FormCornellAIEditor
 
         ' -- Form manipulation --
         ' Form resizing
-        Me.Height = 423 + answerTbxList.Count * 90
+        Me.Height = 413 + answerTbxList.Count * 90
 
         ' Options panel repositioning
         pnlOptions.Location = New Point(pnlOptions.Location.X, Me.Height - 83)
 
         ' Auto-completion groupbox repositioning
-        gbxAutoCompletion.Location = New Point(gbxAutoCompletion.Location.X, Me.Height - 216)
+        gbxAutoCompletion.Location = New Point(gbxAutoCompletion.Location.X, Me.Height - 255)
 
     End Sub
 
@@ -170,7 +183,7 @@ Public Class FormCornellAIEditor
     End Sub
 
     ' Toggle/update questionmark appending
-    Private Sub cbxAppendQMarkChanged() Handles cbxAppendQMark.CheckedChanged, Me.VisibleChanged
+    Private Sub cbxAppendQMarkChanged() Handles cbxAppendQMark.CheckedChanged, Me.Shown
 
         ' Skip if form is being hidden (to avoid changing saved QAM object without user's knowledge)
         If Not Me.Visible Then
@@ -188,10 +201,10 @@ Public Class FormCornellAIEditor
     End Sub
 
     ' Toggle/update first letter capitalization (for questions)
-    Private Sub cbxCapitalizeFirstChanged() Handles cbxCapitalizeFirst.CheckedChanged, Me.VisibleChanged
+    Private Sub cbxCapitalizeFirstChanged() Handles cbxCapitalizeFirst.CheckedChanged, Me.Shown
 
-        ' Skip if form is being hidden (to avoid changing saved QAM object without user's knowledge)
-        If Not Me.Visible OrElse txtQs.Text.Length < 2 Then
+        ' Check for text that is too short for the system to work properly
+        If txtQs.Text.Length < 2 Then
             Exit Sub
         End If
 

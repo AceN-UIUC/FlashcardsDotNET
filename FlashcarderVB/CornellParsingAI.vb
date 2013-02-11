@@ -61,7 +61,7 @@ Public Class CornellParsingAI
 
             Dim Line As String = Lines.GetValue(i).ToString
 
-            Dim IsHeader As Boolean = lineIsHeader(Line, Lines.GetValue(i + 1))
+            Dim IsHeader As Boolean = lineIsHeader(Line, Lines.GetValue(i + 1).ToString)
             Dim TabCount As Integer = Line.Length - Line.Replace(vbTab, "").Length
 
             ' Check if current line is a header
@@ -90,7 +90,7 @@ Public Class CornellParsingAI
             End If
 
             ' Add line to list (if not building)
-            OutputLines.Add(Lines.GetValue(i))
+            OutputLines.Add(Lines.GetValue(i).ToString)
 
         Next
 
@@ -102,12 +102,12 @@ Public Class CornellParsingAI
     ' --- Boolean classifiers ---
 
     ' Returns TRUE if the line is a definition, FALSE otherwise
-    Public Shared Function lineIsDefinition(ByVal CurLine As String)
+    Public Shared Function lineIsDefinition(ByVal CurLine As String) As Boolean
         Return CurLine.Contains(" - ") ' A naive approach, but it works
     End Function
 
     ' Returns TRUE if the line is a header, FALSE otherwise
-    Public Shared Function lineIsHeader(ByVal CurLine As String, ByVal NextLine As String)
+    Public Shared Function lineIsHeader(ByVal CurLine As String, ByVal NextLine As String) As Boolean
 
         ' Get tab counts
         Dim CurLineTabs As Integer = CurLine.Length - CurLine.Replace(vbTab, "").Length

@@ -29,7 +29,7 @@ Public Class FormFCCoordinator
 
         ' Automatically use the icon/title of the first form
         Me.Icon = Form1.Icon
-        Me.Text = Form1.Text + " - FC Coordinator WIP"
+        Me.Text = Form1.MainTitle + " - FC Coordinator WIP"
 
     End Sub
 
@@ -219,7 +219,7 @@ Public Class FormFCCoordinator
         End If
 
         ' Alert the user if existing files will be modified at the output location
-        If File.Exists(QOutPath) AndAlso File.Exists(AOutPath) <> "" Then
+        If File.Exists(QOutPath) AndAlso File.Exists(AOutPath) Then
             If MsgBox("There are existing output files in that location. The output generated here will be appended to them. Continue?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
                 MsgBox("The flashcard compilation operation was cancelled. No files have been altered.")
                 Exit Sub
@@ -305,7 +305,7 @@ Public Class FormFCCoordinator
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load drag-dropped filepath
-            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            Dim FileList As String() = CType(CType(e.Data.GetData(DataFormats.FileDrop), String()), String())
             If FileList.Count <> 0 Then
                 txt_CompilerIn.Text = FileList.GetValue(0).ToString
             End If
@@ -330,7 +330,7 @@ Public Class FormFCCoordinator
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load drag-dropped filepath
-            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            Dim FileList As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
             If FileList.Count <> 0 Then
                 txt_CompilerOut.Text = FileList.GetValue(0).ToString
             End If
@@ -355,7 +355,7 @@ Public Class FormFCCoordinator
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load drag-dropped filepath
-            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            Dim FileList As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
             If FileList.Count <> 0 Then
                 tbx_MarkingPath.Text = FileList.GetValue(0).ToString
             End If
@@ -382,7 +382,7 @@ Public Class FormFCCoordinator
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load drag-dropped filepath
-            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            Dim FileList As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
             If FileList.Count <> 0 Then
                 txt_NotesIn.Text = FileList.GetValue(0).ToString
             End If
@@ -407,7 +407,7 @@ Public Class FormFCCoordinator
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load drag-dropped filepath
-            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            Dim FileList As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
             If FileList.Count <> 0 Then
                 txt_NotesOut.Text = FileList.GetValue(0).ToString
             End If
@@ -442,7 +442,7 @@ Public Class FormFCCoordinator
     End Sub
     Private Sub OFolderDlgOut_Open() Handles btn_OFDOut.Click
 
-        ' File dialog directory persistence
+        ' Folder dialog directory persistence
         If Form1.MasterFileDialogLocation.Length <> 0 AndAlso Directory.Exists(Form1.MasterFileDialogLocation) Then
             OFolderDlg.SelectedPath = Form1.MasterFileDialogLocation
         End If
@@ -497,18 +497,18 @@ Public Class FormFCCoordinator
     End Sub
     Private Sub OFileDlgNotesOut_Open() Handles btn_NotesOFDOut.Click
 
-        ' File dialog directory persistence
+        ' Folder dialog directory persistence
         If Form1.MasterFileDialogLocation.Length <> 0 AndAlso Directory.Exists(Form1.MasterFileDialogLocation) Then
-            OFileDlg.InitialDirectory = Form1.MasterFileDialogLocation
+            OFolderDlg.SelectedPath = Form1.MasterFileDialogLocation
         End If
-        Dim DlgResult As DialogResult = OFileDlg.ShowDialog()
-        If OFileDlg.FileName.Length > 1 Then
-            Form1.MasterFileDialogLocation = Path.GetDirectoryName(OFileDlg.FileName)
+        Dim DlgResult As DialogResult = OFolderDlg.ShowDialog()
+        If OFolderDlg.SelectedPath.Length > 1 Then
+            Form1.MasterFileDialogLocation = Path.GetDirectoryName(OFolderDlg.SelectedPath)
         End If
 
         ' Handle resulting file path
         If DlgResult = DialogResult.OK Then
-            txt_NotesOut.Text = OFileDlg.FileName
+            txt_NotesOut.Text = OFolderDlg.SelectedPath
         End If
 
     End Sub
@@ -601,8 +601,8 @@ Public Class FormFCCoordinator
         For i = 0 To FileLines.Count - 1
 
             ' Get current line and data about it
-            Dim CurLine As String = FileLines.GetValue(i)
-            Dim IsHeader As Boolean = i <> FileLines.Count - 1 AndAlso CornellParsingAI.lineIsHeader(CurLine, FileLines.GetValue(i + 1)) ' Some ninja short-circuiting
+            Dim CurLine As String = FileLines.GetValue(i).ToString
+            Dim IsHeader As Boolean = i <> FileLines.Count - 1 AndAlso CornellParsingAI.lineIsHeader(CurLine, FileLines.GetValue(i + 1).ToString) ' Some ninja short-circuiting
             Dim IsDefinition As Boolean = CornellParsingAI.lineIsDefinition(CurLine)
 
             ' Definitions - lime green
@@ -676,20 +676,28 @@ Public Class FormFCCoordinator
 
         ' === Compile questions ===
         ' Get temporary file location
-        Dim TempFileLoc As String = Path.GetDirectoryName(txt_NotesOut.Text) & "\fcvb_temp.txt"
+        Dim TempFileLoc As String = txt_NotesOut.Text & "\fcvb_temp.txt"
 
         ' Make sure temporary file location is OK to use
         If File.Exists(TempFileLoc) Then
             If MsgBox("A file 'fcvb_temp.txt' already exists in path " & Path.GetDirectoryName(txt_NotesOut.Text) & _
                       ". In order to continue, it must be deleted. Delete it?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
 
-                ' Delete conflicting file
-                File.Delete(TempFileLoc)
+                ' Delete conflicting file 
+                Try
+                    File.Delete(TempFileLoc)
+                Catch
 
+                    ' Stop the operation
+                    MsgBox("Unable to delete temporary file. The note parsing operation has been cancelled.")
+                    ExtractedQAMList.Clear()
+                    Exit Sub
+
+                End Try
             Else
 
                 ' Stop the operation
-                MsgBox("Cornell note parsing operation cancelled.")
+                MsgBox("Note parsing operation cancelled by user.")
                 ExtractedQAMList.Clear()
                 Exit Sub
 
@@ -704,7 +712,7 @@ Public Class FormFCCoordinator
             SWriter.WriteLine(Item.Question)
 
             ' Answers
-            For Each Answer As String In Item.Question
+            For Each Answer As String In Item.AnswerList
                 SWriter.WriteLine(Answer)
             Next
 
@@ -713,18 +721,48 @@ Public Class FormFCCoordinator
 
         Next
 
-        ' Perform write, then clean up SWriter
-        SWriter.Flush()
-        SWriter.Dispose()
+        Dim Errored As Boolean = False
+        Try
+            ' Perform write
+            SWriter.Flush()
+
+        Catch
+
+            ' Catch errors
+            MsgBox("Temporary question-answer file could not be written to. The note parsing operation has been cancelled.")
+            Errored = True
+
+        Finally
+
+            ' Clean up SWriter
+            SWriter.Close()
+            SWriter.Dispose()
+
+            ' Clear list of extracted QAM objects
+            ExtractedQAMList.Clear()
+
+        End Try
+
+        ' Exit sub (if an error occurred)
+        If Errored Then
+            Exit Sub
+        End If
 
         ' Compile questions (Q/A format --> official flashcard format)
-        '   TODO - This is hackish (because it modifies GUI elements - without restoring them! - instead of actually passing things as function parameters)
+        '   TODO/NOTE: This is hackish because it inserts info into GUI elements (without restoring them!) instead of passing said info as function parameters (which is proper behavior)
         txt_CompilerIn.Text = TempFileLoc
         txt_CompilerOut.Text = txt_NotesOut.Text
-        btnCompileFCs.PerformClick()
+        btnGo() ' Call the compilation method
+
+        ' Delete the temporary file
+        Try
+            File.Delete(TempFileLoc)
+        Catch ex As Exception
+            MsgBox("Could not delete temporary file located at " & TempFileLoc & ". Remember to delete it before running the note parser again.")
+        End Try
 
         ' Notify user of operation's completion
-        MsgBox("Cornell parsing operation complete")
+        MsgBox("Cornell parsing operation complete.")
 
     End Sub
 
@@ -773,7 +811,7 @@ Public Class FormFCCoordinator
             CurValue = CurValue.Trim
 
             ' Answer count insertion
-            CurValue = CurValue.Replace("[#]", Regex.Matches(Question.AnswerList.FirstOrDefault, ",").Count + 1)
+            CurValue = CurValue.Replace("[#]", (Regex.Matches(Question.AnswerList.FirstOrDefault, ",").Count + 1).ToString)
 
             ' Update answer list (with correctly formatted value)
             AutoCompleteSuggestions.SetValue(CurValue, j)

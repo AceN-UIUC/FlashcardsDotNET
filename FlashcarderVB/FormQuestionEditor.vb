@@ -39,7 +39,7 @@
 
         ' Automatically use the icon/title of the first form
         Me.Icon = Form1.Icon
-        Me.Text = Form1.Text + " - Question Editor"
+        Me.Text = Form1.MainTitle + " - Question Editor"
 
     End Sub
 

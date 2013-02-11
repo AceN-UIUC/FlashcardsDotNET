@@ -15,16 +15,16 @@ Public Class FormQuestionManager
 
         ' Automatically use the icon/title of the first form
         Me.Icon = Form1.Icon
-        Me.Text = Form1.Text + " - Question Manager"
+        Me.Text = Form1.MainTitle + " - Question Manager"
 
     End Sub
 
     Private Sub DragDrop1(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles Me.DragDrop
-        Dim Files As String() = e.Data.GetData(DataFormats.FileDrop)
+        Dim Files As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
         DragDropHandler(Files)
     End Sub
     Private Sub DragDrop2(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs)
-        Dim Files As String() = e.Data.GetData(DataFormats.FileDrop)
+        Dim Files As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
         DragDropHandler(Files)
     End Sub
 
@@ -392,7 +392,7 @@ Public Class FormQuestionManager
 
 
             End If
-            End If
+        End If
 
     End Sub
 
@@ -551,7 +551,7 @@ Public Class FormQuestionManager
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
             ' Load selected file(s)
-            Dim FileList As String() = e.Data.GetData(DataFormats.FileDrop)
+            Dim FileList As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
             For Each S As String In FileList
                 If S.Length > 1 Then
                     LoadFile(S, True)
