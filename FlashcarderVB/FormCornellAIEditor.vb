@@ -201,7 +201,7 @@ Public Class FormCornellAIEditor
     End Sub
 
     ' Toggle/update first letter capitalization (for questions)
-    Private Sub cbxCapitalizeFirstChanged() Handles cbxCapitalizeFirst.CheckedChanged, Me.Shown
+    Private Sub cbxCapitalizeFirstChanged() Handles cbxCapitalizeFirst.CheckedChanged, Me.Shown, btnAddBefore.Click
 
         ' Check for text that is too short for the system to work properly
         If txtQs.Text.Length < 2 Then
