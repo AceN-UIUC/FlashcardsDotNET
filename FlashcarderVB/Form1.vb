@@ -786,7 +786,7 @@ Public Class Quizzing
             Try
                 Dim LineList As New List(Of String)
 
-                If Not String.IsNullOrWhiteSpace(Dir(MPath)) Then
+                If File.Exists(MPath) Then
                     If New FileInfo(MPath).Length <> 0 Then
                         LineList.Add("")
                     End If

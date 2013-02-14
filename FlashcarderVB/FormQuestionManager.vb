@@ -106,21 +106,21 @@ Public Class FormQuestionManager
             Dim APath As String = ""
             Dim MPath As String = ""
 
-            If Not String.IsNullOrWhiteSpace(Dir(FormQuestionManager.MainPath & "questions.ini")) Then
+            If File.Exists(FormQuestionManager.MainPath & "questions.ini") Then
                 QPath = FormQuestionManager.MainPath & "questions.ini"
-            ElseIf Not String.IsNullOrWhiteSpace(Dir(FormQuestionManager.MainPath & "questions.txt")) Then
+            ElseIf File.Exists(FormQuestionManager.MainPath & "questions.txt") Then
                 QPath = FormQuestionManager.MainPath & "questions.txt"
             End If
 
-            If Not String.IsNullOrWhiteSpace(Dir(FormQuestionManager.MainPath & "answers.ini")) Then
+            If File.Exists(FormQuestionManager.MainPath & "answers.ini") Then
                 APath = FormQuestionManager.MainPath & "answers.ini"
-            ElseIf Not String.IsNullOrWhiteSpace(Dir(FormQuestionManager.MainPath & "answers.txt")) Then
+            ElseIf File.Exists(FormQuestionManager.MainPath & "answers.txt") Then
                 APath = FormQuestionManager.MainPath & "answers.txt"
             End If
 
-            If Not String.IsNullOrWhiteSpace(Dir(FormQuestionManager.MainPath & "markings.ini")) Then
+            If Not (FormQuestionManager.MainPath & "markings.ini") Then
                 MPath = FormQuestionManager.MainPath & "markings.ini"
-            ElseIf Not String.IsNullOrWhiteSpace(Dir(FormQuestionManager.MainPath & "markings.txt")) Then
+            ElseIf File.Exists(FormQuestionManager.MainPath & "markings.txt") Then
                 MPath = FormQuestionManager.MainPath & "markings.txt"
             End If
 
