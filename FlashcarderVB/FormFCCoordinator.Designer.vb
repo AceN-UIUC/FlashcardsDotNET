@@ -433,7 +433,7 @@ Partial Class FormFCCoordinator
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.TabControl1)
         Me.Name = "FormFCCoordinator"
-        Me.Text = "FC Coordinator WIP"
+        Me.Text = "FC Coordinator"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()

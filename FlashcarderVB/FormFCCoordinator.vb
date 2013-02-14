@@ -596,6 +596,8 @@ Public Class FormFCCoordinator
 
         ' Start reading notes
         Dim FileLines As String() = File.ReadAllLines(txt_NotesIn.Text)
+        'FormCornellAIEditor.txtNotes.Text = ""
+        FormCornellAIEditor.txtNotes.Lines = FileLines
 
         ' Highlight according to classification
         For i = 0 To FileLines.Count - 1
@@ -622,9 +624,10 @@ Public Class FormFCCoordinator
                 Dim QLines As List(Of String) = CornellParsingAI.findList(FileLines, i)
 
                 ' Remove definition from header, if applicable
-                If CornellParsingAI.lineIsDefinition(QLines.Item(0)) Then
+                Dim FirstLine As String = QLines.Item(0)
+                If CornellParsingAI.lineIsDefinition(FirstLine) Then
 
-                    QLines.Item(0) = QLines.Item(0).Remove(QLines.Item(0).IndexOf(" - ")).Trim({" "c, CChar(vbTab)}) ' Isolate the question component of the definition
+                    FirstLine = FirstLine.Remove(FirstLine.IndexOf(" - ")).Trim({" "c, CChar(vbTab)}) ' Isolate the question component of the definition
 
                 End If
 
@@ -654,16 +657,13 @@ Public Class FormFCCoordinator
                 ' Output answer to QAM creation dialog
                 If QLines.Count <> 0 Then
 
-                    ' Isolate question
-                    Dim QuestionPart As String = QLines.Item(0)
-
                     ' Isolate answer (here, there is only one)
                     Dim AnswerList As New List(Of String)
                     AnswerList.Add(Answer)
 
                     ' Present question to user and add it to the question list, if applicable
                     FormCornellAIEditor.IsDefinitionQuestion = False
-                    AddQuestion(New Question(QLines.Item(0).Trim, AnswerList, 0))
+                    AddQuestion(New Question(FirstLine.Trim, AnswerList, 0))
 
                 End If
 

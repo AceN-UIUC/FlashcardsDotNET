@@ -28,7 +28,7 @@ Public Class CornellParsingAI
 
         ' Get question text
         QuestionObj.Question = CurLine.Remove(Idx).Trim & "."
-        If Regex.Matches(QuestionObj.Question, "[A-Z]").Count > Regex.Matches(QuestionObj.Question, "\s+").Count Then
+        If Regex.Matches(QuestionObj.Question, "[A-Z]").Count > Regex.Matches(QuestionObj.Question, "\s+").Count + 1 Then
 
             ' Names
             QuestionObj.Question = "Who was " & QuestionObj.Question
