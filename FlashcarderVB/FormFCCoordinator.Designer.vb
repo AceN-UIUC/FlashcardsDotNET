@@ -24,6 +24,8 @@ Partial Class FormFCCoordinator
     Private Sub InitializeComponent()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.txt_NotesNewSubjectName = New System.Windows.Forms.TextBox()
         Me.btn_NotesOFDOut = New System.Windows.Forms.Button()
         Me.btn_NotesOFDIn = New System.Windows.Forms.Button()
         Me.txt_NotesOut = New System.Windows.Forms.TextBox()
@@ -59,8 +61,9 @@ Partial Class FormFCCoordinator
         Me.Label4 = New System.Windows.Forms.Label()
         Me.OFileDlg = New System.Windows.Forms.OpenFileDialog()
         Me.OFolderDlg = New System.Windows.Forms.FolderBrowserDialog()
-        Me.txt_NotesNewSubjectName = New System.Windows.Forms.TextBox()
-        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.txt_CompilerSubject = New System.Windows.Forms.TextBox()
+        Me.cbxNotesAppendSubject = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -82,6 +85,7 @@ Partial Class FormFCCoordinator
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.cbxNotesAppendSubject)
         Me.TabPage1.Controls.Add(Me.Label8)
         Me.TabPage1.Controls.Add(Me.txt_NotesNewSubjectName)
         Me.TabPage1.Controls.Add(Me.btn_NotesOFDOut)
@@ -97,6 +101,22 @@ Partial Class FormFCCoordinator
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Notes --> Q/A"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(3, 101)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(155, 17)
+        Me.Label8.TabIndex = 12
+        Me.Label8.Text = "Subject (blank = none):"
+        '
+        'txt_NotesNewSubjectName
+        '
+        Me.txt_NotesNewSubjectName.Location = New System.Drawing.Point(160, 98)
+        Me.txt_NotesNewSubjectName.Name = "txt_NotesNewSubjectName"
+        Me.txt_NotesNewSubjectName.Size = New System.Drawing.Size(199, 22)
+        Me.txt_NotesNewSubjectName.TabIndex = 11
         '
         'btn_NotesOFDOut
         '
@@ -320,6 +340,8 @@ Partial Class FormFCCoordinator
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.Label9)
+        Me.TabPage3.Controls.Add(Me.txt_CompilerSubject)
         Me.TabPage3.Controls.Add(Me.btn_OFDOut)
         Me.TabPage3.Controls.Add(Me.btn_OFDIn)
         Me.TabPage3.Controls.Add(Me.cbxAppendSubject)
@@ -338,7 +360,7 @@ Partial Class FormFCCoordinator
         '
         'btn_OFDOut
         '
-        Me.btn_OFDOut.Location = New System.Drawing.Point(361, 109)
+        Me.btn_OFDOut.Location = New System.Drawing.Point(361, 97)
         Me.btn_OFDOut.Name = "btn_OFDOut"
         Me.btn_OFDOut.Size = New System.Drawing.Size(23, 23)
         Me.btn_OFDOut.TabIndex = 8
@@ -357,7 +379,7 @@ Partial Class FormFCCoordinator
         'cbxAppendSubject
         '
         Me.cbxAppendSubject.AutoSize = True
-        Me.cbxAppendSubject.Location = New System.Drawing.Point(6, 153)
+        Me.cbxAppendSubject.Location = New System.Drawing.Point(6, 177)
         Me.cbxAppendSubject.Name = "cbxAppendSubject"
         Me.cbxAppendSubject.Size = New System.Drawing.Size(249, 21)
         Me.cbxAppendSubject.TabIndex = 6
@@ -376,7 +398,7 @@ Partial Class FormFCCoordinator
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(3, 90)
+        Me.Label7.Location = New System.Drawing.Point(3, 78)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(111, 17)
         Me.Label7.TabIndex = 4
@@ -385,7 +407,7 @@ Partial Class FormFCCoordinator
         'txt_CompilerOut
         '
         Me.txt_CompilerOut.AllowDrop = True
-        Me.txt_CompilerOut.Location = New System.Drawing.Point(6, 110)
+        Me.txt_CompilerOut.Location = New System.Drawing.Point(6, 98)
         Me.txt_CompilerOut.Name = "txt_CompilerOut"
         Me.txt_CompilerOut.Size = New System.Drawing.Size(349, 22)
         Me.txt_CompilerOut.TabIndex = 3
@@ -429,21 +451,32 @@ Partial Class FormFCCoordinator
         '
         Me.OFileDlg.Filter = "AHK Shortcuts|*.ahk|Flashcards|*.ini|All Files|*.*"
         '
-        'txt_NotesNewSubjectName
+        'Label9
         '
-        Me.txt_NotesNewSubjectName.Location = New System.Drawing.Point(160, 98)
-        Me.txt_NotesNewSubjectName.Name = "txt_NotesNewSubjectName"
-        Me.txt_NotesNewSubjectName.Size = New System.Drawing.Size(199, 22)
-        Me.txt_NotesNewSubjectName.TabIndex = 11
+        Me.Label9.AutoSize = True
+        Me.Label9.Location = New System.Drawing.Point(3, 123)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(192, 17)
+        Me.Label9.TabIndex = 10
+        Me.Label9.Text = "Subject Name (blank = none)"
         '
-        'Label8
+        'txt_CompilerSubject
         '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(3, 101)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(155, 17)
-        Me.Label8.TabIndex = 12
-        Me.Label8.Text = "Subject (blank = none):"
+        Me.txt_CompilerSubject.AllowDrop = True
+        Me.txt_CompilerSubject.Location = New System.Drawing.Point(6, 143)
+        Me.txt_CompilerSubject.Name = "txt_CompilerSubject"
+        Me.txt_CompilerSubject.Size = New System.Drawing.Size(349, 22)
+        Me.txt_CompilerSubject.TabIndex = 9
+        '
+        'cbxNotesAppendSubject
+        '
+        Me.cbxNotesAppendSubject.AutoSize = True
+        Me.cbxNotesAppendSubject.Location = New System.Drawing.Point(6, 126)
+        Me.cbxNotesAppendSubject.Name = "cbxNotesAppendSubject"
+        Me.cbxNotesAppendSubject.Size = New System.Drawing.Size(249, 21)
+        Me.cbxNotesAppendSubject.TabIndex = 13
+        Me.cbxNotesAppendSubject.Text = "Append subject to output file name"
+        Me.cbxNotesAppendSubject.UseVisualStyleBackColor = True
         '
         'FormFCCoordinator
         '
@@ -508,4 +541,7 @@ Partial Class FormFCCoordinator
     Friend WithEvents btn_OFDMarkings As System.Windows.Forms.Button
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents txt_NotesNewSubjectName As System.Windows.Forms.TextBox
+    Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents txt_CompilerSubject As System.Windows.Forms.TextBox
+    Friend WithEvents cbxNotesAppendSubject As System.Windows.Forms.CheckBox
 End Class

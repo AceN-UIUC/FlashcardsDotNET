@@ -30,19 +30,20 @@ Partial Class FormCornellAIEditor
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.gbxAutoCompletion = New System.Windows.Forms.GroupBox()
+        Me.cbxCapA = New System.Windows.Forms.CheckBox()
         Me.cbxCapQ = New System.Windows.Forms.CheckBox()
         Me.cbxAppendQMark = New System.Windows.Forms.CheckBox()
         Me.btnAddAfter = New System.Windows.Forms.Button()
         Me.btnAddBefore = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtNotes = New System.Windows.Forms.TextBox()
-        Me.cbxCapA = New System.Windows.Forms.CheckBox()
         Me.pnlOptions.SuspendLayout()
         Me.gbxAutoCompletion.SuspendLayout()
         Me.SuspendLayout()
         '
         'txtQs
         '
+        Me.txtQs.BackColor = System.Drawing.SystemColors.Window
         Me.txtQs.Location = New System.Drawing.Point(16, 25)
         Me.txtQs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.txtQs.Multiline = True
@@ -122,6 +123,16 @@ Partial Class FormCornellAIEditor
         Me.gbxAutoCompletion.TabStop = False
         Me.gbxAutoCompletion.Text = "Auto-Completion"
         '
+        'cbxCapA
+        '
+        Me.cbxCapA.AutoSize = True
+        Me.cbxCapA.Location = New System.Drawing.Point(64, 139)
+        Me.cbxCapA.Name = "cbxCapA"
+        Me.cbxCapA.Size = New System.Drawing.Size(51, 21)
+        Me.cbxCapA.TabIndex = 13
+        Me.cbxCapA.Text = "A/a"
+        Me.cbxCapA.UseVisualStyleBackColor = True
+        '
         'cbxCapQ
         '
         Me.cbxCapQ.AutoSize = True
@@ -165,7 +176,7 @@ Partial Class FormCornellAIEditor
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(439, 5)
+        Me.Label3.Location = New System.Drawing.Point(396, 4)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(71, 17)
         Me.Label3.TabIndex = 11
@@ -173,22 +184,12 @@ Partial Class FormCornellAIEditor
         '
         'txtNotes
         '
-        Me.txtNotes.Location = New System.Drawing.Point(442, 25)
+        Me.txtNotes.Location = New System.Drawing.Point(399, 25)
         Me.txtNotes.Multiline = True
         Me.txtNotes.Name = "txtNotes"
         Me.txtNotes.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtNotes.Size = New System.Drawing.Size(365, 436)
+        Me.txtNotes.Size = New System.Drawing.Size(408, 436)
         Me.txtNotes.TabIndex = 12
-        '
-        'cbxCapA
-        '
-        Me.cbxCapA.AutoSize = True
-        Me.cbxCapA.Location = New System.Drawing.Point(64, 139)
-        Me.cbxCapA.Name = "cbxCapA"
-        Me.cbxCapA.Size = New System.Drawing.Size(51, 21)
-        Me.cbxCapA.TabIndex = 13
-        Me.cbxCapA.Text = "A/a"
-        Me.cbxCapA.UseVisualStyleBackColor = True
         '
         'FormCornellAIEditor
         '

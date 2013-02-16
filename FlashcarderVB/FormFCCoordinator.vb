@@ -199,8 +199,14 @@ Public Class FormFCCoordinator
             Exit Sub
         End If
 
+        ' Determine item subject
+        Dim Subject As String = txt_CompilerSubject.Text
+        If String.IsNullOrWhiteSpace(Subject) AndAlso cbxAppendSubject.Checked Then
+            Subject = Path.GetFileNameWithoutExtension(txt_CompilerIn.Text) & "_"
+        End If
+
         ' Generate output file paths
-        Dim InputFileName As String = Path.GetFileNameWithoutExtension(txt_CompilerIn.Text) & "_"
+        Dim InputFileName As String = If(String.IsNullOrWhiteSpace(Subject), Subject, "\")
         If Not cbxAppendSubject.Checked Then
             InputFileName = "\"
         End If
@@ -233,6 +239,24 @@ Public Class FormFCCoordinator
         Dim CurLineIsQuestion As Boolean = True
         Dim LineQueue_Questions, LineQueue_Answers As New List(Of String) ' A queue, not a stack, according to Dylan @ ACM
         Dim SR As New StreamReader(txt_CompilerIn.Text)
+
+        ' Include empty lines if necessary
+        If File.Exists(QOutPath) AndAlso _
+            Not String.IsNullOrWhiteSpace(File.ReadLines(QOutPath).LastOrDefault) Then
+            LineQueue_Questions.Add("")
+        End If
+        If File.Exists(AOutPath) AndAlso _
+            Not String.IsNullOrWhiteSpace(File.ReadLines(AOutPath).LastOrDefault) Then
+            LineQueue_Answers.Add("")
+        End If
+
+        ' Include subject, if one is supplied
+        If Not String.IsNullOrWhiteSpace(Subject) Then
+            LineQueue_Answers.Add("[" & Subject & "]")
+            LineQueue_Questions.Add("[" & Subject & "]")
+        End If
+
+        ' Write main file
         While Not SR.EndOfStream
 
             ' Get line
@@ -706,6 +730,8 @@ Public Class FormFCCoordinator
 
         ' Save questions to a temporary file (in question-answer (Q/A) format)
         Dim SWriter As New StreamWriter(TempFileLoc)
+
+        '   Add empty line to file if necessary
         For Each Item As Question In ExtractedQAMList
 
             ' Question
@@ -752,6 +778,7 @@ Public Class FormFCCoordinator
         '   TODO/NOTE: This is hackish because it inserts info into GUI elements (without restoring them!) instead of passing said info as function parameters (which is proper behavior)
         txt_CompilerIn.Text = TempFileLoc
         txt_CompilerOut.Text = txt_NotesOut.Text
+        txt_CompilerSubject.Text = txt_NotesNewSubjectName.Text
         btnGo() ' Call the compilation method
 
         ' Delete the temporary file
@@ -835,5 +862,14 @@ Public Class FormFCCoordinator
     End Sub
 
 #End Region
+
+    ' Append-subject-checkbox cooperation
+    Private Sub cbxSubjectCooperate1() Handles TabControl1.SelectedIndexChanged, Me.VisibleChanged
+        If TabControl1.SelectedIndex = 0 Then
+            cbxNotesAppendSubject.Checked = cbxAppendSubject.Checked
+        Else
+            cbxAppendSubject.Checked = cbxNotesAppendSubject.Checked
+        End If
+    End Sub
 
 End Class
