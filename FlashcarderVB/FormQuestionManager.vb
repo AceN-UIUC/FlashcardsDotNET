@@ -47,7 +47,7 @@ Public Class FormQuestionManager
 
     ' Load a file into the question manager
     '   LoadMoreFiles controls whether the program will search for more files to be auto-loaded
-    Shared Sub LoadFile(ByVal FPath As String, ByVal LoadMoreFiles As Boolean)
+    Public Sub LoadFile(ByVal FPath As String, ByVal LoadMoreFiles As Boolean)
 
         ' Obligatory verification
         If String.IsNullOrWhiteSpace(Dir(FPath)) Or Not FPath.Contains(".") Then
@@ -61,16 +61,16 @@ Public Class FormQuestionManager
         ' Compare main file path with existing one
         '   If the two are different, reset all the QAM verification checkboxes
         Dim CurMainPath As String = FPath.Substring(0, FPath.LastIndexOf("\") + 1)
-        If CurMainPath <> FormQuestionManager.MainPath Then
-            FormQuestionManager.MainPath = CurMainPath
+        If CurMainPath <> Me.MainPath Then
+            Me.MainPath = CurMainPath
 
             SubjectChoiceDlg.cbxNoMarkingImport.Visible = False
             SubjectChoiceDlg.cbxNoMarkingImport.Checked = False
             SubjectChoiceDlg.Subject = ""
 
-            FormQuestionManager.cbx_VrifyQs.Checked = False
-            FormQuestionManager.cbx_VrifyAs.Checked = False
-            FormQuestionManager.cbx_VrifyMs.Checked = False
+            Me.cbx_VrifyQs.Checked = False
+            Me.cbx_VrifyAs.Checked = False
+            Me.cbx_VrifyMs.Checked = False
         End If
 
         ' AHK file (built for backwards compatibility with the original AHK flashcarder)
@@ -94,8 +94,8 @@ Public Class FormQuestionManager
                     'Subject = ?
                 ElseIf Str.StartsWith("?=") Then
                     'MainPath=?.Replace("/","\")
-                    If FormQuestionManager.MainPath.Last = "\" Then
-                        FormQuestionManager.MainPath = FormQuestionManager.MainPath.Substring(0, FormQuestionManager.MainPath.Length - 1)
+                    If Me.MainPath.Last = "\" Then
+                        Me.MainPath = MainPath.Substring(0, Me.MainPath.Length - 1)
                     End If
                 End If
 
@@ -106,22 +106,22 @@ Public Class FormQuestionManager
             Dim APath As String = ""
             Dim MPath As String = ""
 
-            If File.Exists(FormQuestionManager.MainPath & "questions.ini") Then
-                QPath = FormQuestionManager.MainPath & "questions.ini"
-            ElseIf File.Exists(FormQuestionManager.MainPath & "questions.txt") Then
-                QPath = FormQuestionManager.MainPath & "questions.txt"
+            If File.Exists(Me.MainPath & "questions.ini") Then
+                QPath = Me.MainPath & "questions.ini"
+            ElseIf File.Exists(Me.MainPath & "questions.txt") Then
+                QPath = Me.MainPath & "questions.txt"
             End If
 
-            If File.Exists(FormQuestionManager.MainPath & "answers.ini") Then
-                APath = FormQuestionManager.MainPath & "answers.ini"
-            ElseIf File.Exists(FormQuestionManager.MainPath & "answers.txt") Then
-                APath = FormQuestionManager.MainPath & "answers.txt"
+            If File.Exists(Me.MainPath & "answers.ini") Then
+                APath = Me.MainPath & "answers.ini"
+            ElseIf File.Exists(Me.MainPath & "answers.txt") Then
+                APath = Me.MainPath & "answers.txt"
             End If
 
-            If Not (FormQuestionManager.MainPath & "markings.ini") Then
-                MPath = FormQuestionManager.MainPath & "markings.ini"
-            ElseIf File.Exists(FormQuestionManager.MainPath & "markings.txt") Then
-                MPath = FormQuestionManager.MainPath & "markings.txt"
+            If Not (Me.MainPath & "markings.ini") Then
+                MPath = Me.MainPath & "markings.ini"
+            ElseIf File.Exists(Me.MainPath & "markings.txt") Then
+                MPath = Me.MainPath & "markings.txt"
             End If
 
             ' Check to make sure reference paths are valid
@@ -153,38 +153,36 @@ Public Class FormQuestionManager
             '   Note: if no markings file is identified, notify user that one will be generated automatically (later on)
             '   As such, this doesn't stop the (entire) process for markings files (only for q/a files, which CAN'T be generated)
             If FileType.Length = 0 Then
-                If Not (FormQuestionManager.cbx_VrifyAs.Checked And FormQuestionManager.cbx_VrifyQs.Checked) Then
+                If Not (Me.cbx_VrifyAs.Checked AndAlso Me.cbx_VrifyQs.Checked) Then
                     Exit Sub
                 End If
             End If
 
             ' If this is the first of the three required files, ask user whether to use automatic file loading for the others
             '  Note that this only works when the target file contains only three text files OR if the files are explicitly named
-            If LoadMoreFiles Then
-                If Not FormQuestionManager.cbxAutoLoad.Checked Then
-                    LoadMoreFiles = False
-                End If
+            If LoadMoreFiles AndAlso Not cbxAutoLoad.Checked Then
+                LoadMoreFiles = False
             End If
 
             ' Check appropriate notification boxes
             If FileType = "q" Then
-                FormQuestionManager.QPath = FPath
-                FormQuestionManager.cbx_VrifyQs.Enabled = True
-                FormQuestionManager.cbx_VrifyQs.Checked = True
-                FormQuestionManager.cbx_VrifyQs.Enabled = False
+                QPath = FPath
+                cbx_VrifyQs.Enabled = True
+                cbx_VrifyQs.Checked = True
+                cbx_VrifyQs.Enabled = False
             ElseIf FileType = "a" Then
-                FormQuestionManager.APath = FPath
-                FormQuestionManager.cbx_VrifyAs.Enabled = True
-                FormQuestionManager.cbx_VrifyAs.Checked = True
-                FormQuestionManager.cbx_VrifyAs.Enabled = False
+                APath = FPath
+                cbx_VrifyAs.Enabled = True
+                cbx_VrifyAs.Checked = True
+                cbx_VrifyAs.Enabled = False
             ElseIf FileType = "m" Then
-                FormQuestionManager.MPath = FPath
-                FormQuestionManager.cbx_VrifyMs.Enabled = True
-                FormQuestionManager.cbx_VrifyMs.Checked = True
-                FormQuestionManager.cbx_VrifyMs.Enabled = False
+                MPath = FPath
+                cbx_VrifyMs.Enabled = True
+                cbx_VrifyMs.Checked = True
+                cbx_VrifyMs.Enabled = False
             End If
 
-            Dim FileCnt As Integer = 0 - CInt(FormQuestionManager.cbx_VrifyQs.Checked) - CInt(FormQuestionManager.cbx_VrifyAs.Checked) - CInt(FormQuestionManager.cbx_VrifyMs.Checked)
+            Dim FileCnt As Integer = 0 - CInt(cbx_VrifyQs.Checked) - CInt(cbx_VrifyAs.Checked) - CInt(cbx_VrifyMs.Checked)
 
             ' Exit sub if auto-loading functions disabled
             If Not LoadMoreFiles Then
@@ -192,18 +190,18 @@ Public Class FormQuestionManager
             End If
 
             ' Automatic Loading filepaths - these are guesses of the proper file location and aren't verified
-            Dim AL_QPath As String = FormQuestionManager.QPath
-            Dim AL_APath As String = FormQuestionManager.APath
-            Dim AL_MPath As String = FormQuestionManager.MPath
+            Dim AL_QPath As String = QPath
+            Dim AL_APath As String = APath
+            Dim AL_MPath As String = MPath
 
             If FileCnt = 1 Then
 
                 ' Check to make sure only three text files exist in the referenced directory
-                FormQuestionManager.MainPath = FPath.Replace("/", "\")
-                FormQuestionManager.MainPath = FormQuestionManager.MainPath.Substring(0, FormQuestionManager.MainPath.LastIndexOf("\") + 1)
+                MainPath = FPath.Replace("/", "\")
+                MainPath = MainPath.Substring(0, MainPath.LastIndexOf("\") + 1)
 
-                Dim FileArr1 As String() = Directory.GetFiles(FormQuestionManager.MainPath, "*.txt")
-                Dim FileArr2 As String() = Directory.GetFiles(FormQuestionManager.MainPath, "*.ini")
+                Dim FileArr1 As String() = Directory.GetFiles(MainPath, "*.txt")
+                Dim FileArr2 As String() = Directory.GetFiles(MainPath, "*.ini")
 
                 Dim FileList As New List(Of String)
                 FileList.AddRange(FileArr1)
@@ -212,9 +210,9 @@ Public Class FormQuestionManager
                 ' --- Auto-load files (name identification method) ---
 
                 ' File presence verification variables
-                Dim QFound As Boolean = FormQuestionManager.cbx_VrifyQs.Checked
-                Dim AFound As Boolean = FormQuestionManager.cbx_VrifyAs.Checked
-                Dim MFound As Boolean = FormQuestionManager.cbx_VrifyMs.Checked
+                Dim QFound As Boolean = cbx_VrifyQs.Checked
+                Dim AFound As Boolean = cbx_VrifyAs.Checked
+                Dim MFound As Boolean = cbx_VrifyMs.Checked
 
                 ' Verify presence of all required files
                 Dim NameList As String() = {"questions", "qs", "answers", "as", "markings", "ms"}
@@ -328,11 +326,11 @@ Public Class FormQuestionManager
                     For Each S As String In FileList
 
                         ' Don't load repeated files
-                        If S = FormQuestionManager.QPath Then
+                        If S = QPath Then
                             Continue For
-                        ElseIf S = FormQuestionManager.APath Then
+                        ElseIf S = APath Then
                             Continue For
-                        ElseIf S = FormQuestionManager.MPath Then
+                        ElseIf S = MPath Then
                             Continue For
                         End If
 
@@ -350,18 +348,18 @@ Public Class FormQuestionManager
 
         ' If everything is loaded, load the files' contents into a list of QAM objects
         '   Note: Tiered If statements are used because VB doesn't exit an 'and' if statement if the first condition is falsified (tiering = performance)
-        If FormQuestionManager.cbx_VrifyQs.Checked Then
-            If FormQuestionManager.cbx_VrifyAs.Checked Then
+        If cbx_VrifyQs.Checked Then
+            If cbx_VrifyAs.Checked Then
 
-                FormQuestionManager.QAMList = Quizzing.Load(FormQuestionManager.QPath, FormQuestionManager.APath, FormQuestionManager.MPath)
+                QAMList = Quizzing.Load(QPath, APath, MPath)
 
 
                 ' Check that the QAM objects all make sense
                 '   If they don't, notify the user and throw everything out
                 Dim ErrorOnQAMListLine As Integer = -1
                 Dim CurQAMObj As Question
-                For i = 0 To FormQuestionManager.QAMList.Count - 1
-                    CurQAMObj = FormQuestionManager.QAMList.Item(i)
+                For i = 0 To QAMList.Count - 1
+                    CurQAMObj = QAMList.Item(i)
                     If String.IsNullOrWhiteSpace(CurQAMObj.Question) OrElse _
                         CurQAMObj.AnswerList.Count = 0 Then
                         ErrorOnQAMListLine = i + 1
@@ -377,12 +375,12 @@ Public Class FormQuestionManager
                 Else
 
                     ' Uncheck verification checkboxes
-                    FormQuestionManager.cbx_VrifyQs.Checked = False
-                    FormQuestionManager.cbx_VrifyAs.Checked = False
-                    FormQuestionManager.cbx_VrifyMs.Checked = False
+                    cbx_VrifyQs.Checked = False
+                    cbx_VrifyAs.Checked = False
+                    cbx_VrifyMs.Checked = False
 
                     ' Report invalid QAM list
-                    FormQuestionManager.QAMList.Clear()
+                    QAMList.Clear()
                     MsgBox("The Q/A/M files are incorrectly formatted (see question " & ErrorOnQAMListLine.ToString & "). Nothing has been loaded.")
 
                     ' Exit loading process
@@ -425,13 +423,16 @@ Public Class FormQuestionManager
 
     End Sub
 
-    Public Shared Sub UpdateMainListView()
+    Public Sub UpdateMainListView()
 
         ' Update question list box
-        FormQuestionManager.lvwQAMList.Items.Clear()
-        For i = 0 To FormQuestionManager.QAMList.Count - 1
-            FormQuestionManager.lvwQAMList.Items.Add(CStr(i + 1) & "=" & FormQuestionManager.QAMList.Item(i).Question)
+        lvwQAMList.Items.Clear()
+        For i = 0 To QAMList.Count - 1
+            lvwQAMList.Items.Add(CStr(i + 1) & "=" & QAMList.Item(i).Question)
         Next
+
+        ' Update/refresh highlighting
+        HighlightMarkings()
 
     End Sub
 
