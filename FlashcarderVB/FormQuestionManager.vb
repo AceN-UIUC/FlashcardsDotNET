@@ -425,13 +425,36 @@ Public Class FormQuestionManager
 
     Public Sub UpdateMainListView()
 
-        ' Update question list box
-        lvwQAMList.Items.Clear()
+        ' - Update question list box -
+
+        Dim LViewTopIdx As Integer = lvwQAMList.TopItem.Index
+
+        '   Remove extra items from listView
+        While lvwQAMList.Items.Count > QAMList.Count
+            lvwQAMList.Items.RemoveAt(0)
+        End While
+
+        '   Set-up new/recycled items from listView
         For i = 0 To QAMList.Count - 1
-            lvwQAMList.Items.Add(CStr(i + 1) & "=" & QAMList.Item(i).Question)
+            If i <= lvwQAMList.Items.Count Then
+
+                ' Use existing elements
+                lvwQAMList.Items.Item(i).Text = CStr(i + 1) & "=" & QAMList.Item(i).
+
+            Else
+
+                ' Add elements
+                lvwQAMList.Items.Add(CStr(i + 1) & "=" & QAMList.Item(i).Question)
+
+            End If
         Next
 
-        ' Update/refresh highlighting
+        ' Reset top
+        If lvwQAMList.Items.Count > 1 Then
+            lvwQAMList.TopItem = lvwQAMList.Items.Item(If(LViewTopIdx < lvwQAMList.Items.Count, LViewTopIdx, 0))
+        End If
+
+        ' - Update/refresh highlighting -
         HighlightMarkings()
 
     End Sub
