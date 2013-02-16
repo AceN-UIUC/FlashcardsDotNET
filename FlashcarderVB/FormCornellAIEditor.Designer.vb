@@ -30,12 +30,13 @@ Partial Class FormCornellAIEditor
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.gbxAutoCompletion = New System.Windows.Forms.GroupBox()
-        Me.cbxCapitalizeFirst = New System.Windows.Forms.CheckBox()
+        Me.cbxCapQ = New System.Windows.Forms.CheckBox()
         Me.cbxAppendQMark = New System.Windows.Forms.CheckBox()
         Me.btnAddAfter = New System.Windows.Forms.Button()
         Me.btnAddBefore = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtNotes = New System.Windows.Forms.TextBox()
+        Me.cbxCapA = New System.Windows.Forms.CheckBox()
         Me.pnlOptions.SuspendLayout()
         Me.gbxAutoCompletion.SuspendLayout()
         Me.SuspendLayout()
@@ -109,7 +110,8 @@ Partial Class FormCornellAIEditor
         '
         'gbxAutoCompletion
         '
-        Me.gbxAutoCompletion.Controls.Add(Me.cbxCapitalizeFirst)
+        Me.gbxAutoCompletion.Controls.Add(Me.cbxCapA)
+        Me.gbxAutoCompletion.Controls.Add(Me.cbxCapQ)
         Me.gbxAutoCompletion.Controls.Add(Me.cbxAppendQMark)
         Me.gbxAutoCompletion.Controls.Add(Me.btnAddAfter)
         Me.gbxAutoCompletion.Controls.Add(Me.btnAddBefore)
@@ -120,26 +122,26 @@ Partial Class FormCornellAIEditor
         Me.gbxAutoCompletion.TabStop = False
         Me.gbxAutoCompletion.Text = "Auto-Completion"
         '
-        'cbxCapitalizeFirst
+        'cbxCapQ
         '
-        Me.cbxCapitalizeFirst.AutoSize = True
-        Me.cbxCapitalizeFirst.Location = New System.Drawing.Point(6, 139)
-        Me.cbxCapitalizeFirst.Name = "cbxCapitalizeFirst"
-        Me.cbxCapitalizeFirst.Size = New System.Drawing.Size(155, 21)
-        Me.cbxCapitalizeFirst.TabIndex = 12
-        Me.cbxCapitalizeFirst.Text = "Capitalize 1st Letter"
-        Me.cbxCapitalizeFirst.UseVisualStyleBackColor = True
+        Me.cbxCapQ.AutoSize = True
+        Me.cbxCapQ.Location = New System.Drawing.Point(6, 139)
+        Me.cbxCapQ.Name = "cbxCapQ"
+        Me.cbxCapQ.Size = New System.Drawing.Size(53, 21)
+        Me.cbxCapQ.TabIndex = 12
+        Me.cbxCapQ.Text = "Q/q"
+        Me.cbxCapQ.UseVisualStyleBackColor = True
         '
         'cbxAppendQMark
         '
         Me.cbxAppendQMark.AutoSize = True
         Me.cbxAppendQMark.Checked = True
         Me.cbxAppendQMark.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbxAppendQMark.Location = New System.Drawing.Point(256, 139)
+        Me.cbxAppendQMark.Location = New System.Drawing.Point(239, 139)
         Me.cbxAppendQMark.Name = "cbxAppendQMark"
-        Me.cbxAppendQMark.Size = New System.Drawing.Size(107, 21)
+        Me.cbxAppendQMark.Size = New System.Drawing.Size(132, 21)
         Me.cbxAppendQMark.TabIndex = 11
-        Me.cbxAppendQMark.Text = "Append ? / ."
+        Me.cbxAppendQMark.Text = "(Q) Append ? / ."
         Me.cbxAppendQMark.UseVisualStyleBackColor = True
         '
         'btnAddAfter
@@ -163,7 +165,7 @@ Partial Class FormCornellAIEditor
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(394, 4)
+        Me.Label3.Location = New System.Drawing.Point(439, 5)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(71, 17)
         Me.Label3.TabIndex = 11
@@ -171,12 +173,22 @@ Partial Class FormCornellAIEditor
         '
         'txtNotes
         '
-        Me.txtNotes.Location = New System.Drawing.Point(397, 25)
+        Me.txtNotes.Location = New System.Drawing.Point(442, 25)
         Me.txtNotes.Multiline = True
         Me.txtNotes.Name = "txtNotes"
         Me.txtNotes.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtNotes.Size = New System.Drawing.Size(410, 436)
+        Me.txtNotes.Size = New System.Drawing.Size(365, 436)
         Me.txtNotes.TabIndex = 12
+        '
+        'cbxCapA
+        '
+        Me.cbxCapA.AutoSize = True
+        Me.cbxCapA.Location = New System.Drawing.Point(64, 139)
+        Me.cbxCapA.Name = "cbxCapA"
+        Me.cbxCapA.Size = New System.Drawing.Size(51, 21)
+        Me.cbxCapA.TabIndex = 13
+        Me.cbxCapA.Text = "A/a"
+        Me.cbxCapA.UseVisualStyleBackColor = True
         '
         'FormCornellAIEditor
         '
@@ -210,7 +222,8 @@ Partial Class FormCornellAIEditor
     Friend WithEvents btnAddAfter As System.Windows.Forms.Button
     Friend WithEvents btnAddBefore As System.Windows.Forms.Button
     Friend WithEvents cbxAppendQMark As System.Windows.Forms.CheckBox
-    Friend WithEvents cbxCapitalizeFirst As System.Windows.Forms.CheckBox
+    Friend WithEvents cbxCapQ As System.Windows.Forms.CheckBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents txtNotes As System.Windows.Forms.TextBox
+    Friend WithEvents cbxCapA As System.Windows.Forms.CheckBox
 End Class

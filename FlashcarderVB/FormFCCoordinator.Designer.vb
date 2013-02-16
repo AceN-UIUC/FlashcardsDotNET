@@ -59,6 +59,8 @@ Partial Class FormFCCoordinator
         Me.Label4 = New System.Windows.Forms.Label()
         Me.OFileDlg = New System.Windows.Forms.OpenFileDialog()
         Me.OFolderDlg = New System.Windows.Forms.FolderBrowserDialog()
+        Me.txt_NotesNewSubjectName = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -80,6 +82,8 @@ Partial Class FormFCCoordinator
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Label8)
+        Me.TabPage1.Controls.Add(Me.txt_NotesNewSubjectName)
         Me.TabPage1.Controls.Add(Me.btn_NotesOFDOut)
         Me.TabPage1.Controls.Add(Me.btn_NotesOFDIn)
         Me.TabPage1.Controls.Add(Me.txt_NotesOut)
@@ -130,7 +134,7 @@ Partial Class FormFCCoordinator
         '
         'btnNotesGo
         '
-        Me.btnNotesGo.Location = New System.Drawing.Point(164, 117)
+        Me.btnNotesGo.Location = New System.Drawing.Point(160, 199)
         Me.btnNotesGo.Name = "btnNotesGo"
         Me.btnNotesGo.Size = New System.Drawing.Size(75, 28)
         Me.btnNotesGo.TabIndex = 1
@@ -425,6 +429,22 @@ Partial Class FormFCCoordinator
         '
         Me.OFileDlg.Filter = "AHK Shortcuts|*.ahk|Flashcards|*.ini|All Files|*.*"
         '
+        'txt_NotesNewSubjectName
+        '
+        Me.txt_NotesNewSubjectName.Location = New System.Drawing.Point(160, 98)
+        Me.txt_NotesNewSubjectName.Name = "txt_NotesNewSubjectName"
+        Me.txt_NotesNewSubjectName.Size = New System.Drawing.Size(199, 22)
+        Me.txt_NotesNewSubjectName.TabIndex = 11
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(3, 101)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(155, 17)
+        Me.Label8.TabIndex = 12
+        Me.Label8.Text = "Subject (blank = none):"
+        '
         'FormFCCoordinator
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -486,4 +506,6 @@ Partial Class FormFCCoordinator
     Friend WithEvents txt_NotesOut As System.Windows.Forms.TextBox
     Friend WithEvents txt_NotesIn As System.Windows.Forms.TextBox
     Friend WithEvents btn_OFDMarkings As System.Windows.Forms.Button
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents txt_NotesNewSubjectName As System.Windows.Forms.TextBox
 End Class

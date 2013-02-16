@@ -200,8 +200,8 @@ Public Class FormCornellAIEditor
 
     End Sub
 
-    ' Toggle/update first letter capitalization (for questions)
-    Private Sub cbxCapitalizeFirstChanged() Handles cbxCapitalizeFirst.CheckedChanged, Me.Shown, btnAddBefore.Click
+    ' Toggle/update first letter capitalization
+    Private Sub cbxCapitalizeQuestion() Handles cbxCapQ.CheckedChanged, Me.Shown, btnAddBefore.Click
 
         ' Check for text that is too short for the system to work properly
         If txtQs.Text.Length < 2 Then
@@ -210,8 +210,27 @@ Public Class FormCornellAIEditor
 
         ' Un/capitalize first letter
         Dim FirstChar As String = txtQs.Text.Substring(0, 1).ToLowerInvariant
-        txtQs.Text = If(cbxCapitalizeFirst.Checked, FirstChar.ToUpperInvariant, FirstChar) & txtQs.Text.Remove(0, 1)
+        txtQs.Text = If(cbxCapQ.Checked, FirstChar.ToUpperInvariant, FirstChar) & txtQs.Text.Remove(0, 1)
 
     End Sub
+    Private Sub cbxCapitalizeAnswers() Handles cbxCapA.CheckedChanged, Me.Shown, btnAddBefore.Click
+
+        ' Check for text that is too short for the system to work properly
+        If txtQs.Text.Length < 2 Then
+            Exit Sub
+        End If
+
+        ' Un/capitalize first letter
+        For i = 0 To answerTbxList.Count - 1
+
+            Dim Text As String = answerTbxList.Item(i).Text
+            Dim FirstChar As String = Text.Substring(0, 1).ToLowerInvariant
+            answerTbxList.Item(i).Text = If(cbxCapA.Checked, FirstChar.ToUpperInvariant, FirstChar) & Text.Remove(0, 1)
+
+        Next
+
+
+    End Sub
+
 
 End Class
