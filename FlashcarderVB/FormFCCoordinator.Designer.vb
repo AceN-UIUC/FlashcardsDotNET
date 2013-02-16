@@ -149,7 +149,11 @@ Partial Class FormFCCoordinator
         'txt_NotesOut
         '
         Me.txt_NotesOut.AllowDrop = True
+<<<<<<< HEAD
         Me.txt_NotesOut.Location = New System.Drawing.Point(96, 69)
+=======
+        Me.txt_NotesOut.Location = New System.Drawing.Point(82, 69)
+>>>>>>> 6ef9d0ee07c061d6289f9c77666d96018b9d9bfa
         Me.txt_NotesOut.Name = "txt_NotesOut"
         Me.txt_NotesOut.Size = New System.Drawing.Size(263, 22)
         Me.txt_NotesOut.TabIndex = 3
@@ -157,7 +161,11 @@ Partial Class FormFCCoordinator
         'txt_NotesIn
         '
         Me.txt_NotesIn.AllowDrop = True
+<<<<<<< HEAD
         Me.txt_NotesIn.Location = New System.Drawing.Point(96, 35)
+=======
+        Me.txt_NotesIn.Location = New System.Drawing.Point(82, 35)
+>>>>>>> 6ef9d0ee07c061d6289f9c77666d96018b9d9bfa
         Me.txt_NotesIn.Name = "txt_NotesIn"
         Me.txt_NotesIn.Size = New System.Drawing.Size(263, 22)
         Me.txt_NotesIn.TabIndex = 2
