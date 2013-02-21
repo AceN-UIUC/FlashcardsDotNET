@@ -95,12 +95,31 @@
 
     End Sub
 
+    ' On-changed handlers
     Private Sub QuestionsChanged() Handles txtQs.TextChanged
         QTxtHasChgd = True
     End Sub
+    Public Sub AnswersChanged(ByVal sender As Object, ByVal e As EventArgs)
 
-    Private Sub AnswersChanged()
+        ' NOTE: Only TextBox events should call this method!
+
+        ' - Update answer-has-changed variable -
         ATxtHasChgd = True
+
+        ' - Textbox styling -
+        Dim tBox As TextBox = CType(sender, TextBox)
+        If tBox.Text.Length = 0 AndAlso tBox.Text <> "?" Then
+            ' Inactive
+            tBox.BackColor = SystemColors.Control
+            tBox.ScrollBars = ScrollBars.None
+            tBox.BorderStyle = BorderStyle.FixedSingle
+        ElseIf tBox.Text <> "?" Then
+            ' Active
+            tBox.BackColor = Color.White
+            tBox.ScrollBars = ScrollBars.Vertical
+            tBox.BorderStyle = BorderStyle.Fixed3D
+        End If
+
     End Sub
 
     Private Sub SLoad() Handles MyBase.Load
@@ -115,6 +134,9 @@
 
         ' Make a new answer textbox
         MakeAnswerTextbox("")
+
+        ' Color the new answer textbox appropriately
+        AnswersChanged(answerTbxList.Last, New System.EventArgs)
 
     End Sub
 

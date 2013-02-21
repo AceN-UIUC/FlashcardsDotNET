@@ -427,7 +427,13 @@ Public Class FormQuestionManager
 
         ' - Update question list box -
 
-        Dim LViewTopIdx As Integer = lvwQAMList.TopItem.Index
+        Dim LViewTopIdx As Integer = 0
+        Try
+            LViewTopIdx = lvwQAMList.TopItem.Index
+        Catch ex As NullReferenceException
+            ' If the listView isn't initialized, the error it throws as a result will be caught here
+        End Try
+
 
         '   Remove extra items from listView
         While lvwQAMList.Items.Count > QAMList.Count
@@ -436,10 +442,10 @@ Public Class FormQuestionManager
 
         '   Set-up new/recycled items from listView
         For i = 0 To QAMList.Count - 1
-            If i <= lvwQAMList.Items.Count Then
+            If i < lvwQAMList.Items.Count Then
 
                 ' Use existing elements
-                lvwQAMList.Items.Item(i).Text = CStr(i + 1) & "=" & QAMList.Item(i).
+                lvwQAMList.Items.Item(i).Text = CStr(i + 1) & "=" & QAMList.Item(i).Question
 
             Else
 
@@ -509,6 +515,8 @@ Public Class FormQuestionManager
         End If
     End Sub
 
+
+#Region "On-changed validators"
     Private Sub tbxMinWrongChgd() Handles tbxMinWrong.TextChanged
         Dim TestInt As Integer = 0
         If tbxMinWrong.Text.Length > 0 AndAlso Integer.TryParse(tbxMinWrong.Text, TestInt) Then
@@ -562,8 +570,9 @@ Public Class FormQuestionManager
             MPath = ""
         End If
     End Sub
+#End Region
 
-    ' Drag-drop handlers
+#Region "Drag-drop handlers"
     Private Sub lvwQAMList_DragEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles lvwQAMList.DragEnter
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
             e.Effect = DragDropEffects.All
@@ -584,5 +593,35 @@ Public Class FormQuestionManager
 
         End If
     End Sub
+    #End Region
+#Region "ListView ContextMenuStrip"
+
+    ' Edit button
+    Private Sub cmsEdit() Handles btnEdit.Click
+
+        Dim Idxes As ListView.SelectedIndexCollection = lvwQAMList.SelectedIndices
+        If Idxes.Count > 0 AndAlso Idxes.Item(0) <> -1 Then
+            FormQuestionEditor.QAMObj = QAMList.Item(Idxes.Item(0))
+        End If
+
+    End Sub
+
+    ' Delete button
+    Private Sub cmsDelete() Handles btnDelete.Click
+
+        Dim Idxes As ListView.SelectedIndexCollection = lvwQAMList.SelectedIndices
+        If Idxes.Count > 0 AndAlso Idxes.Item(0) <> -1 Then
+            QAMList.RemoveAt(Idxes.Item(0))
+            UpdateMainListView() ' Redraw the ListView, now that a question has been deleted
+        End If
+
+    End Sub
+
+    ' Add new button
+    Private Sub cmsAddNew() Handles btnAddAtEnd.Click
+        MsgBox("(WIP) I don't work yet!")
+    End Sub
+
+#End Region
 
 End Class

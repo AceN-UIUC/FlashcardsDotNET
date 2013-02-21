@@ -42,8 +42,13 @@ Partial Class FormQuestionManager
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lvwQAMList = New System.Windows.Forms.ListView()
         Me.ColumnHeader1 = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.cmsQAMListView = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.btnEdit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.btnDelete = New System.Windows.Forms.ToolStripMenuItem()
+        Me.btnAddAtEnd = New System.Windows.Forms.ToolStripMenuItem()
         Me.gbxChkList.SuspendLayout()
         Me.gbxActsOpts.SuspendLayout()
+        Me.cmsQAMListView.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label1
@@ -234,6 +239,30 @@ Partial Class FormQuestionManager
         '
         Me.ColumnHeader1.Text = ""
         '
+        'cmsQAMListView
+        '
+        Me.cmsQAMListView.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.btnEdit, Me.btnDelete, Me.btnAddAtEnd})
+        Me.cmsQAMListView.Name = "cmsQAMListView"
+        Me.cmsQAMListView.Size = New System.Drawing.Size(138, 76)
+        '
+        'btnEdit
+        '
+        Me.btnEdit.Name = "btnEdit"
+        Me.btnEdit.Size = New System.Drawing.Size(137, 24)
+        Me.btnEdit.Text = "&Edit"
+        '
+        'btnDelete
+        '
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(137, 24)
+        Me.btnDelete.Text = "&Delete"
+        '
+        'btnAddAtEnd
+        '
+        Me.btnAddAtEnd.Name = "btnAddAtEnd"
+        Me.btnAddAtEnd.Size = New System.Drawing.Size(137, 24)
+        Me.btnAddAtEnd.Text = "&Add new"
+        '
         'FormQuestionManager
         '
         Me.AllowDrop = True
@@ -254,6 +283,7 @@ Partial Class FormQuestionManager
         Me.gbxChkList.PerformLayout()
         Me.gbxActsOpts.ResumeLayout(False)
         Me.gbxActsOpts.PerformLayout()
+        Me.cmsQAMListView.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -276,4 +306,8 @@ Partial Class FormQuestionManager
     Friend WithEvents cbxHighlightQs As System.Windows.Forms.CheckBox
     Friend WithEvents lvwQAMList As System.Windows.Forms.ListView
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents cmsQAMListView As System.Windows.Forms.ContextMenuStrip
+    Friend WithEvents btnEdit As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents btnDelete As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents btnAddAtEnd As System.Windows.Forms.ToolStripMenuItem
 End Class
