@@ -192,10 +192,21 @@ Public Class FormFCCoordinator
         '   NOTE: This checks both the previously checked status (textbox color) and the current status of the files
         '   This is necessary in case the files are moved/deleted between entering their location in (first validation) and activating this method
         If txt_CompilerIn.BackColor <> Color.White OrElse Not IO.File.Exists(txt_CompilerIn.Text) Then
-            MsgBox("The input file is invalid.")
+            MsgBox("The input file doesn't exist.")
             Exit Sub
         ElseIf txt_CompilerOut.BackColor <> Color.White OrElse Not IO.Directory.Exists(txt_CompilerOut.Text) Then
-            MsgBox("The output folder is invalid.")
+            MsgBox("The output folder doesn't exist.")
+            Exit Sub
+        End If
+
+        ' Start reading notes
+        Dim FileLines As String()
+        If Regex.IsMatch(txt_NotesIn.Text, Form1.TextRegex) Then
+            FileLines = File.ReadAllLines(txt_NotesIn.Text)
+        ElseIf Regex.IsMatch(txt_NotesIn.Text, Form1.DocRegex) Then
+            FileLines = MSFTOfficeInterop.GetWordLines(txt_NotesIn.Text)
+        Else
+            MsgBox("The input file's type is invalid.") ' Stay consistent with the errors above
             Exit Sub
         End If
 
@@ -619,8 +630,16 @@ Public Class FormFCCoordinator
         End If
 
         ' Start reading notes
-        Dim FileLines As String() = File.ReadAllLines(txt_NotesIn.Text)
-        'FormCornellAIEditor.txtNotes.Text = ""
+        Dim FileLines As String()
+        If Regex.IsMatch(txt_NotesIn.Text, Form1.TextRegex) Then
+            FileLines = File.ReadAllLines(txt_NotesIn.Text)
+        ElseIf Regex.IsMatch(txt_NotesIn.Text, Form1.DocRegex) Then
+            FileLines = MSFTOfficeInterop.GetWordLines(txt_NotesIn.Text)
+        Else
+            MsgBox("Invalid file type. Note parsing operation will be cancelled.")
+            Exit Sub
+        End If
+
         FormCornellAIEditor.txtNotes.Lines = FileLines
 
         ' Highlight according to classification

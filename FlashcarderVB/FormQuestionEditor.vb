@@ -2,6 +2,10 @@
 
     Public Shared QAMObj As Question
 
+    ' Hotkey PInvokes
+    Declare Function RegisterHotKey Lib "user32" (ByVal hwnd As IntPtr, ByVal id As Integer, ByVal fsModifiers As Integer, ByVal vk As Integer) As Integer
+    Declare Function UnregisterHotKey Lib "user32" (ByVal hwnd As IntPtr, ByVal id As Integer) As Integer
+
     ' Private variables indicating text changes
     Private Shared QTxtHasChgd As Boolean = False
     Private Shared ATxtHasChgd As Boolean = False
@@ -33,8 +37,16 @@
         ' Text has been loaded, so reset the changed flag
         ATxtHasChgd = False
 
+        ' -- Hotkeys --
+        If Me.Visible Then
+            RegisterHotKey(Me.Handle, 1, 0, Keys.Back)
+        Else
+            UnregisterHotKey(Me.Handle, 1)
+        End If
+
     End Sub
 
+    ' Update icon + form title
     Private Sub Loader() Handles MyBase.Load
 
         ' Automatically use the icon/title of the first form
@@ -43,13 +55,13 @@
 
     End Sub
 
+    ' On-exit handlers
     Public Sub Cancel() Handles btnCancel.Click
         QTxtHasChgd = False
         ATxtHasChgd = False
         Me.DialogResult = DialogResult.Cancel
         Me.Close()
     End Sub
-
     Public Sub Save() Handles btnSave.Click
 
         ' Question saving
@@ -101,29 +113,9 @@
     End Sub
     Public Sub AnswersChanged(ByVal sender As Object, ByVal e As EventArgs)
 
-        ' NOTE: Only TextBox events should call this method!
-
         ' - Update answer-has-changed variable -
         ATxtHasChgd = True
 
-        ' - Textbox styling -
-        Dim tBox As TextBox = CType(sender, TextBox)
-        If tBox.Text.Length = 0 AndAlso tBox.Text <> "?" Then
-            ' Inactive
-            tBox.BackColor = SystemColors.Control
-            tBox.ScrollBars = ScrollBars.None
-            tBox.BorderStyle = BorderStyle.FixedSingle
-        ElseIf tBox.Text <> "?" Then
-            ' Active
-            tBox.BackColor = Color.White
-            tBox.ScrollBars = ScrollBars.Vertical
-            tBox.BorderStyle = BorderStyle.Fixed3D
-        End If
-
-    End Sub
-
-    Private Sub SLoad() Handles MyBase.Load
-        Me.Text = Form1.MainTitle & " - Question Editor"
     End Sub
 
     ' Add an answer
@@ -134,9 +126,6 @@
 
         ' Make a new answer textbox
         MakeAnswerTextbox("")
-
-        ' Color the new answer textbox appropriately
-        AnswersChanged(answerTbxList.Last, New System.EventArgs)
 
     End Sub
 
@@ -150,6 +139,7 @@
         newTbx.Size = New Size(373, 70)
         newTbx.Visible = True
         newTbx.ScrollBars = ScrollBars.Vertical
+        newTbx.Name = "answer" & answerTbxList.Count ' NOTE: the count values may not be very predictable (because of the way answer textboxes are handled)
 
         ' Add it to proper lists
         Me.Controls.Add(newTbx)
@@ -170,6 +160,58 @@
 
         ' Options panel repositioning
         pnlOptions.Location = New Point(pnlOptions.Location.X, Me.Height - 119)
+
+    End Sub
+
+    ' Message interceptor (for Backspace hotkey)
+    '   Recycled from ContexType
+    Protected Overrides Sub WndProc(ByRef m As System.Windows.Forms.Message)
+
+        If m.Msg = &H312 AndAlso m.WParam = 1 AndAlso answerTbxList.Count > 1 Then
+
+            ' Backspace key was pressed
+            Dim TextBoxDeleted As Boolean = False ' a one way flag
+            For i = 0 To answerTbxList.Count - 1
+
+                Dim tBox As TextBox = answerTbxList.Item(i - If(TextBoxDeleted, 1, 0))
+
+                ' Delete textbox
+                If tBox.Focused AndAlso tBox.Text.Length = 0 Then
+
+                    ' Remove the current textbox
+                    tBox.Dispose()
+                    answerTbxList.RemoveAt(i)
+
+                    ' Initiate repositioning proces
+                    TextBoxDeleted = True
+                    Continue For
+
+                End If
+
+                ' Reposition other textboxes
+                If TextBoxDeleted Then
+                    tBox.Location = New Point(tBox.Left, tBox.Top - 90)
+                End If
+
+            Next
+
+            ' Form-resizing stuff
+            If TextBoxDeleted Then
+
+                ' Resize main form
+                Me.Size = New Size(Me.Width, Me.Height - 90)
+
+                ' Reposition options dialog
+                pnlOptions.Location = New Point(pnlOptions.Left, pnlOptions.Top - 90)
+
+            End If
+
+        Else
+
+            ' Pass the message on
+            MyBase.WndProc(m)
+
+        End If
 
     End Sub
 

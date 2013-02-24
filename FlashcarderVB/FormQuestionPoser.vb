@@ -9,19 +9,15 @@
 
     Private Sub btnOK_Click(sender As System.Object, e As System.EventArgs) Handles btnOK.Click
 
-        ' Get user answer
-        Dim UserAnswer As String = txtUserAnswer.Text
+        ' Get and format user answer
+        Dim UserAnswer As String = Quizzing.FormatAnswer(txtUserAnswer.Text)
 
-        ' Format answers
-        Quizzing.FormatAnswer(UserAnswer)
-
+        ' Answer checking
         Dim Correct As Boolean = False
         For Each CorrectAnswer As String In QAMObj.AnswerList
 
-            Quizzing.FormatAnswer(CorrectAnswer)
-
             ' Check for answer correctness
-            If UserAnswer = CorrectAnswer Then
+            If UserAnswer = Quizzing.FormatAnswer(CorrectAnswer) Then
                 Correct = True
                 Exit For
             End If
