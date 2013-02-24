@@ -47,8 +47,14 @@ Public Class Form1
 
     ' Function that checks if a given line is a subject line
     Public Shared Function IsSubjectLine(ByVal Str As String)
-        Return Regex.Match(Str, "\[.+\]").Length = Str.Length
+        Return Regex.IsMatch(Str, "^\[.+\]$")
     End Function
+
+    ' MSFT Word instance disposal
+    '   NOTE: This function works well here because Form1's closure causes everything else to close (on purpose)
+    Public Shared Sub ClosingTasks() Handles Me.FormClosing
+        MSFTOfficeInterop.WordAppBrowser.Quit(SaveChanges:=False)
+    End Sub
 
 End Class
 

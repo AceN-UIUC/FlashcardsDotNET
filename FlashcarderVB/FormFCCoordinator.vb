@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
+Imports System.Runtime.InteropServices
 
 Public Class FormFCCoordinator
 
@@ -201,10 +202,21 @@ Public Class FormFCCoordinator
 
         ' Start reading notes
         Dim FileLines As String()
-        If Regex.IsMatch(txt_NotesIn.Text, Form1.TextRegex) Then
-            FileLines = File.ReadAllLines(txt_NotesIn.Text)
-        ElseIf Regex.IsMatch(txt_NotesIn.Text, Form1.DocRegex) Then
-            FileLines = MSFTOfficeInterop.GetWordLines(txt_NotesIn.Text)
+
+        If Regex.IsMatch(txt_CompilerIn.Text, Form1.TextRegex) Then
+            FileLines = File.ReadAllLines(txt_CompilerIn.Text)
+        ElseIf Regex.IsMatch(txt_CompilerIn.Text, Form1.DocRegex) Then
+
+            Try
+                FileLines = MSFTOfficeInterop.GetWordLines(txt_CompilerIn.Text)
+            Catch ex As COMException
+
+                ' Warn the user if an error occurred with the Word document reading system
+                MsgBox("The Word document reading system could not read the specified file. Try the operation again with the same file and settings. If that doesn't work, restart the program.")
+                Exit Sub
+
+            End Try
+
         Else
             MsgBox("The input file's type is invalid.") ' Stay consistent with the errors above
             Exit Sub
@@ -268,15 +280,15 @@ Public Class FormFCCoordinator
         End If
 
         ' Write main file
-        While Not SR.EndOfStream
+        For i = 0 To FileLines.Length - 1
 
             ' Get line
-            Dim Line As String = SR.ReadLine
+            Dim Line As String = FileLines.GetValue(i).ToString
 
             ' Skip null lines
             If Line.Length = 0 OrElse String.IsNullOrWhiteSpace(Line) Then
                 CurLineIsQuestion = True ' The next valid line is a question
-                Continue While
+                Continue For
             End If
 
             ' Add line to line queue
@@ -316,7 +328,7 @@ Public Class FormFCCoordinator
 
             End If
 
-        End While
+        Next
 
         ' Write to output files
         IO.File.AppendAllLines(QOutPath, LineQueue_Questions)
