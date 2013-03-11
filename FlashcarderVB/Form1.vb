@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Speech
 Imports System.Text.RegularExpressions
+Imports System.Runtime.InteropServices
 
 ' RESTRICTIONS
 '   1 question can only have up to 26 anwers
@@ -53,7 +54,14 @@ Public Class Form1
     ' MSFT Word instance disposal
     '   NOTE: This function works well here because Form1's closure causes everything else to close (on purpose)
     Public Shared Sub ClosingTasks() Handles Me.FormClosing
-        MSFTOfficeInterop.WordAppBrowser.Quit(SaveChanges:=False)
+        Try
+            MSFTOfficeInterop.WordAppBrowser.Quit(SaveChanges:=False)
+        Catch ex As COMException
+            ' Word instance is probably closed
+        Catch ex As Exception
+            ' Word instance may still be open - notify user of this
+            MsgBox("The Microsoft Word instance used by FlascarderVB did not close properly. Make sure to end its process before using this program again.")
+        End Try
     End Sub
 
 End Class
