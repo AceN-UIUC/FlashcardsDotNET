@@ -27,7 +27,7 @@ Partial Class FormCornellAIEditor
         Me.Label1 = New System.Windows.Forms.Label()
         Me.pnlOptions = New System.Windows.Forms.Panel()
         Me.btnAddAnswer = New System.Windows.Forms.Button()
-        Me.btnCancel = New System.Windows.Forms.Button()
+        Me.btnSkip = New System.Windows.Forms.Button()
         Me.btnSave = New System.Windows.Forms.Button()
         Me.gbxAutoCompletion = New System.Windows.Forms.GroupBox()
         Me.cbxCapA = New System.Windows.Forms.CheckBox()
@@ -37,6 +37,7 @@ Partial Class FormCornellAIEditor
         Me.btnAddBefore = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtNotes = New System.Windows.Forms.TextBox()
+        Me.btnCancel = New System.Windows.Forms.Button()
         Me.pnlOptions.SuspendLayout()
         Me.gbxAutoCompletion.SuspendLayout()
         Me.SuspendLayout()
@@ -72,8 +73,9 @@ Partial Class FormCornellAIEditor
         'pnlOptions
         '
         Me.pnlOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.pnlOptions.Controls.Add(Me.btnAddAnswer)
         Me.pnlOptions.Controls.Add(Me.btnCancel)
+        Me.pnlOptions.Controls.Add(Me.btnAddAnswer)
+        Me.pnlOptions.Controls.Add(Me.btnSkip)
         Me.pnlOptions.Controls.Add(Me.btnSave)
         Me.pnlOptions.Location = New System.Drawing.Point(16, 430)
         Me.pnlOptions.Name = "pnlOptions"
@@ -82,29 +84,29 @@ Partial Class FormCornellAIEditor
         '
         'btnAddAnswer
         '
-        Me.btnAddAnswer.Location = New System.Drawing.Point(102, 3)
+        Me.btnAddAnswer.Location = New System.Drawing.Point(31, 2)
         Me.btnAddAnswer.Name = "btnAddAnswer"
-        Me.btnAddAnswer.Size = New System.Drawing.Size(99, 23)
+        Me.btnAddAnswer.Size = New System.Drawing.Size(99, 26)
         Me.btnAddAnswer.TabIndex = 8
         Me.btnAddAnswer.Text = "Add Answer"
         Me.btnAddAnswer.UseVisualStyleBackColor = True
         '
-        'btnCancel
+        'btnSkip
         '
-        Me.btnCancel.Location = New System.Drawing.Point(288, 3)
-        Me.btnCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(75, 23)
-        Me.btnCancel.TabIndex = 7
-        Me.btnCancel.Text = "Cancel"
-        Me.btnCancel.UseVisualStyleBackColor = True
+        Me.btnSkip.Location = New System.Drawing.Point(217, 2)
+        Me.btnSkip.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.btnSkip.Name = "btnSkip"
+        Me.btnSkip.Size = New System.Drawing.Size(75, 27)
+        Me.btnSkip.TabIndex = 7
+        Me.btnSkip.Text = "Skip"
+        Me.btnSkip.UseVisualStyleBackColor = True
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(207, 3)
+        Me.btnSave.Location = New System.Drawing.Point(136, 2)
         Me.btnSave.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(75, 23)
+        Me.btnSave.Size = New System.Drawing.Size(75, 27)
         Me.btnSave.TabIndex = 6
         Me.btnSave.Text = "Save"
         Me.btnSave.UseVisualStyleBackColor = True
@@ -190,6 +192,17 @@ Partial Class FormCornellAIEditor
         Me.txtNotes.ScrollBars = System.Windows.Forms.ScrollBars.Both
         Me.txtNotes.Size = New System.Drawing.Size(408, 436)
         Me.txtNotes.TabIndex = 12
+        Me.txtNotes.WordWrap = False
+        '
+        'btnCancel
+        '
+        Me.btnCancel.Location = New System.Drawing.Point(298, 2)
+        Me.btnCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(75, 27)
+        Me.btnCancel.TabIndex = 9
+        Me.btnCancel.Text = "Cancel"
+        Me.btnCancel.UseVisualStyleBackColor = True
         '
         'FormCornellAIEditor
         '
@@ -217,7 +230,7 @@ Partial Class FormCornellAIEditor
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents pnlOptions As System.Windows.Forms.Panel
     Friend WithEvents btnAddAnswer As System.Windows.Forms.Button
-    Friend WithEvents btnCancel As System.Windows.Forms.Button
+    Friend WithEvents btnSkip As System.Windows.Forms.Button
     Friend WithEvents btnSave As System.Windows.Forms.Button
     Friend WithEvents gbxAutoCompletion As System.Windows.Forms.GroupBox
     Friend WithEvents btnAddAfter As System.Windows.Forms.Button
@@ -227,4 +240,5 @@ Partial Class FormCornellAIEditor
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents txtNotes As System.Windows.Forms.TextBox
     Friend WithEvents cbxCapA As System.Windows.Forms.CheckBox
+    Friend WithEvents btnCancel As System.Windows.Forms.Button
 End Class

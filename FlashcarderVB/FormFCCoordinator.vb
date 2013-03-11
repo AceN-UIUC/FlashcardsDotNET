@@ -629,9 +629,13 @@ Public Class FormFCCoordinator
 #Region "Cornell note parser specific stuff"
 
     ' Parsing handler
+    Private AbortParsing As Boolean = False
     Private Sub StartParsing() Handles btnNotesGo.Click
 
         Dim CurIndex As Integer = 0
+
+        ' Reset parsing canceller
+        AbortParsing = False
 
         ' Make sure textboxes are valid
         ValidateFileTextbox(txt_NotesIn, True)
@@ -656,6 +660,13 @@ Public Class FormFCCoordinator
 
         ' Highlight according to classification
         For i = 0 To FileLines.Count - 1
+
+            ' Cancel parsing if appropriate
+            '   NOTE: this doesn't have to do any wrap-up (ex. closing streams) when the operation is cancelled
+            If AbortParsing Then
+                MsgBox("The parsing process has been cancelled.")
+                Exit Sub
+            End If
 
             ' Get current line and data about it
             Dim CurLine As String = FileLines.GetValue(i).ToString
@@ -885,9 +896,17 @@ Public Class FormFCCoordinator
         FormCornellAIEditor.DialogResult = DialogResult.None
         Dim Result As DialogResult = FormCornellAIEditor.ShowDialog()
 
-        ' Save finalized QAM object
+        ' Handle MsgBox result
         If Result = DialogResult.OK Then
+
+            ' Save finalized QAM object
             ExtractedQAMList.Add(FormCornellAIEditor.QAMObj)
+
+        ElseIf Result = DialogResult.Abort Then
+
+            ' Abort parsing
+            AbortParsing = True
+
         End If
 
     End Sub

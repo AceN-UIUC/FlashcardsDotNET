@@ -74,13 +74,18 @@ Public Class FormCornellAIEditor
     End Sub
 
 #Region "Final operation buttons (Save, Cancel) event handlers"
-    Public Sub Cancel() Handles btnCancel.Click
+    Public Sub Skip() Handles btnSkip.Click
         QTxtHasChgd = False
         ATxtHasChgd = False
         Me.DialogResult = DialogResult.Cancel
         Me.Close()
     End Sub
-
+    Public Sub Cancel() Handles btnCancel.Click
+        If MsgBox("Are you sure you want to cancel the current flashcarding operation in its entirety?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+            Me.DialogResult = DialogResult.Abort
+            Me.Close()
+        End If
+    End Sub
     Public Sub Save() Handles btnSave.Click
 
         ' Question saving
@@ -231,6 +236,5 @@ Public Class FormCornellAIEditor
 
 
     End Sub
-
 
 End Class

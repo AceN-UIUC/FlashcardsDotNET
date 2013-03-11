@@ -170,6 +170,8 @@
     <Compile Include="SubjectChoiceDlg.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UnusedCode\INIFunctions.vb" />
+    <Compile Include="UnusedCode\Learning.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AutoCompletingTextBox.resx">
