@@ -60,7 +60,7 @@ Public Class Form1
             ' Word instance is probably closed
         Catch ex As Exception
             ' Word instance may still be open - notify user of this
-            MsgBox("The Microsoft Word instance used by FlascarderVB did not close properly. Make sure to end its process before using this program again.")
+            MsgBox("The Microsoft Word instance used by FlashcarderVB did not close properly. Make sure to end its process before using this program again.")
         End Try
     End Sub
 
