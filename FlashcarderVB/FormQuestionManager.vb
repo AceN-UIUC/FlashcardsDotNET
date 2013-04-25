@@ -429,7 +429,9 @@ Public Class FormQuestionManager
 
         Dim LViewTopIdx As Integer = 0
         Try
-            LViewTopIdx = lvwQAMList.TopItem.Index
+            If lvwQAMList.Items.Count > 0 Then
+                LViewTopIdx = lvwQAMList.TopItem.Index
+            End If
         Catch ex As NullReferenceException
             ' If the listView isn't initialized, the error it throws as a result will be caught here
         End Try

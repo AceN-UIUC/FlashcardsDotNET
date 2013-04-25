@@ -23,7 +23,7 @@ Public Class Form1
     Public Shared MasterFileDialogLocation As String = ""
 
     ' The main title that all of the windows of the program use
-    Public Shared MainTitle As String = "Ace's Flashcarder"
+    Public Shared MainTitle As String = "Flashcards.NET"
 
     ' The alphabet
     Public Shared LetterStr As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

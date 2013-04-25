@@ -212,27 +212,30 @@ Public Class FormFCCoordinator
             Catch ex As COMException
 
                 ' Warn the user if an error occurred with the Word document reading system
-                MsgBox("The Word document reading system could not read the specified file. Try the operation again with the same file and settings. If that doesn't work, restart the program.")
+                '   NOTE: If an RPC error occurs, MSFTOfficeInterop will attempt to fix it but will not automatically try again - so the user still needs to be alerted
+                MSFTOfficeInterop.ShowErrorMessagebox()
                 Exit Sub
 
             End Try
 
         Else
-            MsgBox("The input file's type is invalid.") ' Stay consistent with the errors above
+            MsgBox("The input file's type is invalid.")
             Exit Sub
         End If
 
         ' Determine item subject
         Dim Subject As String = txt_CompilerSubject.Text
         If String.IsNullOrWhiteSpace(Subject) AndAlso cbxAppendSubject.Checked Then
-            Subject = Path.GetFileNameWithoutExtension(txt_CompilerIn.Text) & "_"
+            If MsgBox("Cannot prepend subject to file name because no subject was specified. OK to use Q/A source file's name as subject; Cancel to abort the F/C compilation operation.", MsgBoxStyle.OkCancel) <> MsgBoxResult.Cancel Then
+                Subject = Path.GetFileNameWithoutExtension(txt_CompilerIn.Text) & "_" ' If no subject is specified, use the file name as the subject
+            Else
+                MsgBox("F/C compilation process cancelled.")
+                Exit Sub
+            End If
         End If
 
         ' Generate output file paths
-        Dim InputFileName As String = If(String.IsNullOrWhiteSpace(Subject), Subject, "\")
-        If Not cbxAppendSubject.Checked Then
-            InputFileName = "\"
-        End If
+        Dim InputFileName As String = "\" & If(cbxAppendSubject.Checked, Subject & "_", "") ' Add subject to file path if appropriate
         Dim QOutPath As String = txt_CompilerOut.Text & InputFileName & "questions.txt"
         Dim AOutPath As String = txt_CompilerOut.Text & InputFileName & "answers.txt"
 
@@ -249,7 +252,7 @@ Public Class FormFCCoordinator
 
         ' Alert the user if existing files will be modified at the output location
         If File.Exists(QOutPath) AndAlso File.Exists(AOutPath) Then
-            If MsgBox("There are existing output files in that location. The output generated here will be appended to them. Continue?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
+            If MsgBox("There are existing output files in that location. The output generated will be appended to them. Continue with compilation operation?", MsgBoxStyle.YesNo) = MsgBoxResult.No Then
                 MsgBox("The flashcard compilation operation was cancelled. No files have been altered.")
                 Exit Sub
             End If
@@ -263,7 +266,7 @@ Public Class FormFCCoordinator
         Dim LineQueue_Questions, LineQueue_Answers As New List(Of String) ' A queue, not a stack, according to Dylan @ ACM
         Dim SR As New StreamReader(txt_CompilerIn.Text)
 
-        ' Include empty lines if necessary
+        ' Include spacing lines between groups of Qs/As if necessary
         If File.Exists(QOutPath) AndAlso _
             Not String.IsNullOrWhiteSpace(File.ReadLines(QOutPath).LastOrDefault) Then
             LineQueue_Questions.Add("")
@@ -310,7 +313,7 @@ Public Class FormFCCoordinator
                 End If
 
                 ' Look for improperly formatted files (answers that look like questions) if the question has more than one answer
-                If AnswerCnt = 0 Then
+                If AnswerCnt > 0 Then
                     Dim Errors As Integer = -CInt(Char.IsUpper(Line.Chars(0))) - CInt(Line.Contains("?"))
 
                     If Errors = 2 Then
@@ -563,6 +566,17 @@ Public Class FormFCCoordinator
 #Region "Textbox validation (Functions + Event Handlers)"
 
 #Region "Functions"
+    ' Validate numerical textbox
+    Public Shared Sub ValidateNumberTextbox(ByRef TextBox As TextBox, ByVal CanBeNegative As Boolean)
+        Dim Int As Integer = 0
+        If Integer.TryParse(TextBox.Text, Int) AndAlso (CanBeNegative OrElse Int >= 0) Then
+            TextBox.BackColor = Color.White
+        Else
+            TextBox.BackColor = Color.Red
+        End If
+
+    End Sub
+
     ' Validate file textbox (this assumes that the target file path is in the provided TextBox)
     Public Shared Sub ValidateFileTextbox(ByRef Textbox As TextBox, ByVal MustExist As Boolean)
 
@@ -598,6 +612,11 @@ Public Class FormFCCoordinator
         ValidateFileTextbox(txt_CompilerIn, True)
     End Sub
 
+    ' === Markings refresher ===
+    Private Sub tbxMarkingPath_TextChanged() Handles tbx_MarkingPath.TextChanged
+        ValidateFileTextbox(tbx_MarkingPath, True)
+    End Sub
+
     ' === Note parser ===
     Private Sub txtNotesInChgd() Handles txt_NotesIn.TextChanged
         ValidateFileTextbox(txt_NotesIn, True)
@@ -608,18 +627,10 @@ Public Class FormFCCoordinator
 
     ' === Numerical inputs for re-marking system ===
     Private Sub tbxNum_TextChanged() Handles tbxNum.TextChanged
-        If Integer.TryParse(tbxNum.Text, New Integer) Then
-            tbxNum.BackColor = Color.White
-        Else
-            tbxNum.BackColor = Color.Red
-        End If
+        ValidateNumberTextbox(tbxNum, True)
     End Sub
     Private Sub txtMarkTgt_TextChanged() Handles txtMarkTgt.TextChanged
-        If Integer.TryParse(txtMarkTgt.Text, New Integer) Then
-            txtMarkTgt.BackColor = Color.White
-        Else
-            txtMarkTgt.BackColor = Color.Red
-        End If
+        ValidateNumberTextbox(txtMarkTgt, True)
     End Sub
 
 #End Region
@@ -646,11 +657,15 @@ Public Class FormFCCoordinator
         End If
 
         ' Start reading notes
-        Dim FileLines As String()
+        Dim FileLines As String() = {}
         If Regex.IsMatch(txt_NotesIn.Text, Form1.TextRegex) Then
             FileLines = File.ReadAllLines(txt_NotesIn.Text)
         ElseIf Regex.IsMatch(txt_NotesIn.Text, Form1.DocRegex) Then
-            FileLines = MSFTOfficeInterop.GetWordLines(txt_NotesIn.Text)
+            Try
+                FileLines = MSFTOfficeInterop.GetWordLines(txt_NotesIn.Text)
+            Catch
+                MSFTOfficeInterop.ShowErrorMessagebox()
+            End Try
         Else
             MsgBox("Invalid file type. Note parsing operation will be cancelled.")
             Exit Sub
@@ -909,6 +924,12 @@ Public Class FormFCCoordinator
 
         End If
 
+        ' Handle requests to add another question
+        If FormCornellAIEditor.cbxAddQuestion.Checked Then
+            FormCornellAIEditor.cbxAddQuestion.Checked = False
+            AddQuestion(Question)
+        End If
+
     End Sub
 
 #End Region
@@ -916,9 +937,9 @@ Public Class FormFCCoordinator
     ' Append-subject-checkbox cooperation
     Private Sub cbxSubjectCooperate1() Handles TabControl1.SelectedIndexChanged, Me.VisibleChanged
         If TabControl1.SelectedIndex = 0 Then
-            cbxNotesAppendSubject.Checked = cbxAppendSubject.Checked
+            cbxNotesPrependSubject.Checked = cbxAppendSubject.Checked
         Else
-            cbxAppendSubject.Checked = cbxNotesAppendSubject.Checked
+            cbxAppendSubject.Checked = cbxNotesPrependSubject.Checked
         End If
     End Sub
 

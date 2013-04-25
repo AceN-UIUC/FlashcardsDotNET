@@ -229,8 +229,10 @@ Public Class FormCornellAIEditor
         For i = 0 To answerTbxList.Count - 1
 
             Dim Text As String = answerTbxList.Item(i).Text
-            Dim FirstChar As String = Text.Substring(0, 1).ToLowerInvariant
-            answerTbxList.Item(i).Text = If(cbxCapA.Checked, FirstChar.ToUpperInvariant, FirstChar) & Text.Remove(0, 1)
+            If Text.Length > 0 Then
+                Dim FirstChar As String = Text.Substring(0, 1).ToLowerInvariant
+                answerTbxList.Item(i).Text = If(cbxCapA.Checked, FirstChar.ToUpperInvariant, FirstChar) & Text.Remove(0, 1)
+            End If
 
         Next
 

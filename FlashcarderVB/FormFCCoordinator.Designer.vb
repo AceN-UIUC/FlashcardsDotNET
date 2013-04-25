@@ -24,7 +24,7 @@ Partial Class FormFCCoordinator
     Private Sub InitializeComponent()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.cbxNotesAppendSubject = New System.Windows.Forms.CheckBox()
+        Me.cbxNotesPrependSubject = New System.Windows.Forms.CheckBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txt_NotesNewSubjectName = New System.Windows.Forms.TextBox()
         Me.btn_NotesOFDOut = New System.Windows.Forms.Button()
@@ -85,7 +85,7 @@ Partial Class FormFCCoordinator
         '
         'TabPage1
         '
-        Me.TabPage1.Controls.Add(Me.cbxNotesAppendSubject)
+        Me.TabPage1.Controls.Add(Me.cbxNotesPrependSubject)
         Me.TabPage1.Controls.Add(Me.Label8)
         Me.TabPage1.Controls.Add(Me.txt_NotesNewSubjectName)
         Me.TabPage1.Controls.Add(Me.btn_NotesOFDOut)
@@ -102,15 +102,15 @@ Partial Class FormFCCoordinator
         Me.TabPage1.Text = "Notes --> Q/A"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'cbxNotesAppendSubject
+        'cbxNotesPrependSubject
         '
-        Me.cbxNotesAppendSubject.AutoSize = True
-        Me.cbxNotesAppendSubject.Location = New System.Drawing.Point(6, 126)
-        Me.cbxNotesAppendSubject.Name = "cbxNotesAppendSubject"
-        Me.cbxNotesAppendSubject.Size = New System.Drawing.Size(249, 21)
-        Me.cbxNotesAppendSubject.TabIndex = 13
-        Me.cbxNotesAppendSubject.Text = "Append subject to output file name"
-        Me.cbxNotesAppendSubject.UseVisualStyleBackColor = True
+        Me.cbxNotesPrependSubject.AutoSize = True
+        Me.cbxNotesPrependSubject.Location = New System.Drawing.Point(6, 126)
+        Me.cbxNotesPrependSubject.Name = "cbxNotesPrependSubject"
+        Me.cbxNotesPrependSubject.Size = New System.Drawing.Size(249, 21)
+        Me.cbxNotesPrependSubject.TabIndex = 13
+        Me.cbxNotesPrependSubject.Text = "Append subject to output file name"
+        Me.cbxNotesPrependSubject.UseVisualStyleBackColor = True
         '
         'Label8
         '
@@ -265,10 +265,10 @@ Partial Class FormFCCoordinator
         '
         'tbx_MarkingPath
         '
-        Me.tbx_MarkingPath.Enabled = False
-        Me.tbx_MarkingPath.Location = New System.Drawing.Point(39, 31)
+        Me.tbx_MarkingPath.AllowDrop = True
+        Me.tbx_MarkingPath.Location = New System.Drawing.Point(73, 31)
         Me.tbx_MarkingPath.Name = "tbx_MarkingPath"
-        Me.tbx_MarkingPath.Size = New System.Drawing.Size(316, 22)
+        Me.tbx_MarkingPath.Size = New System.Drawing.Size(282, 22)
         Me.tbx_MarkingPath.TabIndex = 3
         '
         'GroupBox1
@@ -346,7 +346,7 @@ Partial Class FormFCCoordinator
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(315, 51)
         Me.Label2.TabIndex = 0
-        Me.Label2.Text = "This refreshes the markings of a flashcard group" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "File:"
+        Me.Label2.Text = "This refreshes the markings of a flashcard group" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Q/A/M file:"
         '
         'TabPage3
         '
@@ -543,5 +543,5 @@ Partial Class FormFCCoordinator
     Friend WithEvents txt_NotesNewSubjectName As System.Windows.Forms.TextBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents txt_CompilerSubject As System.Windows.Forms.TextBox
-    Friend WithEvents cbxNotesAppendSubject As System.Windows.Forms.CheckBox
+    Friend WithEvents cbxNotesPrependSubject As System.Windows.Forms.CheckBox
 End Class

@@ -20,28 +20,46 @@ Public Class MSFTOfficeInterop
 
         ' Read file
         '   NOTE: WordAppBrowser starts out hidden - so unless it is sent an un-hide command, it will stay hidden
-        WordAppBrowser.Documents.Open(FilePath, ReadOnly:=True, AddToRecentFiles:=False)
-        Form1.Sleep(1500) ' Wait for the document to load
-
-        ' The reason for using the Output variable is so that the function's output can be easily monitored
-        '   Tl;dr: DON'T ONE-LINE THE TWO LINES BELOW!
-        ' Also: if a COM exception with the Word API occurs, it should be passed to the parent function
         Try
-            Output = WordAppBrowser.ActiveDocument.Content.Text().Replace(vbLf, vbCrLf).Split(vbCrLf)
+
+            ' Open document
+            WordAppBrowser.Documents.Open(FilePath, ReadOnly:=True, AddToRecentFiles:=False)
+
+            ' Wait for Word app to load
+            Form1.Sleep(1500)
+
+            ' Fetch text from and close active document
+            Try
+                Output = WordAppBrowser.ActiveDocument.Content.Text().Replace(vbLf, vbCrLf).Split(vbCrLf)
+            Catch e As COMException
+                Throw e ' Let the parent try-catch layout handle the exception
+            Finally
+                WordAppBrowser.ActiveDocument.Close(SaveChanges:=False) ' This always executes, even if its Try throws an exception
+            End Try
+
+        Catch e As COMException
+
+            ' RPC error detected - use the simple fix of creating a new instance (let the user deal with closing any old disconnected ones)
+            WordAppBrowser = New Word.Application
+
+            ' Pass the error to the calling function (so it can alert the user)
+            Throw e
+
         Catch e As Exception
 
-            ' Close word browser's active document, and pass exception to the method that called this one
-            WordAppBrowser.ActiveDocument.Close(SaveChanges:=False) ' Close active Word doc
-            Throw e ' Pass exception along
+            ' Pass the error to the calling function (so it can alert the user)
+            Throw e
 
         End Try
-
-        ' Close active document
-        WordAppBrowser.ActiveDocument.Close(SaveChanges:=False)
 
         ' Return output
         Return Output
 
     End Function
+
+    ' Show standard error messagebox
+    Public Shared Sub ShowErrorMessagebox()
+        MsgBox("The Microsoft Word document-reading instance has been restarted. Try to do what you were doing again; if that fails, close all Microsoft Word processes, then restart the program.", MsgBoxStyle.Exclamation)
+    End Sub
 
 End Class

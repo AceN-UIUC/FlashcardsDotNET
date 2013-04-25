@@ -26,6 +26,7 @@ Partial Class FormCornellAIEditor
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.pnlOptions = New System.Windows.Forms.Panel()
+        Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnAddAnswer = New System.Windows.Forms.Button()
         Me.btnSkip = New System.Windows.Forms.Button()
         Me.btnSave = New System.Windows.Forms.Button()
@@ -37,7 +38,7 @@ Partial Class FormCornellAIEditor
         Me.btnAddBefore = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtNotes = New System.Windows.Forms.TextBox()
-        Me.btnCancel = New System.Windows.Forms.Button()
+        Me.cbxAddQuestion = New System.Windows.Forms.CheckBox()
         Me.pnlOptions.SuspendLayout()
         Me.gbxAutoCompletion.SuspendLayout()
         Me.SuspendLayout()
@@ -73,6 +74,7 @@ Partial Class FormCornellAIEditor
         'pnlOptions
         '
         Me.pnlOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.pnlOptions.Controls.Add(Me.cbxAddQuestion)
         Me.pnlOptions.Controls.Add(Me.btnCancel)
         Me.pnlOptions.Controls.Add(Me.btnAddAnswer)
         Me.pnlOptions.Controls.Add(Me.btnSkip)
@@ -82,31 +84,41 @@ Partial Class FormCornellAIEditor
         Me.pnlOptions.Size = New System.Drawing.Size(377, 31)
         Me.pnlOptions.TabIndex = 9
         '
+        'btnCancel
+        '
+        Me.btnCancel.Location = New System.Drawing.Point(314, 2)
+        Me.btnCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(59, 27)
+        Me.btnCancel.TabIndex = 9
+        Me.btnCancel.Text = "Cancel"
+        Me.btnCancel.UseVisualStyleBackColor = True
+        '
         'btnAddAnswer
         '
-        Me.btnAddAnswer.Location = New System.Drawing.Point(31, 2)
+        Me.btnAddAnswer.Location = New System.Drawing.Point(120, 2)
         Me.btnAddAnswer.Name = "btnAddAnswer"
-        Me.btnAddAnswer.Size = New System.Drawing.Size(99, 26)
+        Me.btnAddAnswer.Size = New System.Drawing.Size(91, 26)
         Me.btnAddAnswer.TabIndex = 8
         Me.btnAddAnswer.Text = "Add Answer"
         Me.btnAddAnswer.UseVisualStyleBackColor = True
         '
         'btnSkip
         '
-        Me.btnSkip.Location = New System.Drawing.Point(217, 2)
+        Me.btnSkip.Location = New System.Drawing.Point(266, 2)
         Me.btnSkip.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnSkip.Name = "btnSkip"
-        Me.btnSkip.Size = New System.Drawing.Size(75, 27)
+        Me.btnSkip.Size = New System.Drawing.Size(45, 27)
         Me.btnSkip.TabIndex = 7
         Me.btnSkip.Text = "Skip"
         Me.btnSkip.UseVisualStyleBackColor = True
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(136, 2)
+        Me.btnSave.Location = New System.Drawing.Point(214, 2)
         Me.btnSave.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(75, 27)
+        Me.btnSave.Size = New System.Drawing.Size(49, 27)
         Me.btnSave.TabIndex = 6
         Me.btnSave.Text = "Save"
         Me.btnSave.UseVisualStyleBackColor = True
@@ -194,15 +206,15 @@ Partial Class FormCornellAIEditor
         Me.txtNotes.TabIndex = 12
         Me.txtNotes.WordWrap = False
         '
-        'btnCancel
+        'cbxAddQuestion
         '
-        Me.btnCancel.Location = New System.Drawing.Point(298, 2)
-        Me.btnCancel.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.btnCancel.Name = "btnCancel"
-        Me.btnCancel.Size = New System.Drawing.Size(75, 27)
-        Me.btnCancel.TabIndex = 9
-        Me.btnCancel.Text = "Cancel"
-        Me.btnCancel.UseVisualStyleBackColor = True
+        Me.cbxAddQuestion.AutoSize = True
+        Me.cbxAddQuestion.Location = New System.Drawing.Point(4, 6)
+        Me.cbxAddQuestion.Name = "cbxAddQuestion"
+        Me.cbxAddQuestion.Size = New System.Drawing.Size(113, 21)
+        Me.cbxAddQuestion.TabIndex = 10
+        Me.cbxAddQuestion.Text = "Add question"
+        Me.cbxAddQuestion.UseVisualStyleBackColor = True
         '
         'FormCornellAIEditor
         '
@@ -219,6 +231,7 @@ Partial Class FormCornellAIEditor
         Me.Name = "FormCornellAIEditor"
         Me.Text = "Ace's Flashcarder - Cornell AI Question Editor"
         Me.pnlOptions.ResumeLayout(False)
+        Me.pnlOptions.PerformLayout()
         Me.gbxAutoCompletion.ResumeLayout(False)
         Me.gbxAutoCompletion.PerformLayout()
         Me.ResumeLayout(False)
@@ -241,4 +254,5 @@ Partial Class FormCornellAIEditor
     Friend WithEvents txtNotes As System.Windows.Forms.TextBox
     Friend WithEvents cbxCapA As System.Windows.Forms.CheckBox
     Friend WithEvents btnCancel As System.Windows.Forms.Button
+    Friend WithEvents cbxAddQuestion As System.Windows.Forms.CheckBox
 End Class

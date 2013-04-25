@@ -275,7 +275,7 @@ Public Class Quizzing
                 Dim RgxMatch As Match = Regex.Match(Line, "^\d+(?=(\=))")
                 If RgxMatch.Success Then
                     If Integer.TryParse(RgxMatch.Value, MNum) AndAlso MNum <= QAMList.Count Then ' RgxMatch.value WILL NOT have negative signs, so don't check for them here
-                        QAMList.Item(MNum - 1).Marking = CInt(Regex.Match(Line, "(?<=(\=))\d+").Value)
+                        QAMList.Item(MNum - 1).Marking = CInt(Regex.Match(Line, "(?<=(\=))(-|)\d+").Value)
                     ElseIf Not NumMismatchUsed Then
                         NumMismatchUsed = True
                         MsgBox(NumMismatchMsg)
