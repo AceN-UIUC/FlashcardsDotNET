@@ -26,6 +26,9 @@
         ' -- Answers --
 
         ' Answer textboxes
+        For Each tb As TextBox In answerTbxList
+            tb.Dispose()
+        Next
         answerTbxList.Clear()
         For i = 0 To QAMObj.AnswerList.Count - 1
 
@@ -38,11 +41,11 @@
         ATxtHasChgd = False
 
         ' -- Hotkeys --
-        If Me.Visible Then
-            RegisterHotKey(Me.Handle, 1, 0, Keys.Back)
-        Else
-            UnregisterHotKey(Me.Handle, 1)
-        End If
+        'If Me.Visible Then
+        '    RegisterHotKey(Me.Handle, 1, 0, Keys.Back)
+        'Else
+        '    UnregisterHotKey(Me.Handle, 1)
+        'End If
 
     End Sub
 
