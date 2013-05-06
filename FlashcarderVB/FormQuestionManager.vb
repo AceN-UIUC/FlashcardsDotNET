@@ -504,7 +504,7 @@ Public Class FormQuestionManager
 
         ' Checklist
         gbxChkList.Size = New Size(W, 43)
-        cbx_VrifyAs.Location = New Point(CentX - 38, 16)
+        cbx_VrifyAs.Location = New Point(CentX - 38, 18)
         'cbx_VrifyAs.Location = New Point(gbxActsOpts.Size.Width - 5, 16)
 
         ' QAM List
