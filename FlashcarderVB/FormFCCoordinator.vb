@@ -24,7 +24,7 @@ Public Class FormFCCoordinator
 
     ' List of files (used in drag drop operations)
     '   TODO - Would a plain old string be better here? (Esp. since only 1 file is allowed at once?)
-    Public FileArr As String()
+    Public FileArr As String() = {}
 
     Private Sub Loader() Handles MyBase.Load
 
@@ -77,12 +77,8 @@ Public Class FormFCCoordinator
         If txtMarkTgt.BackColor = Color.Red Or tbxNum.BackColor = Color.Red Then
             MsgBox("One of the numerical input values is invalid. Check the red textboxes.")
             Exit Sub
-        End If
-
-        ' Check to make sure selected file is a markings file
-        Dim FT = Editing.GetFileType(FPath)
-        If FT <> "m" Then
-            MsgBox("That is not a markings file.")
+        ElseIf tbx_MarkingPath.BackColor = Color.Red Then
+            MsgBox("The markings file path is invalid.")
             Exit Sub
         End If
 
@@ -180,11 +176,29 @@ Public Class FormFCCoordinator
     End Sub
 
     Private Sub btnRemark_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemark.Click
+
+        Dim Successful As Boolean = False
+
         If Not String.IsNullOrWhiteSpace(tbx_MarkingPath.Text) Then
             If FileArr.Count = 1 Then
                 SDragDrop_MReset(FileArr)
+                Successful = True
+            ElseIf tbx_MarkingPath.BackColor = Color.White Then
+                SDragDrop_MReset({tbx_MarkingPath.Text})
+                Successful = True
             End If
+
+            ' Notify user of success
+            If Successful Then
+                MsgBox("Remarking operation succeeded!")
+                Return
+            End If
+
         End If
+
+        ' Notify user of failure
+        MsgBox("Remarking operation did not succeed.")
+
     End Sub
 
     Private Sub btnGo() Handles btnCompileFCs.Click
@@ -578,10 +592,14 @@ Public Class FormFCCoordinator
     End Sub
 
     ' Validate file textbox (this assumes that the target file path is in the provided TextBox)
-    Public Shared Sub ValidateFileTextbox(ByRef Textbox As TextBox, ByVal MustExist As Boolean)
+    Public Shared Sub ValidateFileTextbox(ByRef Textbox As TextBox, ByVal MustExist As Boolean, Optional ByVal RequiredFileType As String = "")
 
         Dim Text As String = Textbox.Text
-        If Text.Length = 0 OrElse Not Text.Contains(".") OrElse (MustExist AndAlso Not File.Exists(Text)) Then
+
+        If Text.Length = 0 OrElse
+            Not Text.Contains(".") OrElse
+            (MustExist AndAlso Not File.Exists(Text)) OrElse
+            Not (RequiredFileType = "" OrElse Editing.GetFileType(Text) = RequiredFileType) Then
             Textbox.BackColor = Color.Red
         Else
             Textbox.BackColor = Color.White
@@ -614,7 +632,7 @@ Public Class FormFCCoordinator
 
     ' === Markings refresher ===
     Private Sub tbxMarkingPath_TextChanged() Handles tbx_MarkingPath.TextChanged
-        ValidateFileTextbox(tbx_MarkingPath, True)
+        ValidateFileTextbox(tbx_MarkingPath, True, "m")
     End Sub
 
     ' === Note parser ===

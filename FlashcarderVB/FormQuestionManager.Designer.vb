@@ -75,7 +75,7 @@ Partial Class FormQuestionManager
         Me.cbx_VrifyQs.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.cbx_VrifyQs.AutoSize = True
         Me.cbx_VrifyQs.Enabled = False
-        Me.cbx_VrifyQs.Location = New System.Drawing.Point(5, 21)
+        Me.cbx_VrifyQs.Location = New System.Drawing.Point(5, 18)
         Me.cbx_VrifyQs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.cbx_VrifyQs.Name = "cbx_VrifyQs"
         Me.cbx_VrifyQs.Size = New System.Drawing.Size(94, 21)
@@ -90,7 +90,7 @@ Partial Class FormQuestionManager
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cbx_VrifyAs.AutoSize = True
         Me.cbx_VrifyAs.Enabled = False
-        Me.cbx_VrifyAs.Location = New System.Drawing.Point(197, 20)
+        Me.cbx_VrifyAs.Location = New System.Drawing.Point(197, 18)
         Me.cbx_VrifyAs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.cbx_VrifyAs.Name = "cbx_VrifyAs"
         Me.cbx_VrifyAs.Size = New System.Drawing.Size(83, 21)
@@ -103,7 +103,7 @@ Partial Class FormQuestionManager
         Me.cbx_VrifyMs.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cbx_VrifyMs.AutoSize = True
         Me.cbx_VrifyMs.Enabled = False
-        Me.cbx_VrifyMs.Location = New System.Drawing.Point(404, 21)
+        Me.cbx_VrifyMs.Location = New System.Drawing.Point(404, 18)
         Me.cbx_VrifyMs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
         Me.cbx_VrifyMs.Name = "cbx_VrifyMs"
         Me.cbx_VrifyMs.Size = New System.Drawing.Size(87, 21)

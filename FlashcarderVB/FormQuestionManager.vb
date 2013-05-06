@@ -4,12 +4,12 @@ Imports System.Collections.ObjectModel
 Public Class FormQuestionManager
 
     ' Variables
-    Public QPath As String
-    Public APath As String
-    Public MPath As String = ""
-    Public MainPath As String = ""
+    Public Shared QPath As String
+    Public Shared APath As String
+    Public Shared MPath As String = ""
+    Public Shared MainPath As String = ""
 
-    Private QAMList As New List(Of Question)
+    Private Shared QAMList As New List(Of Question)
 
     Private Sub Loader() Handles MyBase.Load
 
