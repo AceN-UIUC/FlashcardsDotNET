@@ -489,7 +489,15 @@ Public Class FormQuestionManager
     Private Sub ResizeCtrls(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.SizeChanged
 
         Dim W As Integer = Me.Size.Width - 44
+
+        ' Bottom group box (this must be the first thing resized because other things depend on its size)
+        gbxActsOpts.Location = New Point(10, Me.Size.Height - 194)
+        gbxActsOpts.Size = New Size(W, 140)
         Dim CentX As Integer = CInt(gbxActsOpts.Size.Width / 2)
+
+        ' Bottom group box buttons
+        btnOpenManually.Location = New Point(CentX - 140, 109)
+        btnQuiz.Location = New Point(CentX, 109)
 
         ' Top label
         Label2.Location = New Point(CentX - 95, 72)
@@ -501,12 +509,6 @@ Public Class FormQuestionManager
 
         ' QAM List
         lvwQAMList.Size = New Size(W - 2, Me.Size.Height - 310)
-
-        ' Bottom group box
-        gbxActsOpts.Location = New Point(10, Me.Size.Height - 194)
-        gbxActsOpts.Size = New Size(W, 140)
-        btnOpenManually.Location = New Point(CentX - 140, 109)
-        btnQuiz.Location = New Point(CentX, 109)
 
     End Sub
 
