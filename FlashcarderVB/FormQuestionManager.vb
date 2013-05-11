@@ -61,8 +61,8 @@ Public Class FormQuestionManager
         ' Compare main file path with existing one
         '   If the two are different, reset all the QAM verification checkboxes
         Dim CurMainPath As String = FPath.Substring(0, FPath.LastIndexOf("\") + 1)
-        If CurMainPath <> Me.MainPath Then
-            Me.MainPath = CurMainPath
+        If CurMainPath <> FormQuestionManager.MainPath Then
+            FormQuestionManager.MainPath = CurMainPath
 
             SubjectChoiceDlg.cbxNoMarkingImport.Visible = False
             SubjectChoiceDlg.cbxNoMarkingImport.Checked = False
@@ -94,8 +94,8 @@ Public Class FormQuestionManager
                     'Subject = ?
                 ElseIf Str.StartsWith("?=") Then
                     'MainPath=?.Replace("/","\")
-                    If Me.MainPath.Last = "\" Then
-                        Me.MainPath = MainPath.Substring(0, Me.MainPath.Length - 1)
+                    If FormQuestionManager.MainPath.Last = "\" Then
+                        FormQuestionManager.MainPath = MainPath.Substring(0, FormQuestionManager.MainPath.Length - 1)
                     End If
                 End If
 
@@ -106,23 +106,29 @@ Public Class FormQuestionManager
             Dim APath As String = ""
             Dim MPath As String = ""
 
-            If File.Exists(Me.MainPath & "questions.ini") Then
-                QPath = Me.MainPath & "questions.ini"
-            ElseIf File.Exists(Me.MainPath & "questions.txt") Then
-                QPath = Me.MainPath & "questions.txt"
-            End If
+            For Each Ext As String In {"txt", "ini"}
 
-            If File.Exists(Me.MainPath & "answers.ini") Then
-                APath = Me.MainPath & "answers.ini"
-            ElseIf File.Exists(Me.MainPath & "answers.txt") Then
-                APath = Me.MainPath & "answers.txt"
-            End If
+                Dim Path As String = ""
 
-            If Not (Me.MainPath & "markings.ini") Then
-                MPath = Me.MainPath & "markings.ini"
-            ElseIf File.Exists(Me.MainPath & "markings.txt") Then
-                MPath = Me.MainPath & "markings.txt"
-            End If
+                ' Questions
+                Path = FormQuestionManager.MainPath & "questions." & Ext
+                If File.Exists(Path) Then
+                    QPath = Path
+                End If
+
+                ' Answers
+                Path = FormQuestionManager.MainPath & "answers." & Ext
+                If File.Exists(Path) Then
+                    APath = Path
+                End If
+
+                ' Markings
+                Path = FormQuestionManager.MainPath & "markings." & Ext
+                If File.Exists(Path) Then
+                    MPath = Path
+                End If
+
+            Next
 
             ' Check to make sure reference paths are valid
             If QPath.Length < 1 Or APath.Length < 1 Then
@@ -133,18 +139,13 @@ Public Class FormQuestionManager
             End If
 
             ' Load files if possible
-            If QPath.Length > 1 Then
-                LoadFile(QPath, False)
-            End If
-            If APath.Length > 1 Then
-                LoadFile(APath, False)
-            End If
-            If MPath.Length > 1 Then
-                LoadFile(MPath, False)
-            End If
+            For Each FilePath In {QPath, APath, MPath}
+                If FilePath.Length > 1 Then
+                    LoadFile(QPath, False)
+                End If
+            Next
 
-
-        ElseIf FileExt = "txt" Or FileExt = "ini" Then
+        ElseIf FileExt = "txt" OrElse FileExt = "ini" Then
 
             ' Standard file
             Dim FileType As String = Editing.GetFileType(FPath)
