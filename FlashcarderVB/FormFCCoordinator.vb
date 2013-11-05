@@ -272,7 +272,7 @@ Public Class FormFCCoordinator
             End If
         End If
 
-        ' Read file
+        ' -------------------------------------------------------- Read file --------------------------------------------------------
         Dim LtrStr As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         Dim QuestionCnt As Integer = 0
         Dim AnswerCnt As Integer = 0 ' Used for questions that have multiple valid answers
@@ -309,7 +309,29 @@ Public Class FormFCCoordinator
             End If
 
             ' Add line to line queue
-            If CurLineIsQuestion Then
+            Dim CurLineIsNewSubject As Boolean = Line.StartsWith("[") + Line.EndsWith("]")
+            If CurLineIsNewSubject Then
+
+                ' -- Clear statistics based on previous subject --
+                CurLineIsQuestion = True
+                QuestionCnt = 0
+                AnswerCnt = 0
+
+                ' -- Update subject --
+                Subject = Line.Remove(0, 1)
+                Subject = Subject.Remove(Subject.Length - 1)
+
+                ' Add new line if necessary (to keep things looking clean)
+                If LineQueue_Answers.Count <> 0 Then
+                    LineQueue_Questions.Add("")
+                    LineQueue_Answers.Add("")
+                End If
+
+                ' Add subject to lists of lines
+                LineQueue_Questions.Add("[" + Subject + "]")
+                LineQueue_Answers.Add("[" + Subject + "]")
+
+            ElseIf CurLineIsQuestion Then
 
                 ' Variable updates
                 CurLineIsQuestion = False

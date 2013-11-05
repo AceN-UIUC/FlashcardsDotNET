@@ -26,6 +26,7 @@ Partial Class FormCornellAIEditor
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.pnlOptions = New System.Windows.Forms.Panel()
+        Me.cbxAddQuestion = New System.Windows.Forms.CheckBox()
         Me.btnCancel = New System.Windows.Forms.Button()
         Me.btnAddAnswer = New System.Windows.Forms.Button()
         Me.btnSkip = New System.Windows.Forms.Button()
@@ -38,7 +39,6 @@ Partial Class FormCornellAIEditor
         Me.btnAddBefore = New System.Windows.Forms.Button()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtNotes = New System.Windows.Forms.TextBox()
-        Me.cbxAddQuestion = New System.Windows.Forms.CheckBox()
         Me.pnlOptions.SuspendLayout()
         Me.gbxAutoCompletion.SuspendLayout()
         Me.SuspendLayout()
@@ -48,6 +48,7 @@ Partial Class FormCornellAIEditor
         Me.txtQs.BackColor = System.Drawing.SystemColors.Window
         Me.txtQs.Location = New System.Drawing.Point(16, 25)
         Me.txtQs.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.txtQs.MinimumSize = New System.Drawing.Size(373, 112)
         Me.txtQs.Multiline = True
         Me.txtQs.Name = "txtQs"
         Me.txtQs.Size = New System.Drawing.Size(373, 112)
@@ -79,10 +80,20 @@ Partial Class FormCornellAIEditor
         Me.pnlOptions.Controls.Add(Me.btnAddAnswer)
         Me.pnlOptions.Controls.Add(Me.btnSkip)
         Me.pnlOptions.Controls.Add(Me.btnSave)
-        Me.pnlOptions.Location = New System.Drawing.Point(16, 430)
+        Me.pnlOptions.Location = New System.Drawing.Point(16, 452)
         Me.pnlOptions.Name = "pnlOptions"
         Me.pnlOptions.Size = New System.Drawing.Size(377, 31)
         Me.pnlOptions.TabIndex = 9
+        '
+        'cbxAddQuestion
+        '
+        Me.cbxAddQuestion.AutoSize = True
+        Me.cbxAddQuestion.Location = New System.Drawing.Point(4, 6)
+        Me.cbxAddQuestion.Name = "cbxAddQuestion"
+        Me.cbxAddQuestion.Size = New System.Drawing.Size(113, 21)
+        Me.cbxAddQuestion.TabIndex = 10
+        Me.cbxAddQuestion.Text = "Add question"
+        Me.cbxAddQuestion.UseVisualStyleBackColor = True
         '
         'btnCancel
         '
@@ -130,7 +141,7 @@ Partial Class FormCornellAIEditor
         Me.gbxAutoCompletion.Controls.Add(Me.cbxAppendQMark)
         Me.gbxAutoCompletion.Controls.Add(Me.btnAddAfter)
         Me.gbxAutoCompletion.Controls.Add(Me.btnAddBefore)
-        Me.gbxAutoCompletion.Location = New System.Drawing.Point(16, 258)
+        Me.gbxAutoCompletion.Location = New System.Drawing.Point(16, 280)
         Me.gbxAutoCompletion.Name = "gbxAutoCompletion"
         Me.gbxAutoCompletion.Size = New System.Drawing.Size(377, 166)
         Me.gbxAutoCompletion.TabIndex = 10
@@ -199,28 +210,19 @@ Partial Class FormCornellAIEditor
         'txtNotes
         '
         Me.txtNotes.Location = New System.Drawing.Point(399, 25)
+        Me.txtNotes.MinimumSize = New System.Drawing.Size(408, 434)
         Me.txtNotes.Multiline = True
         Me.txtNotes.Name = "txtNotes"
         Me.txtNotes.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtNotes.Size = New System.Drawing.Size(408, 436)
+        Me.txtNotes.Size = New System.Drawing.Size(417, 458)
         Me.txtNotes.TabIndex = 12
         Me.txtNotes.WordWrap = False
-        '
-        'cbxAddQuestion
-        '
-        Me.cbxAddQuestion.AutoSize = True
-        Me.cbxAddQuestion.Location = New System.Drawing.Point(4, 6)
-        Me.cbxAddQuestion.Name = "cbxAddQuestion"
-        Me.cbxAddQuestion.Size = New System.Drawing.Size(113, 21)
-        Me.cbxAddQuestion.TabIndex = 10
-        Me.cbxAddQuestion.Text = "Add question"
-        Me.cbxAddQuestion.UseVisualStyleBackColor = True
         '
         'FormCornellAIEditor
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(819, 466)
+        Me.ClientSize = New System.Drawing.Size(819, 488)
         Me.Controls.Add(Me.txtNotes)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.gbxAutoCompletion)
@@ -228,6 +230,7 @@ Partial Class FormCornellAIEditor
         Me.Controls.Add(Me.txtQs)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
+        Me.MinimumSize = New System.Drawing.Size(837, 535)
         Me.Name = "FormCornellAIEditor"
         Me.Text = "Ace's Flashcarder - Cornell AI Question Editor"
         Me.pnlOptions.ResumeLayout(False)

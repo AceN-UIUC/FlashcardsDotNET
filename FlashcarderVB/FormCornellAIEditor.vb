@@ -18,6 +18,9 @@ Public Class FormCornellAIEditor
     ' Auto-completing textbox (used to add common phrases to questions)
     Public acTbx As New AutoCompletingTextBox
 
+    ' Misc.
+    Public QuestionAnswerTbxSize As Integer
+
     ' Maintain position through shows/hides
     Private MyPos As New Point(0, 0)
     Private Sub UpdateMyPos() Handles Me.VisibleChanged
@@ -47,7 +50,7 @@ Public Class FormCornellAIEditor
         ' Make new textboxes
         answerTbxList.Clear()
         For i = 0 To QAMObj.AnswerList.Count - 1
-            MakeAnswerTextbox(QAMObj.AnswerList.Item(i))
+            MakeAnswerTextbox(QAMObj.AnswerList.Item(i), i <> 0)
         Next
 
         ' Text has been loaded, so reset the changed flag
@@ -70,6 +73,56 @@ Public Class FormCornellAIEditor
 
         ' Add autocomplete textbox to the groupbox
         gbxAutoCompletion.Controls.Add(acTbx)
+
+    End Sub
+
+    ' Resizing handler
+    Private Sub ResizeHandler() Handles MyBase.SizeChanged
+
+        ' Constants
+        Dim txtQsInitialSize As New Size(373, 112)
+        Dim MyInitialSize As New Size(837, 535)
+        Dim txtNotesInitialSize As New Size(408, 436)
+
+        ' Precomputed valuesM
+        Dim LeftPanelStart As Integer = txtQs.Left
+        Dim LeftPanelSize As Integer = CInt(Math.Round(((LeftPanelStart + txtQsInitialSize.Width) / MyInitialSize.Width) * Me.Width) - LeftPanelStart)
+        Dim RightPanelStart As Integer = LeftPanelStart + LeftPanelSize + 10
+        QuestionAnswerTbxSize = CInt(Math.Round((Me.Height - 310) / Math.Max(answerTbxList.Count + 1, 2)))
+        txtQs.Text = QuestionAnswerTbxSize.ToString + " / HEIGHT: " + Me.Height.ToString ' DEBUG
+
+        ' Label(s)
+        Label2.Location = New Point(Label2.Left, txtQs.Top + QuestionAnswerTbxSize + 9)
+
+        ' Question textbox
+        txtQs.Size = New Size(LeftPanelSize, QuestionAnswerTbxSize)
+
+        ' Answer textboxes
+        Me.MinimumSize = New Size(MyInitialSize.Width, MyInitialSize.Height + (answerTbxList.Count - 1) * QuestionAnswerTbxSize)
+        Dim t_idx As Integer = 0
+        For Each t As TextBox In answerTbxList
+            t.Size = txtQs.Size
+            t.Location = Label2.Location + New Point(0, 21 + (QuestionAnswerTbxSize + 10) * t_idx)
+            t_idx += 1
+        Next
+
+        ' Auto-completion controls
+        gbxAutoCompletion.Location = New Point(gbxAutoCompletion.Location.X, Me.Height - 255)
+        gbxAutoCompletion.Size = New Size(LeftPanelSize, gbxAutoCompletion.Height)
+
+        btnAddBefore.Location = New Point(gbxAutoCompletion.Width - 103, btnAddBefore.Top)
+        btnAddAfter.Location = New Point(gbxAutoCompletion.Width - 103, btnAddAfter.Top)
+
+        cbxAppendQMark.Location = New Point(gbxAutoCompletion.Width - 138, cbxAppendQMark.Top)
+
+        acTbx.Size = New Size(gbxAutoCompletion.Width - 115, gbxAutoCompletion.Height - 60)
+
+        ' Control box (below auto-completion)
+        pnlOptions.Location = New Point(pnlOptions.Location.X, Me.Height - 83)
+
+        ' Note textbox
+        txtNotes.Size = New Size(Me.Width - 30 - RightPanelStart, Me.Height - 79)
+        txtNotes.Location = New Point(RightPanelStart, txtNotes.Top)
 
     End Sub
 
@@ -139,12 +192,12 @@ Public Class FormCornellAIEditor
         ATxtHasChgd = True
 
         ' Make a new answer textbox
-        MakeAnswerTextbox("")
+        MakeAnswerTextbox("", answerTbxList.Count > 0)
 
     End Sub
 
     ' Function that makes an answer textbox
-    Private Sub MakeAnswerTextbox(ByVal Answer As String)
+    Private Sub MakeAnswerTextbox(ByVal Answer As String, ByVal CanResizeForm As Boolean)
 
         ' -- Textbox instantiation/manipulation --
         ' Create/initialize new textbox
@@ -158,9 +211,6 @@ Public Class FormCornellAIEditor
         Me.Controls.Add(newTbx)
         answerTbxList.Add(newTbx)
 
-        ' Position it appropriately
-        newTbx.Location = New Point(16, 166 + 90 * (answerTbxList.Count - 1))
-
         ' Add answer
         newTbx.Text = Answer
 
@@ -168,14 +218,12 @@ Public Class FormCornellAIEditor
         AddHandler newTbx.TextChanged, AddressOf AnswersChanged
 
         ' -- Form manipulation --
-        ' Form resizing
-        Me.Height = 413 + answerTbxList.Count * 90
+        If CanResizeForm Then
+            Me.Height += QuestionAnswerTbxSize + 40
+        End If
 
-        ' Options panel repositioning
-        pnlOptions.Location = New Point(pnlOptions.Location.X, Me.Height - 83)
-
-        ' Auto-completion groupbox repositioning
-        gbxAutoCompletion.Location = New Point(gbxAutoCompletion.Location.X, Me.Height - 255)
+        ' Resize handler adjusts everything else accordingly
+        ResizeHandler()
 
     End Sub
 
@@ -239,4 +287,7 @@ Public Class FormCornellAIEditor
 
     End Sub
 
+    Private Sub QuestionsChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtQs.TextChanged
+
+    End Sub
 End Class
