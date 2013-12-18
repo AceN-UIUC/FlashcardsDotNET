@@ -29,6 +29,11 @@ Public Class FormQuestionManager
     End Sub
 
     Private Sub DragDropHandler(ByVal Files As String())
+
+        ' Save current QAMs if appropriate
+        QAMSave()
+
+        ' Load new files
         For Each F As String In Files
 
             ' Execute load file operation
@@ -587,6 +592,9 @@ Public Class FormQuestionManager
     End Sub
     Private Sub lvwQAMList_DragDrop(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DragEventArgs) Handles lvwQAMList.DragDrop
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+
+            ' Save existing QAMs
+            QAMSave()
 
             ' Load selected file(s)
             Dim FileList As String() = CType(e.Data.GetData(DataFormats.FileDrop), String())
